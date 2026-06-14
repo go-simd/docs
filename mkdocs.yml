@@ -39,14 +39,19 @@ nav:
       - base64: repos/base64.md
       - base32: repos/base32.md
       - hex: repos/hex.md
+      - ascii85: repos/ascii85.md
       - utf8: repos/utf8.md
       - adler32: repos/adler32.md
+      - crc64: repos/crc64.md
       - strconv: repos/strconv.md
   - Primitives:
       - matchlen: repos/matchlen.md
       - bitpack: repos/bitpack.md
       - popcount: repos/popcount.md
       - histogram: repos/histogram.md
+      - streamvbyte: repos/streamvbyte.md
+      - xxhash: repos/xxhash.md
+      - floats: repos/floats.md
   - Contributing: contributing.md
 
 markdown_extensions:
