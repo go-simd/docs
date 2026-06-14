@@ -17,6 +17,10 @@
          <lastmod>2026-06-14</lastmod>
     </url>
     <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/ascii/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/ascii85/</loc>
          <lastmod>2026-06-14</lastmod>
     </url>
@@ -33,6 +37,10 @@
          <lastmod>2026-06-14</lastmod>
     </url>
     <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/bitset/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/crc64/</loc>
          <lastmod>2026-06-14</lastmod>
     </url>
@@ -46,6 +54,18 @@
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/histogram/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/int8dot/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/jsonvalidate/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/levenshtein/</loc>
          <lastmod>2026-06-14</lastmod>
     </url>
     <url>

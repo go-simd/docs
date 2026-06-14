@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/streamvbyte/">
+        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/levenshtein/">
       
       
-        <link rel="prev" href="../histogram/">
+        <link rel="prev" href="../int8dot/">
       
       
-        <link rel="next" href="../xxhash/">
+        <link rel="next" href="../../contributing/">
       
       
       <link rel="icon" href="../../assets/logo.svg">
@@ -24,7 +24,7 @@
     
     
       
-        <title>streamvbyte - go-simd docs</title>
+        <title>levenshtein - go-simd docs</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#streamvbyte" class="md-skip">
+        <a href="#levenshtein" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              streamvbyte
+              levenshtein
             
           </span>
         </div>
@@ -679,30 +679,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    streamvbyte
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../streamvbyte/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -711,86 +691,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#api" class="md-nav__link">
-    <span class="md-ellipsis">
-      API
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#algorithm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Algorithm
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#per-arch-kernels" class="md-nav__link">
-    <span class="md-ellipsis">
-      Per-arch kernels
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Per-arch kernels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#other-go-ports" class="md-nav__link">
-    <span class="md-ellipsis">
-      Other Go ports
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-honest" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance — honest
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#coverage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Coverage
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -884,10 +784,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../levenshtein/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    levenshtein
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -896,6 +816,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#honest-scope-pure-go-bit-parallel-not-vector-simd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Honest scope: pure-Go bit-parallel, not vector-SIMD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness" class="md-nav__link">
+    <span class="md-ellipsis">
+      Correctness
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -964,6 +949,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#honest-scope-pure-go-bit-parallel-not-vector-simd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Honest scope: pure-Go bit-parallel, not vector-SIMD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#algorithm" class="md-nav__link">
     <span class="md-ellipsis">
       Algorithm
@@ -973,42 +967,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#per-arch-kernels" class="md-nav__link">
+  <a href="#performance" class="md-nav__link">
     <span class="md-ellipsis">
-      Per-arch kernels
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Per-arch kernels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#other-go-ports" class="md-nav__link">
-    <span class="md-ellipsis">
-      Other Go ports
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-honest" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance — honest
+      Performance
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#coverage" class="md-nav__link">
+  <a href="#correctness" class="md-nav__link">
     <span class="md-ellipsis">
-      Coverage
+      Correctness
     </span>
   </a>
   
@@ -1029,137 +999,128 @@
                   
 
 
-<h1 id="streamvbyte">streamvbyte<a class="headerlink" href="#streamvbyte" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/go-simd/streamvbyte/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/streamvbyte/actions/workflows/ci.yml/badge.svg" /></a>
+<h1 id="levenshtein">levenshtein<a class="headerlink" href="#levenshtein" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/go-simd/levenshtein/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/levenshtein/actions/workflows/ci.yml/badge.svg" /></a>
 <img alt="coverage" src="https://img.shields.io/badge/coverage-100%25-brightgreen" /></p>
-<p>Pure-Go <strong>Stream VByte</strong> integer (<code>uint32</code>) compression with a SIMD decoder on
-<strong>all six</strong> of Go's 64-bit SIMD targets — <code>amd64</code>, <code>arm64</code>, <code>ppc64le</code>, <code>s390x</code>,
-<code>riscv64</code>, <code>loong64</code> — and a portable scalar fallback everywhere else. No cgo, no
-<code>GOEXPERIMENT</code>, plain <code>go build</code>. This is the <strong>first</strong> Go port covering all six
-arches (others ship SIMD for amd64 only).
-<a href="https://github.com/go-simd/streamvbyte">Repository →</a></p>
-<p>Stream VByte is the byte-oriented integer codec of Lemire, Kurz &amp; Rupp
-(<a href="https://arxiv.org/abs/1709.08990">arXiv:1709.08990</a>). A <code>[]uint32</code> is stored as
-a <strong>control stream</strong> of 2-bit lengths (one byte per four integers) followed by a
-<strong>data stream</strong> of each integer's significant little-endian bytes (1–4). The wire
-format is <strong>byte-for-byte identical to the reference C library</strong>
-(<a href="https://github.com/lemire/streamvbyte">lemire/streamvbyte</a>, standard 1234
-variant) — <strong>C-interop verified bidirectionally</strong>.</p>
-<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>EncodedMaxLen(n int) int</code></td>
-<td>upper bound on the encoded size of <code>n</code> integers</td>
-</tr>
-<tr>
-<td><code>Encode(dst []byte, src []uint32) int</code></td>
-<td>encode; returns bytes written</td>
-</tr>
-<tr>
-<td><code>Decode(dst []uint32, src []byte, n int) int</code></td>
-<td>decode <code>n</code> integers; returns bytes read</td>
-</tr>
-</tbody>
-</table>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/streamvbyte&quot;</span>
+<p>Pure-Go <strong>Levenshtein edit distance</strong> using <strong>Myers' bit-parallel algorithm</strong> —
+tens of times faster than scalar dynamic-programming implementations, with
+byte-for-byte identical results. <a href="https://github.com/go-simd/levenshtein">Repository →</a></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/levenshtein&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">src</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">uint32</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">280</span><span class="p">,</span><span class="w"> </span><span class="mi">70000</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFFFFFFFF</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">}</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">buf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="nx">streamvbyte</span><span class="p">.</span><span class="nx">EncodedMaxLen</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">)))</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nx">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">streamvbyte</span><span class="p">.</span><span class="nx">Encode</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">src</span><span class="p">)</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">buf</span><span class="p">[:</span><span class="nx">n</span><span class="p">]</span><span class="w"> </span><span class="c1">// the compressed bytes</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nx">out</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">uint32</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nx">streamvbyte</span><span class="p">.</span><span class="nx">Decode</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span><span class="w"> </span><span class="c1">// out == src</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">levenshtein</span><span class="p">.</span><span class="nx">Distance</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;kitten&quot;</span><span class="p">),</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;sitting&quot;</span><span class="p">))</span><span class="w"> </span><span class="c1">// 3</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">levenshtein</span><span class="p">.</span><span class="nx">DistanceString</span><span class="p">(</span><span class="s">&quot;kitten&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sitting&quot;</span><span class="p">)</span><span class="w">           </span><span class="c1">// 3</span>
 </code></pre></div>
-<p><code>Decode(Encode(x))</code> round-trips exactly. The count <code>n</code> is <strong>not</strong> stored in the
-stream (store it yourself), matching the reference format.</p>
+<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Distance</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">DistanceString</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span>
+</code></pre></div>
+<p>Both compare element by element (byte by byte / UTF-8 code unit by code unit) and
+are symmetric. To compare Unicode text by <em>rune</em> rather than by byte, decode to
+<code>[]rune</code> first.</p>
+<h2 id="honest-scope-pure-go-bit-parallel-not-vector-simd">Honest scope: pure-Go bit-parallel, not vector-SIMD<a class="headerlink" href="#honest-scope-pure-go-bit-parallel-not-vector-simd" title="Permanent link">&para;</a></h2>
+<p>This repo is in the go-simd suite as a <strong>primitive</strong>, but unlike the other
+packages it ships <strong>no <code>.s</code> SIMD kernel</strong> — and the page says so plainly. The
+single-word path (patterns ≤ 64 bytes) is already optimal scalar <code>uint64</code> bitops:
+there is nothing for a vector unit to parallelise <em>within</em> one machine word. The
+multi-word blocked path has a <strong>strict top-to-bottom data dependency</strong> — each
+64-bit block consumes the horizontal carry produced by the block above it — so
+blocks within a single text symbol cannot be advanced independently across SIMD
+lanes without a more elaborate carry-lookahead scheme. Accordingly this release
+ships a <strong>portable pure-Go bit-parallel implementation on all of Go's 64-bit
+targets</strong> (amd64, arm64, riscv64, loong64, ppc64le, s390x). It is endian-clean
+(validated on big-endian s390x) because Go defines <code>uint64</code> shift/add semantics
+independently of machine byte order.</p>
+<p><strong>Future work:</strong> lane-parallel processing of <em>multiple independent string pairs</em>
+(SIMD across pairs, not across blocks) is the clean fit for vector hardware and
+is the most promising path to true SIMD acceleration here.</p>
 <h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
-<p>Decode is the SIMD star. Per group of four integers the kernel loads 16 data
-bytes, looks up the control byte's 16-byte shuffle mask in a <strong>256-entry shuffle
-LUT</strong>, performs <strong>one</strong> vector permute that drops each integer's bytes into a
-zero-extended <code>uint32</code> lane, and stores 16 result bytes. The Go wrapper runs the
-kernel only over groups that have a full 16-byte data lookahead and finishes the
-<code>&lt; 4</code> remainder (and any short-input tail) with the shared scalar decoder, so the
-wide load never over-reads.</p>
-<h2 id="per-arch-kernels">Per-arch kernels<a class="headerlink" href="#per-arch-kernels" title="Permanent link">&para;</a></h2>
+<p>Instead of the textbook <code>O(m·n)</code> DP recurrence, this package uses <strong>Myers'
+bit-vector algorithm</strong> (G. Myers, <em>A fast bit-vector algorithm for approximate
+string matching based on dynamic programming</em>, J. ACM 46(3), 1999), in Hyyrö's
+clean reformulation. An entire DP column is packed into machine words and
+advanced with a handful of bitwise operations:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>xv = Eq | Mv
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>xh = (((Eq &amp; Pv) + Pv) ^ Pv) | Eq
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Ph = Mv | ~(xh | Pv)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Mh = Pv &amp; xh
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>... shift, fold back into Pv/Mv, update the running score ...
+</code></pre></div>
+<p>This is <code>O(⌈m/w⌉·n)</code> with word size <code>w = 64</code>:</p>
 <ul>
-<li><strong>amd64</strong> — <code>PSHUFB</code> (SSSE3; runtime-detected via <code>golang.org/x/sys/cpu</code>,
-  scalar fallback otherwise).</li>
-<li><strong>arm64</strong> — <code>VTBL</code> (NEON, baseline).</li>
-<li><strong>riscv64</strong> — <code>vrgather.vv</code> (RVV, <code>VLEN &gt;= 128</code>).</li>
-<li><strong>loong64</strong> — <code>vshuf.b</code> (LSX) with a zero companion register.</li>
-<li><strong>ppc64le</strong> — <code>VPERM</code> on POWER8+ (<code>LXVB16X</code> / <code>STXVB16X</code> byte-order-stable
-  loads keep index == memory-offset; zero companion register).</li>
-<li><strong>s390x</strong> — <code>VPERM</code> on z13+. <strong>Big-endian:</strong> a decoded <code>uint32</code> is stored
-  MSB-first while the data stream stays LSB-first, so the shuffle table reverses
-  each lane's bytes (<code>permTableBE</code>); the byte order is pinned by a
-  position-dependent test.</li>
+<li><strong>Patterns ≤ 64 bytes</strong> use a single-word routine (<code>myers64</code>): one <code>uint64</code>
+  holds the whole column, so the inner loop is a few register-resident bitops per
+  text byte and runs in <code>O(n)</code> word operations with <strong>zero allocations</strong>.</li>
+<li><strong>Longer patterns</strong> are processed in blocks of 64 rows (<code>myersBlocked</code>),
+  threading the horizontal carry top-to-bottom between adjacent 64-bit words.</li>
 </ul>
-<p>Decode assembly is generated by
-<a href="https://github.com/go-asmgen/asmgen">go-asmgen</a>. Encode is scalar.</p>
-<h3 id="other-go-ports">Other Go ports<a class="headerlink" href="#other-go-ports" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/thempatel/streamvbyte-simdgo">thempatel/streamvbyte-simdgo</a>,
-<a href="https://github.com/bmkessler/streamvbyte">bmkessler/streamvbyte</a>,
-<a href="https://github.com/mhr3/streamvbyte">mhr3/streamvbyte</a> and
-<a href="https://github.com/nelz9999/stream-vbyte-go">nelz9999/stream-vbyte-go</a> ship SIMD
-only for <strong>amd64</strong> (scalar elsewhere). This package is, to our knowledge, the
-first to provide a SIMD decoder on all six of Go's 64-bit SIMD architectures.
-It complements <a href="../bitpack/"><code>bitpack</code></a>.</p>
-<h2 id="performance-honest">Performance — honest<a class="headerlink" href="#performance-honest" title="Permanent link">&para;</a></h2>
-<p><code>go test -bench .</code> on a 4096-element mixed-width slice (16 KiB of <code>uint32</code>):</p>
+<p>The shorter input is always packed into the bit-vectors (the "pattern") and the
+longer one streamed, minimising the number of blocks.</p>
+<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
+<p>Apple M-series (<code>go test -bench</code>), random 26-letter strings with ~10% edits, vs
+the scalar two-row DP and <a href="https://github.com/agnivade/levenshtein"><code>agnivade/levenshtein</code></a>
+(the popular scalar DP library):</p>
 <table>
 <thead>
 <tr>
-<th>Target</th>
-<th>Decode (SIMD)</th>
-<th>Decode (scalar)</th>
-<th>Speedup</th>
+<th style="text-align: right;">length</th>
+<th style="text-align: right;">this (bit-parallel)</th>
+<th style="text-align: right;">scalar DP</th>
+<th style="text-align: right;">agnivade</th>
+<th style="text-align: right;">vs DP</th>
+<th style="text-align: right;">vs agnivade</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>arm64</strong> (Apple M-series, native)</td>
-<td>~18.6 GB/s</td>
-<td>~1.9 GB/s</td>
-<td><strong>~10×</strong></td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">70 ns</td>
+<td style="text-align: right;">284 ns</td>
+<td style="text-align: right;">86 ns</td>
+<td style="text-align: right;">4.0×</td>
+<td style="text-align: right;">1.2×</td>
 </tr>
 <tr>
-<td><strong>amd64</strong> (emulated VM*)</td>
-<td>~0.73 GB/s</td>
-<td>~0.32 GB/s</td>
-<td>~2.3×</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">219 ns</td>
+<td style="text-align: right;">4.9 µs</td>
+<td style="text-align: right;">1.5 µs</td>
+<td style="text-align: right;">22×</td>
+<td style="text-align: right;">6.9×</td>
 </tr>
 <tr>
-<td><strong>ppc64le / s390x</strong></td>
-<td>qemu-validated; native perf pending</td>
-<td>—</td>
-<td>—</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: right;">2.2 µs</td>
+<td style="text-align: right;">86 µs</td>
+<td style="text-align: right;">138 µs</td>
+<td style="text-align: right;">38×</td>
+<td style="text-align: right;"><strong>62×</strong></td>
 </tr>
 <tr>
-<td><strong>riscv64 / loong64</strong></td>
-<td>qemu-validated; native perf pending</td>
-<td>—</td>
-<td>—</td>
+<td style="text-align: right;">1024</td>
+<td style="text-align: right;">33 µs</td>
+<td style="text-align: right;">1.40 ms</td>
+<td style="text-align: right;">4.64 ms</td>
+<td style="text-align: right;">43×</td>
+<td style="text-align: right;"><strong>142×</strong></td>
 </tr>
 </tbody>
 </table>
-<p>* The amd64 figure was measured inside an emulated x86-64 VM (no hardware
-virtualization on the dev host), so it understates native silicon by a large
-margin; treat it as a correctness-grade lower bound. Decode is the algorithm's
-strong suit; encode is scalar and runs at a few GB/s.</p>
-<h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
-<p>Round-trip table tests plus <code>FuzzRoundTrip</code> (<code>Decode(Encode(x)) == x</code>) run with
-<strong>100% statement coverage</strong> on every architecture: amd64 and arm64 natively, and
-ppc64le, s390x, riscv64, loong64 under QEMU. Format interop with the reference C
-library was verified bidirectionally and byte-for-byte. BSD-3-Clause.</p>
+<p>The advantage grows with length because the bit-parallel column update collapses
+64 DP cells into one word operation. For short inputs (≤16) all three are within a
+couple of register operations of each other; the algorithmic win shows up once the
+strings exceed a word. Numbers are machine-dependent; reproduce with
+<code>go test -bench=. -benchmem</code>.</p>
+<h2 id="correctness">Correctness<a class="headerlink" href="#correctness" title="Permanent link">&para;</a></h2>
+<p><code>Distance</code> is checked against an intentionally trivial scalar DP oracle:</p>
+<ul>
+<li>an exhaustive <strong>differential test</strong> across lengths straddling every 64-bit
+  block boundary (0, 1, …, 63, 64, 65, …, 257, 300) and alphabets of size
+  1/2/4/26;</li>
+<li>a <code>FuzzDistance</code> differential + symmetry fuzzer (millions of executions);</li>
+<li>the full suite runs <strong>natively on amd64/arm64 and under QEMU on riscv64,
+  loong64, ppc64le, and big-endian s390x</strong> in CI.</li>
+</ul>
+<p>Test coverage is gated at <strong>100%</strong> on every architecture. BSD-3-Clause.</p>
 
 
 

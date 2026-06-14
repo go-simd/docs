@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/streamvbyte/">
+        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/jsonvalidate/">
       
       
-        <link rel="prev" href="../histogram/">
+        <link rel="prev" href="../strconv/">
       
       
-        <link rel="next" href="../xxhash/">
+        <link rel="next" href="../matchlen/">
       
       
       <link rel="icon" href="../../assets/logo.svg">
@@ -24,7 +24,7 @@
     
     
       
-        <title>streamvbyte - go-simd docs</title>
+        <title>jsonvalidate - go-simd docs</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#streamvbyte" class="md-skip">
+        <a href="#jsonvalidate" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              streamvbyte
+              jsonvalidate
             
           </span>
         </div>
@@ -296,8 +296,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -307,11 +309,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -325,7 +327,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Stdlib drop-ins
@@ -525,10 +527,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../jsonvalidate/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    jsonvalidate
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -537,6 +559,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why this exists
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope-what-is-simd-what-is-scalar-honest-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scope: what is SIMD, what is scalar (honest split)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-arch-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-arch kernels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-status-per-arch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation status per arch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-honest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance — honest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -553,8 +649,6 @@
       
   
   
-    
-  
   
   
     
@@ -566,11 +660,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -584,7 +678,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Primitives
@@ -679,30 +773,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    streamvbyte
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../streamvbyte/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -711,86 +785,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#api" class="md-nav__link">
-    <span class="md-ellipsis">
-      API
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#algorithm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Algorithm
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#per-arch-kernels" class="md-nav__link">
-    <span class="md-ellipsis">
-      Per-arch kernels
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Per-arch kernels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#other-go-ports" class="md-nav__link">
-    <span class="md-ellipsis">
-      Other Go ports
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-honest" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance — honest
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#coverage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Coverage
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -955,18 +949,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#api" class="md-nav__link">
+  <a href="#why-this-exists" class="md-nav__link">
     <span class="md-ellipsis">
-      API
+      Why this exists
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#algorithm" class="md-nav__link">
+  <a href="#scope-what-is-simd-what-is-scalar-honest-split" class="md-nav__link">
     <span class="md-ellipsis">
-      Algorithm
+      Scope: what is SIMD, what is scalar (honest split)
     </span>
   </a>
   
@@ -979,20 +973,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Per-arch kernels">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#other-go-ports" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-status-per-arch" class="md-nav__link">
     <span class="md-ellipsis">
-      Other Go ports
+      Validation status per arch
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1029,137 +1017,205 @@
                   
 
 
-<h1 id="streamvbyte">streamvbyte<a class="headerlink" href="#streamvbyte" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/go-simd/streamvbyte/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/streamvbyte/actions/workflows/ci.yml/badge.svg" /></a>
+<h1 id="jsonvalidate">jsonvalidate<a class="headerlink" href="#jsonvalidate" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/go-simd/jsonvalidate/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/jsonvalidate/actions/workflows/ci.yml/badge.svg" /></a>
 <img alt="coverage" src="https://img.shields.io/badge/coverage-100%25-brightgreen" /></p>
-<p>Pure-Go <strong>Stream VByte</strong> integer (<code>uint32</code>) compression with a SIMD decoder on
-<strong>all six</strong> of Go's 64-bit SIMD targets — <code>amd64</code>, <code>arm64</code>, <code>ppc64le</code>, <code>s390x</code>,
-<code>riscv64</code>, <code>loong64</code> — and a portable scalar fallback everywhere else. No cgo, no
-<code>GOEXPERIMENT</code>, plain <code>go build</code>. This is the <strong>first</strong> Go port covering all six
-arches (others ship SIMD for amd64 only).
-<a href="https://github.com/go-simd/streamvbyte">Repository →</a></p>
-<p>Stream VByte is the byte-oriented integer codec of Lemire, Kurz &amp; Rupp
-(<a href="https://arxiv.org/abs/1709.08990">arXiv:1709.08990</a>). A <code>[]uint32</code> is stored as
-a <strong>control stream</strong> of 2-bit lengths (one byte per four integers) followed by a
-<strong>data stream</strong> of each integer's significant little-endian bytes (1–4). The wire
-format is <strong>byte-for-byte identical to the reference C library</strong>
-(<a href="https://github.com/lemire/streamvbyte">lemire/streamvbyte</a>, standard 1234
-variant) — <strong>C-interop verified bidirectionally</strong>.</p>
-<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>EncodedMaxLen(n int) int</code></td>
-<td>upper bound on the encoded size of <code>n</code> integers</td>
-</tr>
-<tr>
-<td><code>Encode(dst []byte, src []uint32) int</code></td>
-<td>encode; returns bytes written</td>
-</tr>
-<tr>
-<td><code>Decode(dst []uint32, src []byte, n int) int</code></td>
-<td>decode <code>n</code> integers; returns bytes read</td>
-</tr>
-</tbody>
-</table>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/streamvbyte&quot;</span>
+<p><code>Valid(data []byte) bool</code> — a drop-in replacement for <code>encoding/json.Valid</code> that
+returns the <strong>byte-identical verdict on every input</strong> while accelerating the
+hottest sub-scans of JSON validation with SIMD on <strong>all six 64-bit Go targets</strong>.
+No cgo, no <code>GOEXPERIMENT</code>, plain <code>go build</code>. As far as we know, it is the <strong>only
+SIMD JSON validator that covers all six</strong> of Go's vector architectures.
+<a href="https://github.com/go-simd/jsonvalidate">Repository →</a></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/jsonvalidate&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">src</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">uint32</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">280</span><span class="p">,</span><span class="w"> </span><span class="mi">70000</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFFFFFFFF</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">}</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">buf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="nx">streamvbyte</span><span class="p">.</span><span class="nx">EncodedMaxLen</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">)))</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nx">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">streamvbyte</span><span class="p">.</span><span class="nx">Encode</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">src</span><span class="p">)</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">buf</span><span class="p">[:</span><span class="nx">n</span><span class="p">]</span><span class="w"> </span><span class="c1">// the compressed bytes</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nx">out</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">uint32</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nx">streamvbyte</span><span class="p">.</span><span class="nx">Decode</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span><span class="w"> </span><span class="c1">// out == src</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">jsonvalidate</span><span class="p">.</span><span class="nx">Valid</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="c1">// == encoding/json.Valid(data), always</span>
 </code></pre></div>
-<p><code>Decode(Encode(x))</code> round-trips exactly. The count <code>n</code> is <strong>not</strong> stored in the
-stream (store it yourself), matching the reference format.</p>
-<h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
-<p>Decode is the SIMD star. Per group of four integers the kernel loads 16 data
-bytes, looks up the control byte's 16-byte shuffle mask in a <strong>256-entry shuffle
-LUT</strong>, performs <strong>one</strong> vector permute that drops each integer's bytes into a
-zero-extended <code>uint32</code> lane, and stores 16 result bytes. The Go wrapper runs the
-kernel only over groups that have a full 16-byte data lookahead and finishes the
-<code>&lt; 4</code> remainder (and any short-input tail) with the shared scalar decoder, so the
-wide load never over-reads.</p>
-<h2 id="per-arch-kernels">Per-arch kernels<a class="headerlink" href="#per-arch-kernels" title="Permanent link">&para;</a></h2>
+<p>Correctness is the gate, not a goal: <code>Valid(data) == encoding/json.Valid(data)</code>
+is asserted on the seed table, on 60 000 deterministic pseudo-random inputs <strong>on
+every arch (including under qemu)</strong>, and by a <code>go test -fuzz</code> differential fuzzer
+on amd64 (AVX2 and SSE paths) and arm64. There is no input on which the answer can
+differ — the SIMD kernels only ever return an index the scalar reference would
+also have returned, and anything they don't accelerate runs through a faithful
+scalar reimplementation of <code>encoding/json</code>'s scanner.</p>
+<h2 id="why-this-exists">Why this exists<a class="headerlink" href="#why-this-exists" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/minio/simdjson-go">minio/simdjson-go</a> is a superb full SIMD
+JSON <em>parser</em>, but it is <strong>amd64-only</strong>. jsonvalidate is scoped to <em>validation</em> —
+the common "is this valid JSON?" gate — and trades full-parse SIMD for <strong>portable
+SIMD on every architecture Go can target with vectors</strong>: amd64, arm64, riscv64,
+loong64, ppc64le and s390x.</p>
+<h2 id="scope-what-is-simd-what-is-scalar-honest-split">Scope: what is SIMD, what is scalar (honest split)<a class="headerlink" href="#scope-what-is-simd-what-is-scalar-honest-split" title="Permanent link">&para;</a></h2>
+<p>A full simdjson "stage 1" computes, for a whole block, which structural characters
+fall <em>inside</em> strings. That needs a prefix-XOR over the quote bitmask, which on
+amd64 is a carry-less multiply (<code>PCLMULQDQ</code>) with <strong>no portable equivalent</strong> on
+the other five targets — so a single full-SIMD grammar across six arches is not
+feasible. jsonvalidate therefore keeps the grammar — bracket balancing,
+number/literal syntax, the exact 10 000-deep nesting limit, and every
+<code>encoding/json</code> acceptance rule — in a <strong>correct scalar state machine</strong>, and uses
+SIMD only for the two scans whose answer is a pure, position-independent "find the
+first byte in (or not in) a small set":</p>
 <ul>
-<li><strong>amd64</strong> — <code>PSHUFB</code> (SSSE3; runtime-detected via <code>golang.org/x/sys/cpu</code>,
-  scalar fallback otherwise).</li>
-<li><strong>arm64</strong> — <code>VTBL</code> (NEON, baseline).</li>
-<li><strong>riscv64</strong> — <code>vrgather.vv</code> (RVV, <code>VLEN &gt;= 128</code>).</li>
-<li><strong>loong64</strong> — <code>vshuf.b</code> (LSX) with a zero companion register.</li>
-<li><strong>ppc64le</strong> — <code>VPERM</code> on POWER8+ (<code>LXVB16X</code> / <code>STXVB16X</code> byte-order-stable
-  loads keep index == memory-offset; zero companion register).</li>
-<li><strong>s390x</strong> — <code>VPERM</code> on z13+. <strong>Big-endian:</strong> a decoded <code>uint32</code> is stored
-  MSB-first while the data stream stays LSB-first, so the shuffle table reverses
-  each lane's bytes (<code>permTableBE</code>); the byte order is pinned by a
-  position-dependent test.</li>
+<li><strong><code>scanString</code></strong> — from just after an opening quote, find the first <code>"</code>, <code>\</code>, or
+  control byte (<code>&lt; 0x20</code>). (<code>encoding/json</code> does <em>not</em> validate UTF-8 inside
+  strings, so a byte-class scan is exactly right.)</li>
+<li><strong><code>skipSpace</code></strong> — find the first byte that is not JSON whitespace
+  (<code></code>, <code>\t</code>, <code>\n</code>, <code>\r</code>).</li>
 </ul>
-<p>Decode assembly is generated by
-<a href="https://github.com/go-asmgen/asmgen">go-asmgen</a>. Encode is scalar.</p>
-<h3 id="other-go-ports">Other Go ports<a class="headerlink" href="#other-go-ports" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/thempatel/streamvbyte-simdgo">thempatel/streamvbyte-simdgo</a>,
-<a href="https://github.com/bmkessler/streamvbyte">bmkessler/streamvbyte</a>,
-<a href="https://github.com/mhr3/streamvbyte">mhr3/streamvbyte</a> and
-<a href="https://github.com/nelz9999/stream-vbyte-go">nelz9999/stream-vbyte-go</a> ship SIMD
-only for <strong>amd64</strong> (scalar elsewhere). This package is, to our knowledge, the
-first to provide a SIMD decoder on all six of Go's 64-bit SIMD architectures.
-It complements <a href="../bitpack/"><code>bitpack</code></a>.</p>
-<h2 id="performance-honest">Performance — honest<a class="headerlink" href="#performance-honest" title="Permanent link">&para;</a></h2>
-<p><code>go test -bench .</code> on a 4096-element mixed-width slice (16 KiB of <code>uint32</code>):</p>
+<p>Both kernels are <strong>shuffle/compare only</strong> — a per-byte nibble-LUT classification
+(<code>c</code> is in the set iff <code>loLUT[c&amp;0xF] &amp; hiLUT[c&gt;&gt;4] != 0</code>) plus a first-match
+extraction. No multiply, no cross-lane carry, so the same algorithm ports to all
+six arches. They are pure accelerators bolted onto an always-correct scalar
+validator.</p>
+<h2 id="per-arch-kernels">Per-arch kernels<a class="headerlink" href="#per-arch-kernels" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Target</th>
-<th>Decode (SIMD)</th>
-<th>Decode (scalar)</th>
-<th>Speedup</th>
+<th>arch</th>
+<th>ISA</th>
+<th>classify</th>
+<th>first match</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>arm64</strong> (Apple M-series, native)</td>
-<td>~18.6 GB/s</td>
-<td>~1.9 GB/s</td>
-<td><strong>~10×</strong></td>
+<td>amd64</td>
+<td>SSSE3 + <strong>AVX2</strong></td>
+<td><code>(V)PSHUFB</code> ×2, <code>(V)PAND</code></td>
+<td><code>(V)PMOVMSKB</code>+<code>BSF</code>; AVX2 (32-byte) auto-selected via <code>golang.org/x/sys/cpu</code></td>
 </tr>
 <tr>
-<td><strong>amd64</strong> (emulated VM*)</td>
-<td>~0.73 GB/s</td>
-<td>~0.32 GB/s</td>
-<td>~2.3×</td>
+<td>arm64</td>
+<td>NEON</td>
+<td><code>VTBL</code> ×2, <code>VAND</code></td>
+<td>lane→GPR via <code>VMOV V.D[i]</code>, <code>RBIT</code>+<code>CLZ</code></td>
 </tr>
 <tr>
-<td><strong>ppc64le / s390x</strong></td>
-<td>qemu-validated; native perf pending</td>
-<td>—</td>
-<td>—</td>
+<td>riscv64</td>
+<td>RVV</td>
+<td><code>VRGATHERVV</code> ×2, <code>VANDVV</code></td>
+<td><code>VMSNE</code>/<code>VMSEQ</code> + <code>vfirst.m</code></td>
 </tr>
 <tr>
-<td><strong>riscv64 / loong64</strong></td>
-<td>qemu-validated; native perf pending</td>
-<td>—</td>
-<td>—</td>
+<td>loong64</td>
+<td>LSX</td>
+<td><code>VSHUFB</code> ×2, <code>VANDV</code></td>
+<td>lane→GPR via <code>VMOVQ V.V[i]</code>, <code>CTZV</code></td>
+</tr>
+<tr>
+<td>ppc64le</td>
+<td>VSX</td>
+<td><code>VPERM</code> ×2, <code>VAND</code></td>
+<td>mask→GPR via <code>MFVSRD</code>, <code>CNTTZD</code></td>
+</tr>
+<tr>
+<td>s390x</td>
+<td>vector facility (<strong>big-endian</strong>)</td>
+<td><code>VPERM</code> ×2, <code>VN</code></td>
+<td><code>VFENEBS</code> (find-element-not-equal w/ CC), index via <code>VLGVB</code></td>
 </tr>
 </tbody>
 </table>
-<p>* The amd64 figure was measured inside an emulated x86-64 VM (no hardware
-virtualization on the dev host), so it understates native silicon by a large
-margin; treat it as a correctness-grade lower bound. Decode is the algorithm's
-strong suit; encode is scalar and runs at a few GB/s.</p>
+<p>VSX is baseline on POWER8+ and the vector facility on z13+, so ppc64le and s390x
+(like riscv64 and loong64) need no runtime feature dispatch — the SIMD path is the
+arch's only path, build-tagged. <strong>s390x is the one big-endian target:</strong> <code>VL</code> puts
+the lowest memory address in lane 0 and <code>VFENEBS</code> scans lane 0 upward, so the
+returned byte index is already the memory offset of the first match — the
+classification LUTs are verified in big-endian lane order by the
+position-dependent random/fuzz tests. The assembly is generated by
+<a href="https://github.com/go-asmgen/asmgen">go-asmgen</a> (<code>scan_*_gen.go</code>; the <code>.s</code> files
+are committed).</p>
+<h2 id="validation-status-per-arch">Validation status per arch<a class="headerlink" href="#validation-status-per-arch" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>arch</th>
+<th>how validated</th>
+<th>status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>amd64 (AVX2 + SSE)</td>
+<td>native x86_64 VM, table + 60k random + <code>-fuzz</code> (both paths)</td>
+<td>native</td>
+</tr>
+<tr>
+<td>arm64</td>
+<td>native, table + 60k random + <code>-fuzz</code></td>
+<td>native</td>
+</tr>
+<tr>
+<td>riscv64</td>
+<td>qemu <code>rv64,v=true,vlen=128</code>, table + 60k random</td>
+<td>qemu-validated</td>
+</tr>
+<tr>
+<td>loong64</td>
+<td>qemu <code>la464</code>, table + 60k random</td>
+<td>qemu-validated</td>
+</tr>
+<tr>
+<td>ppc64le</td>
+<td>qemu <code>power9</code>, table + 60k random</td>
+<td>qemu-validated; native perf pending</td>
+</tr>
+<tr>
+<td>s390x</td>
+<td>qemu (big-endian), table + 60k random</td>
+<td>qemu-validated; native perf pending</td>
+</tr>
+</tbody>
+</table>
+<h2 id="performance-honest">Performance — honest<a class="headerlink" href="#performance-honest" title="Permanent link">&para;</a></h2>
+<p>vs <code>encoding/json.Valid</code> (arm64, Apple silicon; representative, not a contest):</p>
+<table>
+<thead>
+<tr>
+<th>input</th>
+<th style="text-align: right;">jsonvalidate</th>
+<th style="text-align: right;">encoding/json</th>
+<th>ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string-heavy (long string values)</td>
+<td style="text-align: right;">~710 MB/s</td>
+<td style="text-align: right;">~515 MB/s</td>
+<td><strong>~1.4× faster</strong></td>
+</tr>
+<tr>
+<td>realistic mixed records</td>
+<td style="text-align: right;">~465 MB/s</td>
+<td style="text-align: right;">~490 MB/s</td>
+<td>~on par</td>
+</tr>
+<tr>
+<td>number-heavy array</td>
+<td style="text-align: right;">~140 MB/s</td>
+<td style="text-align: right;">~585 MB/s</td>
+<td>slower</td>
+</tr>
+<tr>
+<td>compact-whitespace (4-space indent)</td>
+<td style="text-align: right;">~215 MB/s</td>
+<td style="text-align: right;">~490 MB/s</td>
+<td>slower</td>
+</tr>
+</tbody>
+</table>
+<p>The SIMD scans win where they apply — <strong>long string bodies</strong>, which dominate most
+real-world JSON (text, logs, API payloads). Where the document is mostly numbers,
+structure, or short (&lt; 16-byte) whitespace runs, the scalar grammar dominates and
+<code>encoding/json</code>'s long-tuned scanner is faster. jsonvalidate's value is
+<strong>correctness parity across six arches with a string fast path</strong>, not a universal
+speedup: if your payloads are number-dense, <code>encoding/json.Valid</code> is the better
+choice today (the scalar number scan is the obvious next thing to optimise).
+<code>Valid</code> allocates nothing on any path.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
-<p>Round-trip table tests plus <code>FuzzRoundTrip</code> (<code>Decode(Encode(x)) == x</code>) run with
-<strong>100% statement coverage</strong> on every architecture: amd64 and arm64 natively, and
-ppc64le, s390x, riscv64, loong64 under QEMU. Format interop with the reference C
-library was verified bidirectionally and byte-for-byte. BSD-3-Clause.</p>
+<p>100% statement coverage gated on every architecture (amd64 AVX2+SSE and arm64
+natively, riscv64/loong64/ppc64le/s390x under QEMU). The seed table, 60k
+deterministic random inputs, and the differential fuzzer all assert exact parity
+with <code>encoding/json.Valid</code>. BSD-3-Clause.</p>
 
 
 
