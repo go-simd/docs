@@ -17,6 +17,10 @@
          <lastmod>2026-06-14</lastmod>
     </url>
     <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/ascii85/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/base32/</loc>
          <lastmod>2026-06-14</lastmod>
     </url>
@@ -26,6 +30,14 @@
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/bitpack/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/crc64/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/floats/</loc>
          <lastmod>2026-06-14</lastmod>
     </url>
     <url>
@@ -49,7 +61,15 @@
          <lastmod>2026-06-14</lastmod>
     </url>
     <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/streamvbyte/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/utf8/</loc>
+         <lastmod>2026-06-14</lastmod>
+    </url>
+    <url>
+         <loc>https://go-simd.github.io/docs/0.1/repos/xxhash/</loc>
          <lastmod>2026-06-14</lastmod>
     </url>
 </urlset>

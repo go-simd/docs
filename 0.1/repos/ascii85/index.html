@@ -10,26 +10,28 @@
       
       
       
-        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/contributing/">
+        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/ascii85/">
       
       
-        <link rel="prev" href="../repos/floats/">
+        <link rel="prev" href="../hex/">
       
       
+        <link rel="next" href="../utf8/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
-        <title>Contributing - go-simd docs</title>
+        <title>ascii85 - go-simd docs</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,7 +50,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing" class="md-skip">
+        <a href="#ascii85" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +96,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="go-simd docs" class="md-header__button md-logo" aria-label="go-simd docs" data-md-component="logo">
+    <a href="../.." title="go-simd docs" class="md-header__button md-logo" aria-label="go-simd docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing
+              ascii85
             
           </span>
         </div>
@@ -229,7 +231,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="go-simd docs" class="md-nav__button md-logo" aria-label="go-simd docs" data-md-component="logo">
+    <a href="../.." title="go-simd docs" class="md-nav__button md-logo" aria-label="go-simd docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -259,7 +261,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -279,7 +281,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../methodology/" class="md-nav__link">
+      <a href="../../methodology/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -296,8 +298,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -307,11 +311,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -325,7 +329,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Stdlib drop-ins
@@ -339,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/base64/" class="md-nav__link">
+      <a href="../base64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -360,7 +364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/base32/" class="md-nav__link">
+      <a href="../base32/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -381,7 +385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/hex/" class="md-nav__link">
+      <a href="../hex/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -399,10 +403,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../repos/ascii85/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    ascii85
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -411,6 +435,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-arch-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-arch kernels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-honest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance — honest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -423,7 +512,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/utf8/" class="md-nav__link">
+      <a href="../utf8/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -444,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/adler32/" class="md-nav__link">
+      <a href="../adler32/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -465,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/crc64/" class="md-nav__link">
+      <a href="../crc64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -486,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/strconv/" class="md-nav__link">
+      <a href="../strconv/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -554,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/matchlen/" class="md-nav__link">
+      <a href="../matchlen/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -575,7 +664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/bitpack/" class="md-nav__link">
+      <a href="../bitpack/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -596,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/popcount/" class="md-nav__link">
+      <a href="../popcount/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -617,7 +706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/histogram/" class="md-nav__link">
+      <a href="../histogram/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -638,7 +727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/streamvbyte/" class="md-nav__link">
+      <a href="../streamvbyte/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -659,7 +748,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/xxhash/" class="md-nav__link">
+      <a href="../xxhash/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -680,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/floats/" class="md-nav__link">
+      <a href="../floats/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -705,30 +794,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Contributing
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -737,62 +806,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#hard-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hard rules
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-or-changing-a-kernel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Adding or changing a kernel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#regenerating-the-assembly" class="md-nav__link">
-    <span class="md-ellipsis">
-      Regenerating the assembly
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Documentation
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -824,36 +837,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hard-rules" class="md-nav__link">
+  <a href="#api" class="md-nav__link">
     <span class="md-ellipsis">
-      Hard rules
+      API
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-or-changing-a-kernel" class="md-nav__link">
+  <a href="#algorithm" class="md-nav__link">
     <span class="md-ellipsis">
-      Adding or changing a kernel
+      Algorithm
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#regenerating-the-assembly" class="md-nav__link">
+  <a href="#per-arch-kernels" class="md-nav__link">
     <span class="md-ellipsis">
-      Regenerating the assembly
+      Per-arch kernels
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
+  <a href="#performance-honest" class="md-nav__link">
     <span class="md-ellipsis">
-      Documentation
+      Performance — honest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
     </span>
   </a>
   
@@ -874,61 +896,116 @@
                   
 
 
-<h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
-<p>go-simd follows the same conventions as the author's other Go organizations.</p>
-<h2 id="hard-rules">Hard rules<a class="headerlink" href="#hard-rules" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Pure Go, <code>CGO_ENABLED=0</code>, stable Go, no <code>GOEXPERIMENT</code>.</strong> cgo wrappers of C
-  SIMD libraries are faster still but out of scope — this is the pure-Go tier.</li>
-<li><strong>Drop-in or nothing.</strong> A stdlib-facing package must produce <strong>byte-identical
-  output</strong> (and byte-identical <em>errors</em>, where the stdlib returns them) for all
-  input. The SIMD path handles whole aligned blocks; the tail delegates to the
-  standard library so results match exactly.</li>
-<li><strong>Generated assembly, not hand-written.</strong> Kernels are emitted by
-  <a href="https://github.com/go-asmgen/asmgen">go-asmgen</a>; the <code>*_gen.go</code> are
-  <code>//go:build ignore</code> and the resulting <code>.s</code> is committed. go-asmgen is a
-  build-time tool, never a runtime dependency.</li>
-<li><strong>100% statement coverage</strong> of the Go code, enforced as a CI gate on every
-  arch job. Every dispatch branch (AVX2 / SSE / POPCNT / scalar fallback) is
-  driven by a force test on the native runner.</li>
-<li><strong>Honest numbers.</strong> Report wins, parities, and non-SIMD outcomes alike.
-  Headline benchmarks come from native CI, never from emulation; Rosetta is
-  never trusted for AVX2.</li>
-<li><strong>English only</strong> for all repository content (issues, PRs, commits, comments).</li>
-</ul>
-<h2 id="adding-or-changing-a-kernel">Adding or changing a kernel<a class="headerlink" href="#adding-or-changing-a-kernel" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Survey the prior art</strong> (see <a href="../methodology/">methodology</a>) so the
-   comparison is against the real state of the art.</li>
-<li><strong>Write the generator</strong>, not the <code>.s</code>. Drive go-asmgen to emit the kernel for
-   each target arch; commit the generated <code>.s</code>.</li>
-<li><strong>Prove correctness</strong> with a table test (boundaries, every error class) and a
-   <code>Fuzz*</code> differential target against the stdlib/oracle reference — comparing
-   value <strong>and</strong> error. Add a force test that drives each dispatch branch
-   directly.</li>
-<li><strong>Validate on real hardware</strong> — native amd64 (real AVX2, not Rosetta),
-   native arm64, riscv64/loong64 under QEMU.</li>
-<li><strong>Model and measure</strong> — <code>llvm-mca</code> for the cycle model, then native-CI
-   benchmarks for the headline numbers. Update the README's honest results
-   table.</li>
-<li><strong>Confirm 100% coverage:</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-coverprofile<span class="o">=</span>cover.out<span class="w"> </span>./...
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>go<span class="w"> </span>tool<span class="w"> </span>cover<span class="w"> </span>-func<span class="o">=</span>cover.out<span class="w">   </span><span class="c1"># must read 100.0%</span>
-</code></pre></div></li>
-</ol>
-<h2 id="regenerating-the-assembly">Regenerating the assembly<a class="headerlink" href="#regenerating-the-assembly" title="Permanent link">&para;</a></h2>
-<p>Each repo documents its exact regenerate command; the shape is:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/go-asmgen/asmgen@latest
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>go<span class="w"> </span>generate<span class="w"> </span>./...<span class="w">        </span><span class="c1"># or: go run &lt;name&gt;_gen.go</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>go<span class="w"> </span>mod<span class="w"> </span>edit<span class="w"> </span>-droprequire<span class="w"> </span>github.com/go-asmgen/asmgen
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>go<span class="w"> </span>mod<span class="w"> </span>tidy
+<h1 id="ascii85">ascii85<a class="headerlink" href="#ascii85" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/go-simd/ascii85/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/ascii85/actions/workflows/ci.yml/badge.svg" /></a>
+<img alt="coverage" src="https://img.shields.io/badge/coverage-100%25-brightgreen" /></p>
+<p>A drop-in fast path for the Adobe/btoa <strong>ascii85</strong> (base-85) encoding, <strong>byte-
+and error-identical</strong> to the standard library's
+<a href="https://pkg.go.dev/encoding/ascii85"><code>encoding/ascii85</code></a>. This is the <strong>first</strong>
+SIMD ascii85. The bulk encode (the regular 4-byte → 5-char path) runs a SIMD
+kernel generated by <a href="https://github.com/go-asmgen/asmgen">go-asmgen</a>; the
+all-zero <code>z</code> shortcut, the short trailing fragment, and all of decoding reuse the
+standard library, so the output matches exactly.
+<a href="https://github.com/go-simd/ascii85">Repository →</a></p>
+<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<p>The API mirrors the standard library 1:1, so it is a literal drop-in:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/ascii85&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ascii85</span><span class="p">.</span><span class="nx">Encode</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span><span class="w"> </span><span class="nx">src</span><span class="p">)</span><span class="w">                 </span><span class="c1">// identical bytes to encoding/ascii85.Encode</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ascii85</span><span class="p">.</span><span class="nx">MaxEncodedLen</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span><span class="w">          </span><span class="c1">// sizing</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">nd</span><span class="p">,</span><span class="w"> </span><span class="nx">ns</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ascii85</span><span class="p">.</span><span class="nx">Decode</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span><span class="w"> </span><span class="nx">src</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="c1">// identical (ndst, nsrc, err), incl. CorruptInputError offsets</span>
 </code></pre></div>
-<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
-<p>This site is built with MkDocs Material and versioned with
-<a href="https://github.com/jimporter/mike">mike</a>; see the
-<a href="https://github.com/go-simd/docs">docs repo README</a> for local preview and
-release commands. The organization landing page lives in
-<a href="https://github.com/go-simd/go-simd.github.io">go-simd.github.io</a> (Hugo).</p>
+<p><code>Encode</code>, <code>Decode</code>, <code>MaxEncodedLen</code>, and a re-exported <code>CorruptInputError</code> type.</p>
+<h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
+<p>The hard part of base-85 is the repeated <strong>division by 85</strong>. The kernel avoids
+real division with a reciprocal multiply that is <strong>exact over the entire 32-bit
+range</strong> (verified exhaustively over all 2³² values):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>v / 85  ==  (v * 0xC0C0C0C1) &gt;&gt; 32 &gt;&gt; 6        remainder = v - (v/85)*85
+</code></pre></div>
+<p>Five such steps yield the five base-85 digits of each 4-byte group (most
+significant first), <code>'!'</code> (33) is added, and a fixed cross-lane shuffle scatters
+the per-lane digits into the stride-5 output layout (16 input bytes → 20 output
+chars per 128-bit block). The wrapper hands the kernel only maximal runs of
+groups that contain <strong>no all-zero group</strong>, so every kernel group expands to
+exactly 5 chars; an all-zero group (which the spec shortens to <code>z</code>) and the
+trailing fragment go to <code>encoding/ascii85</code>, keeping the output byte-identical.</p>
+<h2 id="per-arch-kernels">Per-arch kernels<a class="headerlink" href="#per-arch-kernels" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>op</th>
+<th>amd64</th>
+<th>ppc64le</th>
+<th>s390x</th>
+<th>riscv64</th>
+<th>loong64</th>
+<th>arm64</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>encode</td>
+<td><strong>SSE</strong> (PMULULQ)</td>
+<td><strong>VSX</strong> (VMULEUW/OUW)</td>
+<td><strong>vector</strong> (VMLHF)</td>
+<td><strong>RVV</strong> (VMULHUVV)</td>
+<td><strong>LSX</strong> (VMUHWU)</td>
+<td><strong>fused scalar</strong></td>
+</tr>
+<tr>
+<td>decode</td>
+<td>scalar (stdlib)</td>
+<td>scalar</td>
+<td>scalar</td>
+<td>scalar</td>
+<td>scalar</td>
+<td>scalar</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Five of the six 64-bit targets ship a real SIMD encode kernel.</strong> The exception
+is <strong>arm64</strong>: Go's released arm64 assembler exposes <strong>no vector integer multiply</strong>
+(<code>VMUL</code>/<code>VUMULL</code>/<code>VMLS</code> exist only in an unreleased upstream <code>cmd/asm</code> patch), and
+base-85's <code>/85</code> cannot be done with the shift/mask tricks
+<a href="../base64/"><code>base64</code></a>'s NEON kernel uses. arm64 therefore uses a <strong>fused scalar</strong>
+path (no per-group <code>z</code> branch, slice-bounded stores) — still <strong>~1.9× faster</strong> than
+<code>encoding/ascii85</code>.</p>
+<p>The 32-bit mulhi is the only primitive that differs across backends; the digit
+math, the <code>+33</code>, and the stride-4 → stride-5 scatter are otherwise identical.
+Notable backend specifics:</p>
+<ul>
+<li><strong>ppc64le (VSX):</strong> <code>LXVB16X</code> byte-order-correct load needs <strong>no</strong> byte reversal;
+  mulhi via <code>VMULEUW</code>/<code>VMULOUW</code> merged with <code>VMRGEW</code>; <code>VPERM</code> scatter (gaps via an
+  index into an all-zero operand — ppc <code>VPERM</code> has no <code>PSHUFB</code>-style 0x80 zeroing).</li>
+<li><strong>s390x (vector facility, big-endian):</strong> group value is natively big-endian (no
+  reversal); single-op <code>VMLHF</code> mulhi; <code>VPERM</code> scatter.</li>
+<li><strong>riscv64 (RVV):</strong> <code>VMULHUVV</code> mulhi; <code>VRGATHERVV</code> for both the per-lane byte
+  reverse and the scatter (out-of-range index → 0 gives free gap zeroing).</li>
+<li><strong>loong64 (LSX):</strong> <code>VMUHWU</code> mulhi; <code>VSHUFB</code> for byte-reverse and scatter
+  (index ≥ 16 selects the zero source → gap zeroing).</li>
+</ul>
+<p>Every backend's operand orders and shuffle/lane semantics were <strong>confirmed
+empirically under QEMU</strong> before the kernel was assembled, then verified against
+<code>encoding/ascii85</code> (table + <code>FuzzEncode</code>/<code>FuzzDecode</code>, byte- and error-identical).</p>
+<h2 id="performance-honest">Performance — honest<a class="headerlink" href="#performance-honest" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>arm64</strong> (Apple Silicon, native, 1 MiB): fused-scalar encode <strong>~1920 MB/s vs
+  ~1010 MB/s</strong> stdlib — <strong>~1.9× stdlib</strong>, purely from dropping the per-group <code>z</code>
+  branch and using slice-bounded stores.</li>
+<li><strong>amd64</strong>: SSE kernel correctness-validated (table + fuzz) on an x86_64 VM. No
+  non-QEMU amd64 host was available to benchmark; QEMU TCG makes SIMD
+  disproportionately expensive, so its numbers are not representative. Native
+  amd64 throughput is <strong>pending real hardware</strong>.</li>
+<li><strong>ppc64le / s390x / riscv64 / loong64</strong>: real SIMD kernels, <strong>QEMU-validated
+  (byte-identical to <code>encoding/ascii85</code>); native perf pending</strong> real silicon.</li>
+</ul>
+<p><code>Decode</code> is the standard library's (whitespace skipping, the <code>z</code> shortcut, flush
+handling, <code>CorruptInputError</code> offsets); a SIMD decode is possible future work.</p>
+<h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
+<p><strong>100% of the Go code</strong> on every arch job (native amd64 + arm64, QEMU ppc64le /
+s390x / riscv64 / loong64). The generated <code>.s</code> kernels are validated by
+differential tests against the scalar <code>encoding/ascii85</code> reference plus
+<code>FuzzEncode</code>/<code>FuzzDecode</code> on every arch that ships a kernel. BSD-3-Clause.</p>
 
 
 
@@ -981,10 +1058,10 @@ release commands. The organization landing page lives in
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "navigation.instant", "content.code.copy", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.instant", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>

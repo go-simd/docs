@@ -10,26 +10,28 @@
       
       
       
-        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/contributing/">
+        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/crc64/">
       
       
-        <link rel="prev" href="../repos/floats/">
+        <link rel="prev" href="../adler32/">
       
       
+        <link rel="next" href="../strconv/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
-        <title>Contributing - go-simd docs</title>
+        <title>crc64 - go-simd docs</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,7 +50,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing" class="md-skip">
+        <a href="#crc64" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +96,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="go-simd docs" class="md-header__button md-logo" aria-label="go-simd docs" data-md-component="logo">
+    <a href="../.." title="go-simd docs" class="md-header__button md-logo" aria-label="go-simd docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing
+              crc64
             
           </span>
         </div>
@@ -229,7 +231,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="go-simd docs" class="md-nav__button md-logo" aria-label="go-simd docs" data-md-component="logo">
+    <a href="../.." title="go-simd docs" class="md-nav__button md-logo" aria-label="go-simd docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -259,7 +261,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -279,7 +281,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../methodology/" class="md-nav__link">
+      <a href="../../methodology/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -296,8 +298,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -307,11 +311,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -325,7 +329,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Stdlib drop-ins
@@ -339,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/base64/" class="md-nav__link">
+      <a href="../base64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -360,7 +364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/base32/" class="md-nav__link">
+      <a href="../base32/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -381,7 +385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/hex/" class="md-nav__link">
+      <a href="../hex/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -402,7 +406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/ascii85/" class="md-nav__link">
+      <a href="../ascii85/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -423,7 +427,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/utf8/" class="md-nav__link">
+      <a href="../utf8/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -444,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/adler32/" class="md-nav__link">
+      <a href="../adler32/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -462,10 +466,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../repos/crc64/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    crc64
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -474,6 +498,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-arch-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-arch kernels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-honest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance — honest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -486,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/strconv/" class="md-nav__link">
+      <a href="../strconv/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -554,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/matchlen/" class="md-nav__link">
+      <a href="../matchlen/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -575,7 +664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/bitpack/" class="md-nav__link">
+      <a href="../bitpack/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -596,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/popcount/" class="md-nav__link">
+      <a href="../popcount/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -617,7 +706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/histogram/" class="md-nav__link">
+      <a href="../histogram/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -638,7 +727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/streamvbyte/" class="md-nav__link">
+      <a href="../streamvbyte/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -659,7 +748,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/xxhash/" class="md-nav__link">
+      <a href="../xxhash/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -680,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../repos/floats/" class="md-nav__link">
+      <a href="../floats/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -705,30 +794,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Contributing
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -737,62 +806,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#hard-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hard rules
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-or-changing-a-kernel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Adding or changing a kernel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#regenerating-the-assembly" class="md-nav__link">
-    <span class="md-ellipsis">
-      Regenerating the assembly
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Documentation
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -824,36 +837,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hard-rules" class="md-nav__link">
+  <a href="#api" class="md-nav__link">
     <span class="md-ellipsis">
-      Hard rules
+      API
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-or-changing-a-kernel" class="md-nav__link">
+  <a href="#algorithm" class="md-nav__link">
     <span class="md-ellipsis">
-      Adding or changing a kernel
+      Algorithm
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#regenerating-the-assembly" class="md-nav__link">
+  <a href="#per-arch-kernels" class="md-nav__link">
     <span class="md-ellipsis">
-      Regenerating the assembly
+      Per-arch kernels
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
+  <a href="#performance-honest" class="md-nav__link">
     <span class="md-ellipsis">
-      Documentation
+      Performance — honest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
     </span>
   </a>
   
@@ -874,61 +896,131 @@
                   
 
 
-<h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
-<p>go-simd follows the same conventions as the author's other Go organizations.</p>
-<h2 id="hard-rules">Hard rules<a class="headerlink" href="#hard-rules" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Pure Go, <code>CGO_ENABLED=0</code>, stable Go, no <code>GOEXPERIMENT</code>.</strong> cgo wrappers of C
-  SIMD libraries are faster still but out of scope — this is the pure-Go tier.</li>
-<li><strong>Drop-in or nothing.</strong> A stdlib-facing package must produce <strong>byte-identical
-  output</strong> (and byte-identical <em>errors</em>, where the stdlib returns them) for all
-  input. The SIMD path handles whole aligned blocks; the tail delegates to the
-  standard library so results match exactly.</li>
-<li><strong>Generated assembly, not hand-written.</strong> Kernels are emitted by
-  <a href="https://github.com/go-asmgen/asmgen">go-asmgen</a>; the <code>*_gen.go</code> are
-  <code>//go:build ignore</code> and the resulting <code>.s</code> is committed. go-asmgen is a
-  build-time tool, never a runtime dependency.</li>
-<li><strong>100% statement coverage</strong> of the Go code, enforced as a CI gate on every
-  arch job. Every dispatch branch (AVX2 / SSE / POPCNT / scalar fallback) is
-  driven by a force test on the native runner.</li>
-<li><strong>Honest numbers.</strong> Report wins, parities, and non-SIMD outcomes alike.
-  Headline benchmarks come from native CI, never from emulation; Rosetta is
-  never trusted for AVX2.</li>
-<li><strong>English only</strong> for all repository content (issues, PRs, commits, comments).</li>
-</ul>
-<h2 id="adding-or-changing-a-kernel">Adding or changing a kernel<a class="headerlink" href="#adding-or-changing-a-kernel" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Survey the prior art</strong> (see <a href="../methodology/">methodology</a>) so the
-   comparison is against the real state of the art.</li>
-<li><strong>Write the generator</strong>, not the <code>.s</code>. Drive go-asmgen to emit the kernel for
-   each target arch; commit the generated <code>.s</code>.</li>
-<li><strong>Prove correctness</strong> with a table test (boundaries, every error class) and a
-   <code>Fuzz*</code> differential target against the stdlib/oracle reference — comparing
-   value <strong>and</strong> error. Add a force test that drives each dispatch branch
-   directly.</li>
-<li><strong>Validate on real hardware</strong> — native amd64 (real AVX2, not Rosetta),
-   native arm64, riscv64/loong64 under QEMU.</li>
-<li><strong>Model and measure</strong> — <code>llvm-mca</code> for the cycle model, then native-CI
-   benchmarks for the headline numbers. Update the README's honest results
-   table.</li>
-<li><strong>Confirm 100% coverage:</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-coverprofile<span class="o">=</span>cover.out<span class="w"> </span>./...
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>go<span class="w"> </span>tool<span class="w"> </span>cover<span class="w"> </span>-func<span class="o">=</span>cover.out<span class="w">   </span><span class="c1"># must read 100.0%</span>
-</code></pre></div></li>
-</ol>
-<h2 id="regenerating-the-assembly">Regenerating the assembly<a class="headerlink" href="#regenerating-the-assembly" title="Permanent link">&para;</a></h2>
-<p>Each repo documents its exact regenerate command; the shape is:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/go-asmgen/asmgen@latest
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>go<span class="w"> </span>generate<span class="w"> </span>./...<span class="w">        </span><span class="c1"># or: go run &lt;name&gt;_gen.go</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>go<span class="w"> </span>mod<span class="w"> </span>edit<span class="w"> </span>-droprequire<span class="w"> </span>github.com/go-asmgen/asmgen
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>go<span class="w"> </span>mod<span class="w"> </span>tidy
+<h1 id="crc64">crc64<a class="headerlink" href="#crc64" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/go-simd/crc64/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/crc64/actions/workflows/ci.yml/badge.svg" /></a>
+<img alt="coverage" src="https://img.shields.io/badge/coverage-100%25-brightgreen" /></p>
+<p>A pure-Go, SIMD-accelerated <strong>drop-in replacement for <code>hash/crc64</code></strong>
+(<code>CGO_ENABLED=0</code>, stable Go, no <code>GOEXPERIMENT</code>). It produces <strong>bit-identical</strong>
+CRC-64 checksums — for the predefined <code>ISO</code> and <code>ECMA</code> polynomials and for any
+custom polynomial — but folds the bulk of the input with the host's
+carryless-multiply unit instead of the scalar slicing-by-8 table. This is the
+<strong>first</strong> pure-Go SIMD crc64: the standard library and every existing Go crc64
+library are scalar. <a href="https://github.com/go-simd/crc64">Repository →</a></p>
+<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<p>The API matches <code>hash/crc64</code> exactly — change only the import path:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/crc64&quot;</span><span class="w"> </span><span class="c1">// was &quot;hash/crc64&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">tab</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">crc64</span><span class="p">.</span><span class="nx">MakeTable</span><span class="p">(</span><span class="nx">crc64</span><span class="p">.</span><span class="nx">ECMA</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">crc64</span><span class="p">.</span><span class="nx">Checksum</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">tab</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nx">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">crc64</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">tab</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nx">h</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nx">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">h</span><span class="p">.</span><span class="nx">Sum64</span><span class="p">()</span>
 </code></pre></div>
-<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
-<p>This site is built with MkDocs Material and versioned with
-<a href="https://github.com/jimporter/mike">mike</a>; see the
-<a href="https://github.com/go-simd/docs">docs repo README</a> for local preview and
-release commands. The organization landing page lives in
-<a href="https://github.com/go-simd/go-simd.github.io">go-simd.github.io</a> (Hugo).</p>
+<p><code>Checksum</code>, <code>Update</code>, <code>New</code>, <code>MakeTable</code>, the <code>ISO</code>/<code>ECMA</code> constants, <code>Size</code>, the
+<code>Table</code> type (aliased to the stdlib type, so tables are interchangeable), and the
+<code>hash.Hash64</code> returned by <code>New</code> (including
+<code>BinaryMarshaler</code>/<code>BinaryUnmarshaler</code>/<code>AppendBinary</code>) are all present.</p>
+<h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
+<p>The data is folded <strong>16 bytes at a time</strong> into a single 128-bit reflected
+accumulator using carryless multiplication (the classic Intel "Fast CRC
+Computation"), then reduced to the 64-bit CRC. The fold constants are derived
+from the polynomial itself — <code>reflect(x^191 mod P)</code> and <code>reflect(x^127 mod P)</code> —
+so there are <strong>no copied magic numbers</strong>. The short tail (&lt; 16 bytes) and the
+table build reuse the standard library, so results are guaranteed identical.</p>
+<h2 id="per-arch-kernels">Per-arch kernels<a class="headerlink" href="#per-arch-kernels" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>arch</th>
+<th>instruction</th>
+<th>gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>amd64</td>
+<td><code>PCLMULQDQ</code></td>
+<td><code>cpu.X86.HasPCLMULQDQ</code></td>
+</tr>
+<tr>
+<td>arm64</td>
+<td><code>PMULL</code> / <code>PMULL2</code></td>
+<td><code>cpu.ARM64.HasPMULL</code></td>
+</tr>
+<tr>
+<td>ppc64le</td>
+<td><code>VPMSUMD</code></td>
+<td>VSX (baseline, POWER8+)</td>
+</tr>
+<tr>
+<td>s390x</td>
+<td><code>VGFMAG</code></td>
+<td><code>cpu.S390X.HasVX</code></td>
+</tr>
+<tr>
+<td>riscv64</td>
+<td>— (scalar fallback)</td>
+<td>Go does not yet expose Zbc</td>
+</tr>
+<tr>
+<td>loong64</td>
+<td>— (scalar fallback)</td>
+<td>no carryless multiply exposed</td>
+</tr>
+</tbody>
+</table>
+<p>riscv64 and loong64 (and any CPU lacking the relevant instruction) transparently
+fall back to the standard-library scalar path — Go's released assembler exposes
+no carryless-multiply on those targets. Assembly is generated by
+<a href="https://github.com/go-asmgen/asmgen">go-asmgen</a> (<code>kernel_*_gen.go</code>, committed
+alongside the <code>.s</code>).</p>
+<h2 id="performance-honest">Performance — honest<a class="headerlink" href="#performance-honest" title="Permanent link">&para;</a></h2>
+<p><code>ECMA</code> polynomial, single call over a buffer of the given size.</p>
+<p><strong>Native arm64 (Apple M-series, <code>PMULL</code>):</strong></p>
+<table>
+<thead>
+<tr>
+<th>size</th>
+<th style="text-align: right;">this package</th>
+<th style="text-align: right;"><code>hash/crc64</code></th>
+<th style="text-align: right;">speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 KiB</td>
+<td style="text-align: right;">3824 MB/s</td>
+<td style="text-align: right;">2065 MB/s</td>
+<td style="text-align: right;">1.9×</td>
+</tr>
+<tr>
+<td>16 KiB</td>
+<td style="text-align: right;">7613 MB/s</td>
+<td style="text-align: right;">2034 MB/s</td>
+<td style="text-align: right;">3.7×</td>
+</tr>
+<tr>
+<td>1 MiB</td>
+<td style="text-align: right;">8271 MB/s</td>
+<td style="text-align: right;">1977 MB/s</td>
+<td style="text-align: right;"><strong>4.2×</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The crossover is a few hundred bytes; below <code>minBulk</code> (512 B) the package uses the
+scalar path, so small inputs are never slower than the standard library.</p>
+<p><strong>amd64 (<code>PCLMULQDQ</code>):</strong> correctness-validated on real x86-64; same large-buffer
+advantage (≈2× in a virtualized measurement environment, higher on native
+silicon).</p>
+<p><strong>ppc64le / s390x:</strong> the <code>VPMSUMD</code> and <code>VGFMAG</code> kernels are <strong>QEMU-validated for
+correctness; native perf pending</strong> access to real POWER / IBM Z systems.</p>
+<h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
+<p><code>FuzzChecksum</code> compares against <code>hash/crc64</code> (ISO and ECMA) on arbitrary inputs,
+plus exhaustive length sweeps across all block boundaries for ISO, ECMA and a
+custom polynomial. CI runs native amd64/arm64 and QEMU riscv64/loong64/ppc64le
+(power9)/s390x, with a <strong>100% statement-coverage</strong> gate on every architecture.
+BSD-3-Clause.</p>
 
 
 
@@ -981,10 +1073,10 @@ release commands. The organization landing page lives in
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "navigation.instant", "content.code.copy", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.instant", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>
