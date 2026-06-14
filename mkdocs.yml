@@ -7,6 +7,8 @@ edit_uri: ""
 
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
   features:
     - navigation.sections
     - navigation.top
@@ -40,10 +42,12 @@ nav:
       - base32: repos/base32.md
       - hex: repos/hex.md
       - ascii85: repos/ascii85.md
+      - ascii: repos/ascii.md
       - utf8: repos/utf8.md
       - adler32: repos/adler32.md
       - crc64: repos/crc64.md
       - strconv: repos/strconv.md
+      - jsonvalidate: repos/jsonvalidate.md
   - Primitives:
       - matchlen: repos/matchlen.md
       - bitpack: repos/bitpack.md
@@ -52,6 +56,9 @@ nav:
       - streamvbyte: repos/streamvbyte.md
       - xxhash: repos/xxhash.md
       - floats: repos/floats.md
+      - bitset: repos/bitset.md
+      - int8dot: repos/int8dot.md
+      - levenshtein: repos/levenshtein.md
   - Contributing: contributing.md
 
 markdown_extensions:
