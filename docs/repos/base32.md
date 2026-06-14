@@ -14,10 +14,17 @@ the standard library. [Repository →](https://github.com/go-simd/base32)
 s := base32.EncodeToString(data)   // same bytes as encoding/base32.StdEncoding
 ```
 
-| op | amd64 | arm64 | loong64 / riscv64 |
-|---|---|---|---|
-| encode | **AVX2 + SSE2** | scalar (stdlib) | scalar (stdlib) |
-| decode | scalar (stdlib) | scalar | scalar |
+| op | amd64 | ppc64le | s390x | arm64 | loong64 / riscv64 |
+|---|---|---|---|---|---|
+| encode | **AVX2 + SSE2** | **VSX** | **vector facility** | scalar (stdlib) | scalar (stdlib) |
+| decode | scalar (stdlib) | scalar | scalar | scalar | scalar |
+
+The encode fast path covers **four ISAs across six architectures**. **ppc64le
+and s390x run the *full* spread-extract kernel — the same algorithm amd64 uses —
+because POWER (VSX) and IBM Z (vector facility) provide the per-lane variable
+shift / integer vector multiply that arm64 NEON lacks** (see below). The ppc64le
+and s390x kernels are **qemu-validated for correctness** (official vectors,
+byte-identical fuzz); native perf is pending (no POWER/Z runner).
 
 ## Algorithm
 
@@ -53,15 +60,33 @@ The speedup is below base64's because base32's 5-bit grouping forces an 8-byte
 store per 5-byte group (vs base64's 16-byte store per 12 bytes) and a longer
 serial extract chain — inherent to the format.
 
-- **arm64 / loong64 / riscv64** fall back to `encoding/base32`. A NEON encode was
-  prototyped but shelved: the per-char 5-bit fields need per-lane variable shifts,
-  and the Go arm64 assembler exposes neither a register-form `USHL` nor an integer
-  vector multiply, so the multiply-shift trick the amd64 path relies on cannot be
-  expressed.
-- **decode** is scalar, keeping RFC 4648 error semantics identical to stdlib.
+- **ppc64le (VSX)** runs the full kernel: `LXVB16X` byte-order-correct load →
+  `VPERM` spread → the per-char 5-bit field is isolated with POWER's **per-lane
+  variable right shift `VSRH`** (`field >> p` — exactly what amd64's
+  multiply-high-by-`2^(16-p)` computes) and `VAND 0x1f`, then `VPERM` pack and a
+  two-range ASCII map (`VCMPGTUB`/`VADDUBM`/`VSUBUBM`), `STXVB16X` store. VSX is
+  baseline on POWER8+, so there is no runtime dispatch.
+- **s390x (vector facility, big-endian)** is the one shipped non-amd64 arch with
+  a genuine vector integer **multiply-high (`VMLHH`)**, so it reproduces the
+  amd64 `PMULHUW` step almost instruction-for-instruction: `VL` → `VPERM` spread
+  → `VMLHH` by `2^(16-p)` → `VPERM` pack → `VN` mask → `VCHLB`/`VAB`/`VSB` ASCII
+  map → `VST`. The `VPERM` control vectors use big-endian lane order (lane 0 =
+  lowest address), which matches amd64's big-endian 16-bit windows — so the
+  output is byte-identical with no endianness fix-up.
+- **`VSRH` + `VMLHH` are exactly the two primitives the NEON port lacked.** A
+  NEON encode was prototyped but shelved: the per-char 5-bit fields need per-lane
+  variable shifts, and the Go arm64 assembler exposes neither a register-form
+  `USHL` nor an integer vector multiply. POWER and IBM Z provide both, so they
+  get **real SIMD where arm64 cannot** — and **arm64 / loong64 / riscv64** fall
+  back to `encoding/base32`.
+- **decode** is scalar on every arch, keeping RFC 4648 error semantics identical
+  to stdlib.
 
 ## Coverage
 
 100% of the Go code (native amd64 + native arm64; the `!amd64` fallback measured
-on arm64). The `.s` kernels are validated by differential tests against
-`encoding/base32` plus fuzzing on real AVX2. BSD-3-Clause.
+on arm64; ppc64le and s390x under QEMU). The `.s` kernels are validated by
+differential tests against `encoding/base32` plus fuzzing — on real AVX2 for
+amd64, and under `qemu-user` (`power9` / `s390x`) for the VSX and big-endian
+vector-facility kernels, where the output is proven byte-identical to stdlib.
+BSD-3-Clause.

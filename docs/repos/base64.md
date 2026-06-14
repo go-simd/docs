@@ -15,19 +15,24 @@ the standard library, so output matches exactly.
 s := base64.EncodeToString(data)   // same bytes as encoding/base64.StdEncoding
 ```
 
-| op | amd64 | arm64 | loong64 / riscv64 |
-|---|---|---|---|
-| encode | **AVX2 + SSE2** (Lemire) | **NEON** (shift-based) | scalar (stdlib) |
-| decode | scalar (stdlib) | scalar | scalar |
+| op | amd64 | arm64 | ppc64le | s390x | loong64 / riscv64 |
+|---|---|---|---|---|---|
+| encode | **AVX2 + SSE2** (Lemire) | **NEON** (shift-based) | **VSX** (shift-based) | **vector facility** (shift-based) | scalar (stdlib) |
+| decode | scalar (stdlib) | scalar | scalar | scalar | scalar |
 
 ## Algorithm
 
 The encoder is Lemire's vectorised base64: a shuffle spreads the input across
 24-bit lanes, two multiplies pull out the 6-bit indices, and a `PSHUFB` / `TBL`
 offset-LUT maps each to its ASCII byte (constants via go-asmgen's
-`emit.File.Data`). arm64 uses a shift-based NEON variant, since arm64 has no
-integer vector multiply. Decode is scalar (`encoding/base64`) for now; a SIMD
-decode is planned.
+`emit.File.Data`). The amd64 path uses the multiply trick; **arm64, ppc64le and
+s390x use a shift-based variant** (`VSRW`/`VESRLF` index extraction), since those
+ISAs lack the integer vector multiply amd64 relies on. All six 64-bit targets are
+covered: AVX2/SSE2 on amd64, NEON on arm64, **VSX on ppc64le**, **the vector
+facility on s390x (big-endian)**, and a scalar fallback on loong64/riscv64. On
+**s390x** the `VPERM` control vectors use big-endian lane numbering (lane 0 =
+lowest address) and were verified to produce byte-identical output. Decode is
+scalar (`encoding/base64`) for now; a SIMD decode is planned.
 
 ## Performance
 
@@ -52,13 +57,17 @@ at 2.15 cyc/block (vs emmansun's 2.20) and the benchmark *confirmed* it. (Block 
 keeps `VINSERTI128` — a `-4` load there would read before `src`.)
 
 - **arm64**: NEON encode ~2.3× stdlib.
+- **ppc64le / s390x**: qemu-validated SIMD encode kernels (table + fuzz,
+  byte-identical to stdlib, including on big-endian s390x); native throughput is
+  pending (no POWER/Z runner), so no ppc64le/s390x MB/s is quoted.
 - **decode** is scalar; a SIMD decode is planned.
 - cgo wrappers of `aklomp/base64` are faster still but need a C toolchain —
   excluded from this pure-Go comparison.
 
 ## Coverage
 
-100% of the Go code on every arch job (native amd64 + native arm64 + a
-riscv64/QEMU fallback job). The generated `.s` kernels are validated by
-differential tests against `encoding/base64` plus fuzzing on a real AVX2 box.
-BSD-3-Clause.
+100% of the Go code on every arch job (native amd64 + native arm64, plus QEMU
+jobs for ppc64le, s390x and riscv64). The generated `.s` kernels are validated by
+differential tests against `encoding/base64` plus `FuzzEncode` — on a real AVX2
+box for amd64/arm64, and under `qemu-user` for the VSX and big-endian
+vector-facility kernels. BSD-3-Clause.

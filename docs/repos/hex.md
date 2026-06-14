@@ -20,10 +20,19 @@ b, err := hex.DecodeString(s)   // same bytes + same errors as encoding/hex
 Mirrors `encoding/hex`: `Encode`, `EncodeToString`, `Decode`, `DecodeString`,
 `EncodedLen`, `DecodedLen`.
 
-| op | amd64 | arm64 / loong64 / riscv64 |
-|---|---|---|
-| **encode** | **SSE2/SSSE3 + AVX2** (runtime dispatch) | scalar (stdlib) |
-| **decode** | **SSE2/SSSE3 + AVX2** (runtime dispatch) | scalar (stdlib) |
+| op | amd64 | ppc64le | s390x | arm64 / loong64 / riscv64 |
+|---|---|---|---|---|
+| **encode** | **SSE2/SSSE3 + AVX2** (runtime dispatch) | **VSX** (`VPERM` table lookup) | **vector facility** (`VPERM`, big-endian) | scalar (stdlib) — NEON/LSX/RVV planned |
+| **decode** | **SSE2/SSSE3 + AVX2** (runtime dispatch) | **VSX** (`VCHLB` + `VPERM`) | **vector facility** (`VCHLB` + `VPERM`, big-endian) | scalar (stdlib) — NEON/LSX/RVV planned |
+
+Both directions have SIMD on **amd64, ppc64le (VSX) and s390x (vector
+facility)**; the rest fall back to the `encoding/hex` scalar loop. ppc64le uses
+`LXVB16X`/`STXVB16X` (natural memory byte order on little-endian, sidestepping
+the `LXVD2X` doubleword swap), minding the VSX↔VMX `Vn == VS(32+n)` aliasing.
+**s390x is big-endian:** `VL` puts the first memory byte in the high-order lane.
+The ppc64le and s390x kernels are **qemu-validated for correctness** (the
+`InvalidByteError` offset and `ErrLength` semantics are byte- and error-identical
+there too); native perf is pending.
 
 ## Algorithm
 
@@ -61,6 +70,8 @@ to add SIMD to the standard library.
 
 ## Coverage
 
-100% of the Go code (native amd64 + native arm64). The `.s` kernels are validated
-by differential tests against `encoding/hex` — including invalid bytes at every
-offset — plus fuzzing. BSD-3-Clause.
+100% of the Go code (native amd64 + native arm64, plus QEMU-emulated ppc64le and
+s390x jobs). The `.s` kernels are validated by differential tests against
+`encoding/hex` — including invalid bytes at every offset — plus fuzzing (on real
+AVX2 for amd64; under `qemu-user` for the VSX and big-endian vector-facility
+kernels). BSD-3-Clause.

@@ -21,7 +21,17 @@ n  := utf8.RuneCountInString(s)  // same int  as unicode/utf8.RuneCountInString
 | arch | kernel |
 |---|---|
 | amd64 | **SSE2/SSSE3 + SSE4.1** (16 B/block) and **AVX2** (32 B/block), runtime-dispatched |
+| ppc64le | **VSX/AltiVec** (16 B/block, POWER8 baseline) — qemu-validated; native perf pending |
+| s390x | **vector facility** (16 B/block, z13 baseline, **big-endian**) — qemu-validated; native perf pending |
 | arm64 / loong64 / riscv64 | scalar (`unicode/utf8`) — NEON/LSX/RVV planned |
+
+The ppc64le and s390x kernels are 1:1 ports of the amd64 SSE path (no runtime
+dispatch, since VSX and the vector facility are baseline on POWER8+ and z13+):
+the `PSHUFB` nibble lookups become `VPERM`, the range compares `VCMPGTSB`/`VCHB`,
+and the rune-count popcount becomes `VPOPCNTD` (ppc64le) / `VPOPCT`+`VSUMB`
+(s390x). On ppc64le the source is loaded with `LXVB16X`; on **big-endian s390x**,
+`VL` already places the lowest memory address in lane 0, so the kernel is
+byte-identical to stdlib with no endianness fix-up.
 
 ## Algorithm
 
@@ -72,7 +82,9 @@ from this pure-Go comparison.
 ## Coverage
 
 100% of the Go code (native amd64 drives the AVX2/SSE/POPCNT branches; native
-arm64 covers the generic fallback). The `.s` kernels are validated by differential
-tests against `unicode/utf8` plus fuzzing on a real AVX2 box (~75 M executions,
-zero mismatches). BSD-3-Clause; the kernel derives from Lemire's reference
+arm64 covers the generic fallback; ppc64le and s390x run under QEMU where VSX /
+the vector facility are baseline). The `.s` kernels are validated by differential
+tests against `unicode/utf8` plus fuzzing — on a real AVX2 box for amd64 (~75 M
+executions, zero mismatches), and under `qemu-user` for the VSX and big-endian
+vector-facility kernels. BSD-3-Clause; the kernel derives from Lemire's reference
 (Apache-2.0).

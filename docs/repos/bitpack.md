@@ -18,8 +18,16 @@ bitpack.Unpack(out, dst, bits)
 Output is **byte-identical to Lemire's simdcomp** (`SIMD_fastpackwithoutmask`):
 the 128 integers are stored as 4 interleaved 32-int lanes. On amd64 the bulk runs
 a generated **SSE2 / AVX2** kernel (one per bit-width, dispatched via
-`x/sys/cpu`); other arches use the scalar reference. Every path is byte-exact —
-verified by table tests, a scalar-equality test, and `FuzzPack`/`FuzzUnpack`.
+`x/sys/cpu`); **ppc64le** runs a **VSX** kernel (`LXVW4X`/`STXVW4X`, `VSLW`/`VSRW`,
+`VAND`/`VOR`) and **s390x** a **vector-facility** kernel (`VL`/`VST`,
+`VESLF`/`VESRLF`, `VN`/`VO`, `VPERM`), both build-tagged (VSX is POWER8 baseline,
+the vector facility z13 baseline). Other arches use the scalar reference. ppc64le
+is little-endian so words load/store directly; **s390x is big-endian** — the
+`uint32` arrays are native big-endian and the vector facility is big-endian too,
+so no fix-up is needed, and the big-endian port produces the same bytes as
+scalar/simdcomp. Every path is byte-exact — verified by table tests, a
+scalar-equality test, and `FuzzPack`/`FuzzUnpack`. The ppc64le and s390x kernels
+are **qemu-validated for correctness**; native perf is pending.
 
 ## Performance
 
@@ -42,8 +50,9 @@ per-width kernels.
 
 ## Coverage
 
-100% of the Go code, gated on the native amd64 and arm64 jobs. Both amd64 kernel
+100% of the Go code, gated on the native amd64 and arm64 jobs and the **ppc64le /
+s390x QEMU jobs** (the build fails below 100% on every one). Both amd64 kernel
 paths — the AVX2 block-pair kernel and the SSE finisher — are driven directly by
 the force test on the native AVX2 runner. The `.s` kernels are validated by
-differential tests against the scalar reference plus the two fuzz targets.
-BSD-3-Clause.
+differential tests against the scalar reference plus the two fuzz targets (the VSX
+and big-endian vector-facility kernels under `qemu-user`). BSD-3-Clause.

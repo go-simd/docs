@@ -24,6 +24,8 @@ sum = h.Sum32()
 | **amd64** | **SSE3/SSSE3** (2× unroll) + **AVX2** (4× unroll, runtime dispatch) | `PMADDUBSW` weighted sum + `PSADBW` byte sum, deferred `s1` carry |
 | **riscv64** | **RVV** (dispatch via `HasV`) | length-agnostic `VWMULU` + `VWREDSUMU`; scalar fallback without V |
 | **arm64** | **NEON** on **Go 1.27+**, scalar on stable | needs integer `VUMULL`, upstreamed in Go 1.27 |
+| **ppc64le** | **VSX / AltiVec** | `VMULEUB`/`VMULOUB` widening byte multiplies for the weighted sum; qemu-validated (`power9`), native perf pending |
+| **s390x** | **vector facility** (**big-endian**; dispatch via `HasVX`) | `VSUMB` byte sum + `VMLEB`/`VMLOB` weighted sum + `VSUMQF` reduce; scalar fallback without VX; qemu-validated, native perf pending |
 | loong64 / others | scalar | LSX kernel not yet shipped |
 
 ## Algorithm
@@ -33,9 +35,13 @@ Adler-32 over `d` is `s2<<16 | s1` with `s1 = 1 + Σd[i] (mod 65521)` and
 Adler-32, input is processed in chunks of at most `nmax = 5552` bytes so the
 16-bit lane sums cannot overflow before reduction. Per chunk:
 
-- `s1 += Σbytes` — `PSADBW` (amd64) / `VWREDSUMU` (riscv64) / `VUADDLV` (arm64).
+- `s1 += Σbytes` — `PSADBW` (amd64) / `VWREDSUMU` (riscv64) / `VUADDLV` (arm64) /
+  `VSUMB` (s390x) / widening multiply-by-1 (ppc64le).
 - `s2 += chunkLen·s1_before + Σ weight_i·byte_i` — the **weighted sum** is the
-  SIMD core: `PMADDUBSW` (amd64), `VWMULU` (riscv64), or `VUMULL` (arm64 NEON).
+  SIMD core: `PMADDUBSW` (amd64), `VWMULU` (riscv64), `VUMULL` (arm64 NEON),
+  `VMULEUB`/`VMULOUB` (ppc64le even/odd widening byte multiplies), or
+  `VMLEB`/`VMLOB` (s390x). On **big-endian s390x**, `VL` loads byte `i` of memory
+  into lane `i`, and the result is bit-identical to `hash/adler32`.
 
 The `chunkLen·s1` carry is folded as a vector shift-add on the running `s1` and
 reduced at the chunk end, where both `mod 65521` reductions land at exactly the
@@ -73,11 +79,17 @@ Honest notes:
   out-of-order frontend in a way the static analyzer idealizes away. So:
   **near-parity, not a beat.** Both are bit-identical to `hash/adler32`.
 - Go 1.26's `simd/archsimd` is amd64-only; this package differentiates by being
-  multi-arch (amd64 + riscv64 + arm64-on-1.27) and Go 1.20+ compatible.
+  multi-arch (amd64 + riscv64 + arm64-on-1.27 + ppc64le + s390x) and Go 1.20+
+  compatible.
+- **ppc64le / s390x**: qemu-validated SIMD kernels (the VSX even/odd widening
+  multiply and the big-endian vector-facility sum); native throughput is pending
+  (no POWER/Z runner), so no ppc64le/s390x MB/s is quoted.
 
 ## Coverage
 
 100% of the Go code across native amd64, native arm64 (stable + gotip/go1.27 for
-the NEON kernel), riscv64 under QEMU (RVV + no-V fallback) and loong64 under QEMU.
-The `.s` kernels are validated by differential tests against `hash/adler32` plus
-fuzzing. BSD-3-Clause.
+the NEON kernel), riscv64 under QEMU (RVV + no-V fallback), loong64 under QEMU,
+and ppc64le (`power9`, the VSX kernel) + s390x (the big-endian vector kernel)
+under QEMU with Force tests toggling `hasVSX` / VX. The `.s` kernels are validated
+by differential tests against `hash/adler32` plus fuzzing (on real AVX2; RVV / VSX
+/ vector-facility under QEMU; NEON on native arm64). BSD-3-Clause.

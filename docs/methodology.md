@@ -28,11 +28,12 @@ This is why the headlines are credible: each is a measured result against a
 named competitor, and cgo wrappers (faster, but needing a C toolchain) are
 explicitly excluded from the pure-Go tier rather than quietly ignored.
 
-## 2. Generate the assembly with go-asmgen (4 architectures)
+## 2. Generate the assembly with go-asmgen (6 architectures)
 
 No kernel is hand-encoded. The `.s` is emitted by
-[go-asmgen](https://github.com/go-asmgen/asmgen) — one builder over a **shared
-ABI0 layout** for all four 64-bit Go targets — and `cmd/asm` does the encoding:
+[go-asmgen](https://github.com/go-asmgen/asmgen) `v0.5.0` — one builder over a
+**shared ABI0 layout** for **all six of Go's 64-bit SIMD targets** — and
+`cmd/asm` does the encoding:
 
 | arch | ISA used by go-simd kernels |
 | --- | --- |
@@ -40,6 +41,21 @@ ABI0 layout** for all four 64-bit Go targets — and `cmd/asm` does the encoding
 | arm64 | NEON |
 | loong64 | LSX / LASX |
 | riscv64 | RVV |
+| **ppc64le** | **VSX / AltiVec** (POWER8 baseline, no runtime dispatch) |
+| **s390x** | **vector facility** (z13 baseline) — **big-endian** |
+
+This is the **go-asmgen v0.5.0 six-arch milestone**: one generator now emits
+correct kernels for every 64-bit target Go can produce SIMD for. The ppc64le
+(VSX) and s390x (vector facility) backends are the newest; since VSX is baseline
+on POWER8+ and the vector facility on z13+, those kernels need no runtime feature
+dispatch — the SIMD path is simply the arch's only path (build-tagged), like
+riscv64 and loong64.
+
+**s390x is big-endian.** Every kernel is ported and validated on a big-endian
+target, which exercises the control-vector lane numbering of `VPERM` shuffles and
+the byte order of vector loads/stores (`VL`/`VST`) — a real cross-endian
+correctness check, not just a recompile. Where amd64's 16-bit windows are
+themselves big-endian (e.g. base32, base64), the s390x layout matches directly.
 
 The `*_gen.go` generators are `//go:build ignore` (go-asmgen is a *build-time*
 tool, not a runtime dependency); the resulting `.s` is committed. Constant
@@ -75,9 +91,20 @@ not emulation:
   `ubuntu-latest` (AMD EPYC, AVX2) are the authoritative amd64 sources.
 - **Native arm64** (the Apple-silicon dev box) for the NEON kernels and the
   `!amd64` generic fallback.
-- **QEMU** for riscv64 (RVV) and loong64 (LSX) — correctness only; QEMU's TCG
-  does not model out-of-order execution, so absolute MB/s under emulation is
-  *not* representative and is never quoted as a headline.
+- **QEMU** for riscv64 (RVV), loong64 (LSX), **ppc64le (VSX)** and **s390x
+  (vector facility)** — correctness only; QEMU's TCG does not model
+  out-of-order execution, so absolute MB/s under emulation is *not*
+  representative and is never quoted as a headline. The cross-built binaries run
+  under `qemu-user` in a **debian:trixie** container with `QEMU_CPU=power9` for
+  ppc64le and `QEMU_CPU=qemu` for s390x, exercising the VSX and z/Architecture
+  vector instructions the kernels emit.
+- **ppc64le / s390x are qemu-validated for correctness, native perf pending.**
+  Both run the official test vectors and the byte-identical differential fuzz
+  suites (and on **big-endian s390x** the output is proven bit-exact), but there
+  is **no GitHub-hosted POWER or IBM Z runner**, so native throughput numbers are
+  not yet measured — and are deliberately *not* invented from the emulated runs.
+  The headline MB/s figures on the repo pages are the native amd64/arm64 results
+  only.
 - **Fuzzing** runs against the stdlib reference on arbitrary input, comparing
   the returned **value and the full error** (e.g. `strconv`'s `*NumError`,
   `hex`'s `InvalidByteError` offset). Direct kernel fuzz targets exercise the
@@ -100,9 +127,16 @@ runtime CPU would otherwise select, so no branch is left unmeasured.
 
 ## Why this matters
 
-The combination — one generator across four ISAs, a cycle model that predicts
-before it measures, real-hardware validation that refuses to trust emulation,
-and a coverage gate that refuses to ship an unexercised branch — is what lets
-go-simd publish **honest** numbers: it beats `emmansun` and `tmthrgd` where it
-says it does, and it openly reports the ~7% gap to `mhr3` and the fact that a
-byte histogram has no SIMD win at all.
+The combination — one generator across **six ISAs**, a cycle model that predicts
+before it measures, real-hardware validation that refuses to trust emulation (and
+qemu-correctness validation where no native runner exists), and a coverage gate
+that refuses to ship an unexercised branch — is what lets go-simd publish
+**honest** numbers: it beats `emmansun` and `tmthrgd` where it says it does, it
+openly reports the ~7% gap to `mhr3` and the fact that a byte histogram has no
+SIMD win at all, and it labels the ppc64le/s390x kernels as correctness-validated
+with native perf pending rather than quoting emulated throughput as if it were a
+headline. A standout of the six-arch port: **base32 gets real SIMD on ppc64le
+(`VSRH`, register-variable vector shift) and s390x (`VMLHH`, integer vector
+multiply-high) precisely where Go's arm64 assembler lacks those two
+primitives** — so POWER and IBM Z run the full spread-extract kernel that NEON
+could not express.
