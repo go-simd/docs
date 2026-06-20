@@ -1028,15 +1028,9 @@ facility)</strong>; the rest fall back to the <code>encoding/hex</code> scalar l
 <code>LXVB16X</code>/<code>STXVB16X</code> (natural memory byte order on little-endian, sidestepping
 the <code>LXVD2X</code> doubleword swap), minding the VSX↔VMX <code>Vn == VS(32+n)</code> aliasing.
 <strong>s390x is big-endian:</strong> <code>VL</code> puts the first memory byte in the high-order lane.
-The ppc64le and s390x kernels are validated for correctness (the
+The ppc64le and s390x kernels are <strong>qemu-validated for correctness</strong> (the
 <code>InvalidByteError</code> offset and <code>ErrLength</code> semantics are byte- and error-identical
-there too). <strong>ppc64le is now measured on real POWER10 silicon</strong> (GCC Compile Farm,
-VSX, Go 1.26.4, June 2026) — encode <strong>~7.6× stdlib</strong> — while <strong>s390x stays
-qemu-validated for correctness with native perf pending</strong> (no GitHub-hosted IBM Z
-runner). <strong>riscv64 (RVV 1.0)</strong> has no <code>VPERM</code>-style table-lookup kernel yet, so on
-the real <strong>SpacemiT X60</strong> host (GCC Compile Farm, Go 1.26.4, June 2026) hex runs the
-scalar <code>encoding/hex</code> path and sits <strong>at stdlib parity</strong> — reported honestly; the
-byte-shuffle lookup is not yet vectorized on riscv64.</p>
+there too); native perf is pending.</p>
 <h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
 <p><strong>Encode</strong> — per 16 input bytes (32 for AVX2): split each byte into high/low
 nibble (<code>PSRLW $4</code>+<code>PAND 0x0f</code>, <code>PAND 0x0f</code>), map each nibble via a <code>PSHUFB</code>

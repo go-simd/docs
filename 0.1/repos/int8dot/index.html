@@ -1196,13 +1196,8 @@ x86-64 under qemu TCG — absolute throughput is depressed by emulation, but the
 </tr>
 </tbody>
 </table>
-<p><strong>ppc64le:</strong> the kernel is now <strong>measured on real POWER10 silicon</strong> (GCC Compile
-Farm, VSX, Go 1.26.4, June 2026) — <strong>~4.1× scalar</strong>. <strong>riscv64:</strong> the RVV widening
-multiply-reduce kernel (<code>VWMULVV</code> + <code>VWREDSUMVS</code>) is now <strong>measured on real SpacemiT
-X60 silicon</strong> (GCC Compile Farm, RVV 1.0, Go 1.26.4, June 2026) — <strong>~9.1× scalar</strong>,
-the largest riscv64 win in the suite (this is an arithmetic-bound kernel, exactly
-what an in-order RVV core does well). <strong>s390x:</strong> <strong>QEMU-validated for correctness;
-native perf pending</strong> a GitHub-hosted IBM Z runner.</p>
+<p><strong>ppc64le / s390x:</strong> the kernels are <strong>QEMU-validated for correctness; native
+perf pending</strong> real POWER / IBM Z hardware.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p><code>Dot</code>/<code>DotUint8</code>/<code>DotU8S8</code> are checked against a straight-line scalar loop by
 table tests, extreme-value tests, and <code>FuzzDot</code>, with <strong>100% statement coverage</strong>

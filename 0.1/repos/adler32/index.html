@@ -1138,17 +1138,9 @@ per-run ratio, stable across four runners):</p>
 <li>Go 1.26's <code>simd/archsimd</code> is amd64-only; this package differentiates by being
   multi-arch (amd64 + riscv64 + arm64-on-1.27 + ppc64le + s390x) and Go 1.20+
   compatible.</li>
-<li><strong>ppc64le</strong>: the VSX even/odd widening-multiply kernel is now <strong>measured on real
-  POWER10 silicon</strong> (GCC Compile Farm, VSX, Go 1.26.4, June 2026) — <strong>~2.1×
-  scalar</strong>.</li>
-<li><strong>riscv64 (RVV 1.0)</strong>: the <code>VWMULU</code> + <code>VWREDSUMU</code> weighted-sum kernel is now
-  <strong>measured on real SpacemiT X60 silicon</strong> (GCC Compile Farm, Go 1.26.4, June 2026)
-  — <strong>~2.4× scalar</strong>, and on this in-order core it edges ahead of <code>mhr3/adler32-simd</code>
-  (whose software-pipelined kernel is tuned for out-of-order x86, not RVV); the win
-  is honest to this silicon, not a general claim over mhr3.</li>
-<li><strong>s390x</strong>: qemu-validated SIMD kernel (the big-endian vector-facility sum);
-  native throughput is pending a GitHub-hosted IBM Z runner, so no s390x MB/s is
-  quoted.</li>
+<li><strong>ppc64le / s390x</strong>: qemu-validated SIMD kernels (the VSX even/odd widening
+  multiply and the big-endian vector-facility sum); native throughput is pending
+  (no POWER/Z runner), so no ppc64le/s390x MB/s is quoted.</li>
 </ul>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p>100% of the Go code across native amd64, native arm64 (stable + gotip/go1.27 for

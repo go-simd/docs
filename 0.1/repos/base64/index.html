@@ -1084,15 +1084,9 @@ at 2.15 cyc/block (vs emmansun's 2.20) and the benchmark <em>confirmed</em> it. 
 keeps <code>VINSERTI128</code> — a <code>-4</code> load there would read before <code>src</code>.)</p>
 <ul>
 <li><strong>arm64</strong>: NEON encode ~2.3× stdlib.</li>
-<li><strong>ppc64le</strong>: the VSX encode kernel is now <strong>measured on real POWER10 silicon</strong>
-  (GCC Compile Farm, VSX, Go 1.26.4, June 2026) — encode <strong>~2.1× scalar</strong>.</li>
-<li><strong>riscv64 (RVV 1.0)</strong>: no RVV encode kernel yet, so on the real <strong>SpacemiT X60</strong>
-  host (GCC Compile Farm, Go 1.26.4, June 2026) base64 runs the scalar
-  <code>encoding/base64</code> path and sits <strong>at stdlib parity</strong> — reported honestly; the
-  byte-shuffle encode is not yet vectorized on riscv64.</li>
-<li><strong>s390x</strong>: qemu-validated SIMD encode kernel (table + fuzz, byte-identical to
-  stdlib on big-endian); native throughput is pending a GitHub-hosted IBM Z
-  runner, so no s390x MB/s is quoted.</li>
+<li><strong>ppc64le / s390x</strong>: qemu-validated SIMD encode kernels (table + fuzz,
+  byte-identical to stdlib, including on big-endian s390x); native throughput is
+  pending (no POWER/Z runner), so no ppc64le/s390x MB/s is quoted.</li>
 <li><strong>decode</strong> is scalar; a SIMD decode is planned.</li>
 <li>cgo wrappers of <code>aklomp/base64</code> are faster still but need a C toolchain —
   excluded from this pure-Go comparison.</li>

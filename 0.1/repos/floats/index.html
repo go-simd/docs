@@ -1228,15 +1228,9 @@ a pipelined scalar <code>FMADD</code>):</p>
 vectors (≈57 GB/s float64, ≈59 GB/s float32 at n=512), and loses only on tiny
 inputs (n ≤ 8) where unroll/setup overhead dominates.</p>
 <p>amd64's AVX2+FMA kernel is correctness-validated on real x86 (an AVX2/FMA VM);
-native throughput is pending (the x86 runner here is TCG-emulated). <strong>ppc64le is
-now validated on real POWER10 silicon</strong> (GCC Compile Farm, VSX, Go 1.26.4, June
-2026). <strong>riscv64 (RVV 1.0) is now measured on real SpacemiT X60 silicon</strong> (GCC
-Compile Farm, Go 1.26.4, June 2026): the <code>VFMUL</code>+<code>VFREDOSUMVS</code> kernel is
-byte-correct, but on the float reductions it lands <strong>at scalar parity</strong> — the Go
-compiler already autovectorizes the naive scalar loop on riscv64, so the explicit RVV
-kernel has no headroom to win here. Reported honestly: a primitive, not a speedup, on
-this core. s390x and loong64 remain <strong>QEMU-validated for correctness; native
-perf pending</strong> real hardware.</p>
+native throughput is pending (the x86 runner here is TCG-emulated). ppc64le,
+s390x, riscv64 and loong64 are <strong>QEMU-validated for correctness; native perf
+pending</strong> real hardware.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p>All six arches validated in CI — amd64/arm64 natively, the other four under QEMU
 (<code>tonistiigi/binfmt</code>) — at <strong>100% test coverage</strong>, with differential tests and

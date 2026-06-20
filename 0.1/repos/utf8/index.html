@@ -1057,7 +1057,7 @@ library, so results match exactly. <a href="https://github.com/go-simd/utf8">Rep
 </tr>
 <tr>
 <td>ppc64le</td>
-<td><strong>VSX/AltiVec</strong> (16 B/block, POWER8 baseline) — measured on real POWER10 (GCC Compile Farm, June 2026): <strong><code>Valid</code> ~7× scalar</strong></td>
+<td><strong>VSX/AltiVec</strong> (16 B/block, POWER8 baseline) — qemu-validated; native perf pending</td>
 </tr>
 <tr>
 <td>s390x</td>
@@ -1135,11 +1135,6 @@ result byte-identical to <code>unicode/utf8.RuneCount</code> on all input.
 runner. Both implement the same Lemire reference; the margin comes from this
 package's tighter go-asmgen-emitted loop and rune-boundary tail split. On a local
 AVX2 VM <code>RuneCount</code> measured ~4.6× stdlib; the native-runner CI fills the headline.</p>
-<p><strong>riscv64 (RVV 1.0):</strong> there is no RVV <code>Valid</code>/<code>RuneCount</code> kernel yet, so on the real
-<strong>SpacemiT X60</strong> host (GCC Compile Farm, Go 1.26.4, June 2026) utf8 runs the scalar
-<code>unicode/utf8</code> path and sits <strong>at stdlib parity</strong> — reported honestly; the
-byte-shuffle classification table is not yet vectorized on riscv64 (NEON/LSX/RVV are
-planned).</p>
 <p><code>charlievieth/simdutf</code> is a cgo wrapper around the C++ simdutf library — excluded
 from this pure-Go comparison.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
