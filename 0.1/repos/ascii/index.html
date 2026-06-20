@@ -1204,7 +1204,10 @@ table tests are the gate.</p>
 <p>The amd64 figures come from a QEMU/TCG VM, so the absolute throughput is
 artificially low (no native silicon was available); only the SIMD-vs-stdlib ratio
 is meaningful there. <strong>ppc64le:</strong> now <strong>measured on real POWER10 silicon</strong> (GCC
-Compile Farm, VSX, Go 1.26.4, June 2026) — <code>ToUpper</code> <strong>~4.1× scalar</strong>. <strong>s390x:</strong>
+Compile Farm, VSX, Go 1.26.4, June 2026) — <code>ToUpper</code> <strong>~4.1× scalar</strong>. <strong>riscv64
+(RVV 1.0):</strong> the masked compare/add kernel is now <strong>measured on real SpacemiT X60
+silicon</strong> (GCC Compile Farm, Go 1.26.4, June 2026) — <code>ToUpper</code> <strong>~2.2× scalar</strong> (an
+arithmetic predicate the in-order core handles well). <strong>s390x:</strong>
 <strong>QEMU-validated for correctness; native perf pending</strong> a GitHub-hosted IBM Z
 runner.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>

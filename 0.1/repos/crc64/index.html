@@ -1118,8 +1118,12 @@ advantage (≈2× in a virtualized measurement environment, higher on native
 silicon).</p>
 <p><strong>ppc64le:</strong> the <code>VPMSUMD</code> kernel is now <strong>measured on real POWER10 silicon</strong> (GCC
 Compile Farm, VSX, Go 1.26.4, June 2026) — <strong>~5.7× scalar</strong> on a 1 MiB buffer.
-<strong>s390x:</strong> the <code>VGFMAG</code> kernel stays <strong>QEMU-validated for correctness; native perf
-pending</strong> a GitHub-hosted IBM Z runner.</p>
+<strong>riscv64:</strong> <strong>scalar by design</strong> — Go does not yet expose the Zbc carry-less
+multiply, so there is no CLMUL folding kernel; confirmed on the real <strong>SpacemiT X60</strong>
+host (GCC Compile Farm, RVV 1.0, Go 1.26.4, June 2026) running the portable slicing
+table at <strong>stdlib parity</strong>, reported honestly (no riscv64 crc64 win until Go exposes
+Zbc). <strong>s390x:</strong> the <code>VGFMAG</code> kernel stays <strong>QEMU-validated for correctness; native
+perf pending</strong> a GitHub-hosted IBM Z runner.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p><code>FuzzChecksum</code> compares against <code>hash/crc64</code> (ISO and ECMA) on arbitrary inputs,
 plus exhaustive length sweeps across all block boundaries for ISO, ECMA and a

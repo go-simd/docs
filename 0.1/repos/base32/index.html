@@ -1103,6 +1103,11 @@ serial extract chain — inherent to the format.</p>
   <code>USHL</code> nor an integer vector multiply. POWER and IBM Z provide both, so they
   get <strong>real SIMD where arm64 cannot</strong> — and <strong>arm64 / loong64 / riscv64</strong> fall
   back to <code>encoding/base32</code>.</li>
+<li><strong>riscv64 (RVV 1.0):</strong> there is no RVV encode kernel yet, so on the real
+  <strong>SpacemiT X60</strong> host (GCC Compile Farm, Go 1.26.4, June 2026) base32 runs the
+  scalar <code>encoding/base32</code> path and sits <strong>at stdlib parity</strong> — reported honestly:
+  the byte-shuffle encode is not yet vectorized on riscv64, and an in-order RVV core
+  would in any case hide gather latency poorly.</li>
 <li><strong>decode</strong> is scalar on every arch, keeping RFC 4648 error semantics identical
   to stdlib.</li>
 </ul>

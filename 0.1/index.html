@@ -978,8 +978,17 @@ standard library so results match exactly.</p>
 <code>cmd/asm</code> encodes them. <strong>ppc64le is now measured on real silicon</strong> — a POWER10
 host on the <a href="https://portal.cfarm.net/">GCC Compile Farm</a> (VSX, Go 1.26.4, June 2026) — confirming the
 VSX kernels are not merely correct but fast: matchlen <strong>6.3× scalar</strong>, streamvbyte
-decode <strong>11.9×</strong>, hex encode <strong>7.6×</strong>, utf8 validate <strong>7×</strong>, crc64 <strong>5.7×</strong>. The
-s390x backend stays <strong>qemu-validated for correctness</strong> (official vectors,
+decode <strong>11.9×</strong>, hex encode <strong>7.6×</strong>, utf8 validate <strong>7×</strong>, crc64 <strong>5.7×</strong>.
+<strong>riscv64 (RVV 1.0) is now measured on real silicon too</strong> — a <strong>SpacemiT X60</strong> host
+on the <a href="https://portal.cfarm.net/">GCC Compile Farm</a> (Go 1.26.4, June 2026), the only widely-available
+RVV silicon and a low-power <em>in-order</em> core, so the result is an honest
+microarchitecture split. The <strong>arithmetic-bound kernels win big</strong>: int8dot <strong>9.1×</strong>,
+matchlen <strong>5.8×</strong>, jsonvalidate <strong>5.2×</strong>, streamvbyte decode <strong>4.5×</strong>, ascii85
+<strong>4.1×</strong>, adler32 <strong>2.4×</strong> (beating <code>mhr3</code> on this core), ascii <strong>2.2×</strong>. The
+<strong>byte-shuffle kernels</strong> (base64, base32, hex, utf8) sit <strong>at scalar parity</strong> on an
+in-order pipeline, and <strong>popcount</strong> is at parity (barakmich's SWAR loop is ~5.5×
+faster here) — an out-of-order RVV core would likely lift the shuffle kernels too.
+The s390x backend stays <strong>qemu-validated for correctness</strong> (official vectors,
 byte-identical fuzz on the big-endian target) — <strong>native throughput pending</strong> (no
 GitHub-hosted IBM Z runner yet), so no s390x throughput numbers are claimed. And
 beyond the six SIMD targets, the whole suite is now <strong>build- and test-validated on
@@ -1134,8 +1143,11 @@ vector-SIMD</strong> — its word-serial Myers column has no lane parallelism (d
 needs <strong>Go 1.27</strong>, scalar below); and <a href="repos/ascii/"><code>ascii</code></a> runs real SIMD
 case-folding on arm64 too, via a multiply-free sign-bit predicate (<strong>~4.9×
 stdlib</strong>). As elsewhere in the org, <strong>ppc64le is now natively measured</strong> on a real
-POWER10 host (GCC Compile Farm, June 2026), while <strong>s390x stays QEMU-validated for
-correctness with native perf pending</strong> real IBM Z hardware (no invented numbers);
+POWER10 host and <strong>riscv64 (RVV 1.0) on a real SpacemiT X60 host</strong> (both GCC Compile
+Farm, June 2026) — the X60's in-order pipeline yields an honest split, arithmetic
+kernels winning (int8dot <strong>9.1×</strong>, matchlen <strong>5.8×</strong>) while byte-shuffle kernels sit
+at scalar parity — while <strong>s390x stays QEMU-validated for correctness with native
+perf pending</strong> real IBM Z hardware (no invented numbers);
 the suite additionally builds and passes its differential + fuzz tests on a
 <strong>seventh arch, ppc64 big-endian</strong>, on real POWER9.</p>
 <p>Read the <a href="methodology/">methodology</a> for the check-existing → go-asmgen →

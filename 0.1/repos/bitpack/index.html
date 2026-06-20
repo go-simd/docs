@@ -986,9 +986,13 @@ is little-endian so words load/store directly; <strong>s390x is big-endian</stro
 so no fix-up is needed, and the big-endian port produces the same bytes as
 scalar/simdcomp. Every path is byte-exact — verified by table tests, a
 scalar-equality test, and <code>FuzzPack</code>/<code>FuzzUnpack</code>. <strong>ppc64le is now validated on
-real POWER10 silicon</strong> (GCC Compile Farm, VSX, Go 1.26.4, June 2026); the <strong>s390x</strong>
-kernel stays <strong>qemu-validated for correctness with native perf pending</strong> a
-GitHub-hosted IBM Z runner.</p>
+real POWER10 silicon</strong> (GCC Compile Farm, VSX, Go 1.26.4, June 2026). <strong>riscv64
+(RVV 1.0) is now measured on real SpacemiT X60 silicon</strong> (GCC Compile Farm, Go
+1.26.4, June 2026): there is no RVV bitpack kernel, so it runs the scalar reference
+and lands <strong>at parity</strong> — the Go compiler already autovectorizes the naive
+pack/unpack loop on riscv64, so an explicit kernel would not beat it. Reported
+honestly, not as a win. The <strong>s390x</strong> kernel stays <strong>qemu-validated for correctness
+with native perf pending</strong> a GitHub-hosted IBM Z runner.</p>
 <h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
 <p>Native amd64 (ubuntu-latest CI, AVX2, <code>-count=6</code>), throughput over the input
 <code>uint32</code> stream, <strong>vs the package's own scalar reference</strong>:</p>
