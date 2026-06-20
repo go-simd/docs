@@ -81,9 +81,12 @@ Honest notes:
 - Go 1.26's `simd/archsimd` is amd64-only; this package differentiates by being
   multi-arch (amd64 + riscv64 + arm64-on-1.27 + ppc64le + s390x) and Go 1.20+
   compatible.
-- **ppc64le / s390x**: qemu-validated SIMD kernels (the VSX even/odd widening
-  multiply and the big-endian vector-facility sum); native throughput is pending
-  (no POWER/Z runner), so no ppc64le/s390x MB/s is quoted.
+- **ppc64le**: the VSX even/odd widening-multiply kernel is now **measured on real
+  POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June 2026) — **~2.1×
+  scalar**.
+- **s390x**: qemu-validated SIMD kernel (the big-endian vector-facility sum);
+  native throughput is pending a GitHub-hosted IBM Z runner, so no s390x MB/s is
+  quoted.
 
 ## Coverage
 

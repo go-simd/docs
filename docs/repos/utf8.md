@@ -21,7 +21,7 @@ n  := utf8.RuneCountInString(s)  // same int  as unicode/utf8.RuneCountInString
 | arch | kernel |
 |---|---|
 | amd64 | **SSE2/SSSE3 + SSE4.1** (16 B/block) and **AVX2** (32 B/block), runtime-dispatched |
-| ppc64le | **VSX/AltiVec** (16 B/block, POWER8 baseline) — qemu-validated; native perf pending |
+| ppc64le | **VSX/AltiVec** (16 B/block, POWER8 baseline) — measured on real POWER10 (GCC Compile Farm, June 2026): **`Valid` ~7× scalar** |
 | s390x | **vector facility** (16 B/block, z13 baseline, **big-endian**) — qemu-validated; native perf pending |
 | arm64 / loong64 / riscv64 | scalar (`unicode/utf8`) — NEON/LSX/RVV planned |
 

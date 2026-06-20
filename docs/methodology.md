@@ -98,13 +98,24 @@ not emulation:
   under `qemu-user` in a **debian:trixie** container with `QEMU_CPU=power9` for
   ppc64le and `QEMU_CPU=qemu` for s390x, exercising the VSX and z/Architecture
   vector instructions the kernels emit.
-- **ppc64le / s390x are qemu-validated for correctness, native perf pending.**
-  Both run the official test vectors and the byte-identical differential fuzz
-  suites (and on **big-endian s390x** the output is proven bit-exact), but there
-  is **no GitHub-hosted POWER or IBM Z runner**, so native throughput numbers are
-  not yet measured — and are deliberately *not* invented from the emulated runs.
-  The headline MB/s figures on the repo pages are the native amd64/arm64 results
-  only.
+- **ppc64le is now natively measured on real silicon.** Beyond the qemu
+  correctness run, the VSX kernels are benchmarked on a **POWER10 host on the
+  [GCC Compile Farm](https://portal.cfarm.net/)** (VSX, Go 1.26.4, June 2026),
+  confirming they are fast as well as correct: matchlen **6.3× scalar**,
+  streamvbyte decode **11.9×**, hex encode **7.6×**, utf8 validate **7×**, crc64
+  **5.7×**. These ppc64le headline numbers are real native measurements, not
+  emulated.
+- **s390x is qemu-validated for correctness, native perf pending.** It runs the
+  official test vectors and the byte-identical differential fuzz suites (and on
+  **big-endian s390x** the output is proven bit-exact), but there is **no
+  GitHub-hosted IBM Z runner**, so native throughput numbers are not yet measured
+  — and are deliberately *not* invented from the emulated runs.
+- **A seventh architecture, ppc64 (big-endian), is build- and test-validated on
+  real POWER9 silicon** (GCC Compile Farm). It has no VSX build tag, so it runs
+  the **portable generic fallback path** — proven bit-exact on a big-endian target
+  *distinct from* s390x's own vector kernel, adding cross-endian correctness
+  coverage. SIMD acceleration itself stays on the six SIMD targets: **six SIMD
+  targets, validated on seven architectures.**
 - **Fuzzing** runs against the stdlib reference on arbitrary input, comparing
   the returned **value and the full error** (e.g. `strconv`'s `*NumError`,
   `hex`'s `InvalidByteError` offset). Direct kernel fuzz targets exercise the
@@ -133,9 +144,13 @@ qemu-correctness validation where no native runner exists), and a coverage gate
 that refuses to ship an unexercised branch — is what lets go-simd publish
 **honest** numbers: it beats `emmansun` and `tmthrgd` where it says it does, it
 openly reports the ~7% gap to `mhr3` and the fact that a byte histogram has no
-SIMD win at all, and it labels the ppc64le/s390x kernels as correctness-validated
-with native perf pending rather than quoting emulated throughput as if it were a
-headline. A standout of the six-arch port: **base32 gets real SIMD on ppc64le
+SIMD win at all, and — now that **ppc64le is measured on a real POWER10 host** —
+it surfaces those native VSX speedups while still labelling **s390x** as
+correctness-validated with native perf pending (no IBM Z runner) rather than
+quoting emulated throughput as if it were a headline. Correctness now spans a
+**seventh architecture, ppc64 big-endian** (real POWER9, generic fallback path),
+even though SIMD acceleration stays on six targets. A standout of the six-arch
+port: **base32 gets real SIMD on ppc64le
 (`VSRH`, register-variable vector shift) and s390x (`VMLHH`, integer vector
 multiply-high) precisely where Go's arm64 assembler lacks those two
 primitives** — so POWER and IBM Z run the full spread-extract kernel that NEON

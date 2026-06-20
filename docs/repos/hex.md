@@ -30,9 +30,12 @@ facility)**; the rest fall back to the `encoding/hex` scalar loop. ppc64le uses
 `LXVB16X`/`STXVB16X` (natural memory byte order on little-endian, sidestepping
 the `LXVD2X` doubleword swap), minding the VSX↔VMX `Vn == VS(32+n)` aliasing.
 **s390x is big-endian:** `VL` puts the first memory byte in the high-order lane.
-The ppc64le and s390x kernels are **qemu-validated for correctness** (the
+The ppc64le and s390x kernels are validated for correctness (the
 `InvalidByteError` offset and `ErrLength` semantics are byte- and error-identical
-there too); native perf is pending.
+there too). **ppc64le is now measured on real POWER10 silicon** (GCC Compile Farm,
+VSX, Go 1.26.4, June 2026) — encode **~7.6× stdlib** — while **s390x stays
+qemu-validated for correctness with native perf pending** (no GitHub-hosted IBM Z
+runner).
 
 ## Algorithm
 

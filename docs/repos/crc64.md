@@ -76,8 +76,10 @@ scalar path, so small inputs are never slower than the standard library.
 advantage (≈2× in a virtualized measurement environment, higher on native
 silicon).
 
-**ppc64le / s390x:** the `VPMSUMD` and `VGFMAG` kernels are **QEMU-validated for
-correctness; native perf pending** access to real POWER / IBM Z systems.
+**ppc64le:** the `VPMSUMD` kernel is now **measured on real POWER10 silicon** (GCC
+Compile Farm, VSX, Go 1.26.4, June 2026) — **~5.7× scalar** on a 1 MiB buffer.
+**s390x:** the `VGFMAG` kernel stays **QEMU-validated for correctness; native perf
+pending** a GitHub-hosted IBM Z runner.
 
 ## Coverage
 

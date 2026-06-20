@@ -23,8 +23,11 @@ The encode fast path covers **four ISAs across six architectures**. **ppc64le
 and s390x run the *full* spread-extract kernel — the same algorithm amd64 uses —
 because POWER (VSX) and IBM Z (vector facility) provide the per-lane variable
 shift / integer vector multiply that arm64 NEON lacks** (see below). The ppc64le
-and s390x kernels are **qemu-validated for correctness** (official vectors,
-byte-identical fuzz); native perf is pending (no POWER/Z runner).
+and s390x kernels are validated for correctness (official vectors, byte-identical
+fuzz). **ppc64le is now measured on real POWER10 silicon** (GCC Compile Farm, VSX,
+Go 1.26.4, June 2026) — decode **~5.5× scalar** — while **s390x stays
+qemu-validated for correctness with native perf pending** (no GitHub-hosted IBM Z
+runner).
 
 ## Algorithm
 

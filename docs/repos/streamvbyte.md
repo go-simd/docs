@@ -87,13 +87,17 @@ It complements [`bitpack`](bitpack.md).
 |---|---|---|---|
 | **arm64** (Apple M-series, native) | ~18.6 GB/s | ~1.9 GB/s | **~10×** |
 | **amd64** (emulated VM*) | ~0.73 GB/s | ~0.32 GB/s | ~2.3× |
-| **ppc64le / s390x** | qemu-validated; native perf pending | — | — |
+| **ppc64le** (POWER10, native†) | — | — | **~11.9×** |
+| **s390x** | qemu-validated; native perf pending | — | — |
 | **riscv64 / loong64** | qemu-validated; native perf pending | — | — |
 
 \* The amd64 figure was measured inside an emulated x86-64 VM (no hardware
 virtualization on the dev host), so it understates native silicon by a large
 margin; treat it as a correctness-grade lower bound. Decode is the algorithm's
 strong suit; encode is scalar and runs at a few GB/s.
+
+† The ppc64le decode figure is a **native** measurement on a real POWER10 host
+(GCC Compile Farm, VSX, Go 1.26.4, June 2026), not emulated.
 
 ## Coverage
 

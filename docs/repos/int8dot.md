@@ -94,8 +94,9 @@ x86-64 under qemu TCG — absolute throughput is depressed by emulation, but the
 |----:|-------:|-----:|--------:|
 | 256 | 254 MB/s | 836 MB/s | **~3.3×** |
 
-**ppc64le / s390x:** the kernels are **QEMU-validated for correctness; native
-perf pending** real POWER / IBM Z hardware.
+**ppc64le:** the kernel is now **measured on real POWER10 silicon** (GCC Compile
+Farm, VSX, Go 1.26.4, June 2026) — **~4.1× scalar**. **s390x:** **QEMU-validated
+for correctness; native perf pending** a GitHub-hosted IBM Z runner.
 
 ## Coverage
 

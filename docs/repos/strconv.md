@@ -29,9 +29,11 @@ and s390x kernels are SIMD; arm64, loong64 and riscv64 use the scalar fold
 (NEON/LSX/RVV ports planned). The VSX and z/Architecture kernels mirror the amd64
 staged multiply-accumulate. On **big-endian s390x**, the digits are loaded with
 `VL` (element 0 = most significant digit) and the power-of-ten weights are laid
-out in big-endian lane order — the result is bit-identical to `strconv`. ppc64le
-and s390x are **qemu-validated for correctness** (value **and** full error string
-matched against `strconv` under `qemu-user`); native perf is pending.
+out in big-endian lane order — the result is bit-identical to `strconv`. Both are
+validated for correctness (value **and** full error string matched against
+`strconv`). **ppc64le is now validated on real POWER10 silicon** (GCC Compile
+Farm, VSX, Go 1.26.4, June 2026); **s390x stays qemu-validated for correctness
+with native perf pending** a GitHub-hosted IBM Z runner.
 
 ## Correctness first
 

@@ -34,8 +34,10 @@ need no runtime feature dispatch — the SIMD path is simply the arch's only pat
 mismatching byte is the *first* `VFENEBS` element. lz4-style callers that need a
 remaining architecture use a portable 8-byte-word scalar fallback. The result is
 bit-identical everywhere — including big-endian s390x — checked vs a byte-by-byte
-reference and fuzzed; ppc64le and s390x are **qemu-validated for correctness**,
-native perf pending.
+reference and fuzzed. **ppc64le is now measured on real POWER10 silicon** (GCC
+Compile Farm, VSX, Go 1.26.4, June 2026) — **~6.3× scalar** — while **s390x stays
+qemu-validated for correctness with native perf pending** (no GitHub-hosted IBM Z
+runner).
 
 ## Performance
 

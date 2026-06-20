@@ -85,7 +85,7 @@ are committed).
 | arm64 | native, table + 60k random + `-fuzz` | native |
 | riscv64 | qemu `rv64,v=true,vlen=128`, table + 60k random | qemu-validated |
 | loong64 | qemu `la464`, table + 60k random | qemu-validated |
-| ppc64le | qemu `power9`, table + 60k random | qemu-validated; native perf pending |
+| ppc64le | qemu `power9` + native POWER10 (GCC Compile Farm) | measured native: string-heavy **~8.5× scalar** |
 | s390x | qemu (big-endian), table + 60k random | qemu-validated; native perf pending |
 
 ## Performance — honest

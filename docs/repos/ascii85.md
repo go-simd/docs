@@ -86,7 +86,9 @@ empirically under QEMU** before the kernel was assembled, then verified against
   non-QEMU amd64 host was available to benchmark; QEMU TCG makes SIMD
   disproportionately expensive, so its numbers are not representative. Native
   amd64 throughput is **pending real hardware**.
-- **ppc64le / s390x / riscv64 / loong64**: real SIMD kernels, **QEMU-validated
+- **ppc64le**: real SIMD kernel, now **validated on real POWER10 silicon** (GCC
+  Compile Farm, VSX, Go 1.26.4, June 2026), byte-identical to `encoding/ascii85`.
+- **s390x / riscv64 / loong64**: real SIMD kernels, **QEMU-validated
   (byte-identical to `encoding/ascii85`); native perf pending** real silicon.
 
 `Decode` is the standard library's (whitespace skipping, the `z` shortcut, flush

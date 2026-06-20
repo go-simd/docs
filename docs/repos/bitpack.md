@@ -26,8 +26,10 @@ is little-endian so words load/store directly; **s390x is big-endian** — the
 `uint32` arrays are native big-endian and the vector facility is big-endian too,
 so no fix-up is needed, and the big-endian port produces the same bytes as
 scalar/simdcomp. Every path is byte-exact — verified by table tests, a
-scalar-equality test, and `FuzzPack`/`FuzzUnpack`. The ppc64le and s390x kernels
-are **qemu-validated for correctness**; native perf is pending.
+scalar-equality test, and `FuzzPack`/`FuzzUnpack`. **ppc64le is now validated on
+real POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June 2026); the **s390x**
+kernel stays **qemu-validated for correctness with native perf pending** a
+GitHub-hosted IBM Z runner.
 
 ## Performance
 

@@ -92,9 +92,10 @@ vectors (≈57 GB/s float64, ≈59 GB/s float32 at n=512), and loses only on tin
 inputs (n ≤ 8) where unroll/setup overhead dominates.
 
 amd64's AVX2+FMA kernel is correctness-validated on real x86 (an AVX2/FMA VM);
-native throughput is pending (the x86 runner here is TCG-emulated). ppc64le,
-s390x, riscv64 and loong64 are **QEMU-validated for correctness; native perf
-pending** real hardware.
+native throughput is pending (the x86 runner here is TCG-emulated). **ppc64le is
+now validated on real POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June
+2026); s390x, riscv64 and loong64 are **QEMU-validated for correctness; native
+perf pending** real hardware.
 
 ## Coverage
 
