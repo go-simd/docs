@@ -94,13 +94,8 @@ SIMD vs the standard library over a 4 KiB ASCII buffer (`-count=3`, medians):
 
 The amd64 figures come from a QEMU/TCG VM, so the absolute throughput is
 artificially low (no native silicon was available); only the SIMD-vs-stdlib ratio
-is meaningful there. **ppc64le:** now **measured on real POWER10 silicon** (GCC
-Compile Farm, VSX, Go 1.26.4, June 2026) — `ToUpper` **~4.1× scalar**. **riscv64
-(RVV 1.0):** the masked compare/add kernel is now **measured on real SpacemiT X60
-silicon** (GCC Compile Farm, Go 1.26.4, June 2026) — `ToUpper` **~2.2× scalar** (an
-arithmetic predicate the in-order core handles well). **s390x:**
-**QEMU-validated for correctness; native perf pending** a GitHub-hosted IBM Z
-runner.
+is meaningful there. **ppc64le / s390x:** the kernels are **QEMU-validated for
+correctness; native perf pending** real POWER / IBM Z hardware.
 
 ## Coverage
 
