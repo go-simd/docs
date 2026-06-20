@@ -78,6 +78,12 @@ byte popcount, and Go's assembler exposes only `vcpop.m` (a *mask* popcount), no
 Zvbb's `vcpop.v`. riscv64 uses the portable `OnesCount64` word loop. If/when Go's
 assembler gains `vcpop.v`, a kernel can be added without an API change.
 
+Measured on the real **SpacemiT X60** host (GCC Compile Farm, RVV 1.0, Go 1.26.4,
+June 2026), `Count` runs the portable word loop and sits **at parity** with the
+scalar baseline — honestly, [`barakmich/go-popcount`](https://github.com/barakmich/go-popcount)'s
+hand-tuned SWAR loop is **~5.5× faster** on this core, so go-simd does **not** claim a
+riscv64 popcount win.
+
 ## Coverage
 
 100% of the Go code on every architecture (native amd64 + arm64; riscv64 +

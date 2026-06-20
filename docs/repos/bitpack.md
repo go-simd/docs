@@ -27,9 +27,13 @@ is little-endian so words load/store directly; **s390x is big-endian** — the
 so no fix-up is needed, and the big-endian port produces the same bytes as
 scalar/simdcomp. Every path is byte-exact — verified by table tests, a
 scalar-equality test, and `FuzzPack`/`FuzzUnpack`. **ppc64le is now validated on
-real POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June 2026); the **s390x**
-kernel stays **qemu-validated for correctness with native perf pending** a
-GitHub-hosted IBM Z runner.
+real POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June 2026). **riscv64
+(RVV 1.0) is now measured on real SpacemiT X60 silicon** (GCC Compile Farm, Go
+1.26.4, June 2026): there is no RVV bitpack kernel, so it runs the scalar reference
+and lands **at parity** — the Go compiler already autovectorizes the naive
+pack/unpack loop on riscv64, so an explicit kernel would not beat it. Reported
+honestly, not as a win. The **s390x** kernel stays **qemu-validated for correctness
+with native perf pending** a GitHub-hosted IBM Z runner.
 
 ## Performance
 

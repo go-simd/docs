@@ -84,6 +84,11 @@ Honest notes:
 - **ppc64le**: the VSX even/odd widening-multiply kernel is now **measured on real
   POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June 2026) — **~2.1×
   scalar**.
+- **riscv64 (RVV 1.0)**: the `VWMULU` + `VWREDSUMU` weighted-sum kernel is now
+  **measured on real SpacemiT X60 silicon** (GCC Compile Farm, Go 1.26.4, June 2026)
+  — **~2.4× scalar**, and on this in-order core it edges ahead of `mhr3/adler32-simd`
+  (whose software-pipelined kernel is tuned for out-of-order x86, not RVV); the win
+  is honest to this silicon, not a general claim over mhr3.
 - **s390x**: qemu-validated SIMD kernel (the big-endian vector-facility sum);
   native throughput is pending a GitHub-hosted IBM Z runner, so no s390x MB/s is
   quoted.

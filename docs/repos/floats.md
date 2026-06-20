@@ -94,7 +94,12 @@ inputs (n ≤ 8) where unroll/setup overhead dominates.
 amd64's AVX2+FMA kernel is correctness-validated on real x86 (an AVX2/FMA VM);
 native throughput is pending (the x86 runner here is TCG-emulated). **ppc64le is
 now validated on real POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June
-2026); s390x, riscv64 and loong64 are **QEMU-validated for correctness; native
+2026). **riscv64 (RVV 1.0) is now measured on real SpacemiT X60 silicon** (GCC
+Compile Farm, Go 1.26.4, June 2026): the `VFMUL`+`VFREDOSUMVS` kernel is
+byte-correct, but on the float reductions it lands **at scalar parity** — the Go
+compiler already autovectorizes the naive scalar loop on riscv64, so the explicit RVV
+kernel has no headroom to win here. Reported honestly: a primitive, not a speedup, on
+this core. s390x and loong64 remain **QEMU-validated for correctness; native
 perf pending** real hardware.
 
 ## Coverage

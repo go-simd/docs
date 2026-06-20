@@ -76,6 +76,12 @@ runner. Both implement the same Lemire reference; the margin comes from this
 package's tighter go-asmgen-emitted loop and rune-boundary tail split. On a local
 AVX2 VM `RuneCount` measured ~4.6× stdlib; the native-runner CI fills the headline.
 
+**riscv64 (RVV 1.0):** there is no RVV `Valid`/`RuneCount` kernel yet, so on the real
+**SpacemiT X60** host (GCC Compile Farm, Go 1.26.4, June 2026) utf8 runs the scalar
+`unicode/utf8` path and sits **at stdlib parity** — reported honestly; the
+byte-shuffle classification table is not yet vectorized on riscv64 (NEON/LSX/RVV are
+planned).
+
 `charlievieth/simdutf` is a cgo wrapper around the C++ simdutf library — excluded
 from this pure-Go comparison.
 

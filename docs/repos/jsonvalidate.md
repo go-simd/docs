@@ -83,7 +83,7 @@ are committed).
 |---|---|---|
 | amd64 (AVX2 + SSE) | native x86_64 VM, table + 60k random + `-fuzz` (both paths) | native |
 | arm64 | native, table + 60k random + `-fuzz` | native |
-| riscv64 | qemu `rv64,v=true,vlen=128`, table + 60k random | qemu-validated |
+| riscv64 | qemu `rv64,v=true,vlen=128` + native SpacemiT X60 (GCC Compile Farm, RVV 1.0) | measured native: string-heavy **~5.2× scalar** |
 | loong64 | qemu `la464`, table + 60k random | qemu-validated |
 | ppc64le | qemu `power9` + native POWER10 (GCC Compile Farm) | measured native: string-heavy **~8.5× scalar** |
 | s390x | qemu (big-endian), table + 60k random | qemu-validated; native perf pending |

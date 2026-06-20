@@ -95,8 +95,12 @@ x86-64 under qemu TCG — absolute throughput is depressed by emulation, but the
 | 256 | 254 MB/s | 836 MB/s | **~3.3×** |
 
 **ppc64le:** the kernel is now **measured on real POWER10 silicon** (GCC Compile
-Farm, VSX, Go 1.26.4, June 2026) — **~4.1× scalar**. **s390x:** **QEMU-validated
-for correctness; native perf pending** a GitHub-hosted IBM Z runner.
+Farm, VSX, Go 1.26.4, June 2026) — **~4.1× scalar**. **riscv64:** the RVV widening
+multiply-reduce kernel (`VWMULVV` + `VWREDSUMVS`) is now **measured on real SpacemiT
+X60 silicon** (GCC Compile Farm, RVV 1.0, Go 1.26.4, June 2026) — **~9.1× scalar**,
+the largest riscv64 win in the suite (this is an arithmetic-bound kernel, exactly
+what an in-order RVV core does well). **s390x:** **QEMU-validated for correctness;
+native perf pending** a GitHub-hosted IBM Z runner.
 
 ## Coverage
 

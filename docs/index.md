@@ -20,8 +20,17 @@ standard library so results match exactly.
 `cmd/asm` encodes them. **ppc64le is now measured on real silicon** — a POWER10
 host on the [GCC Compile Farm][cfarm] (VSX, Go 1.26.4, June 2026) — confirming the
 VSX kernels are not merely correct but fast: matchlen **6.3× scalar**, streamvbyte
-decode **11.9×**, hex encode **7.6×**, utf8 validate **7×**, crc64 **5.7×**. The
-s390x backend stays **qemu-validated for correctness** (official vectors,
+decode **11.9×**, hex encode **7.6×**, utf8 validate **7×**, crc64 **5.7×**.
+**riscv64 (RVV 1.0) is now measured on real silicon too** — a **SpacemiT X60** host
+on the [GCC Compile Farm][cfarm] (Go 1.26.4, June 2026), the only widely-available
+RVV silicon and a low-power *in-order* core, so the result is an honest
+microarchitecture split. The **arithmetic-bound kernels win big**: int8dot **9.1×**,
+matchlen **5.8×**, jsonvalidate **5.2×**, streamvbyte decode **4.5×**, ascii85
+**4.1×**, adler32 **2.4×** (beating `mhr3` on this core), ascii **2.2×**. The
+**byte-shuffle kernels** (base64, base32, hex, utf8) sit **at scalar parity** on an
+in-order pipeline, and **popcount** is at parity (barakmich's SWAR loop is ~5.5×
+faster here) — an out-of-order RVV core would likely lift the shuffle kernels too.
+The s390x backend stays **qemu-validated for correctness** (official vectors,
 byte-identical fuzz on the big-endian target) — **native throughput pending** (no
 GitHub-hosted IBM Z runner yet), so no s390x throughput numbers are claimed. And
 beyond the six SIMD targets, the whole suite is now **build- and test-validated on
@@ -89,8 +98,11 @@ vector-SIMD** — its word-serial Myers column has no lane parallelism (document
 needs **Go 1.27**, scalar below); and [`ascii`](repos/ascii.md) runs real SIMD
 case-folding on arm64 too, via a multiply-free sign-bit predicate (**~4.9×
 stdlib**). As elsewhere in the org, **ppc64le is now natively measured** on a real
-POWER10 host (GCC Compile Farm, June 2026), while **s390x stays QEMU-validated for
-correctness with native perf pending** real IBM Z hardware (no invented numbers);
+POWER10 host and **riscv64 (RVV 1.0) on a real SpacemiT X60 host** (both GCC Compile
+Farm, June 2026) — the X60's in-order pipeline yields an honest split, arithmetic
+kernels winning (int8dot **9.1×**, matchlen **5.8×**) while byte-shuffle kernels sit
+at scalar parity — while **s390x stays QEMU-validated for correctness with native
+perf pending** real IBM Z hardware (no invented numbers);
 the suite additionally builds and passes its differential + fuzz tests on a
 **seventh arch, ppc64 big-endian**, on real POWER9.
 
