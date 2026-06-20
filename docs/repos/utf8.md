@@ -21,7 +21,7 @@ n  := utf8.RuneCountInString(s)  // same int  as unicode/utf8.RuneCountInString
 | arch | kernel |
 |---|---|
 | amd64 | **SSE2/SSSE3 + SSE4.1** (16 B/block) and **AVX2** (32 B/block), runtime-dispatched |
-| ppc64le | **VSX/AltiVec** (16 B/block, POWER8 baseline) — measured on real POWER10 (GCC Compile Farm, June 2026): **`Valid` ~7× scalar** |
+| ppc64le | **VSX/AltiVec** (16 B/block, POWER8 baseline) — qemu-validated; native perf pending |
 | s390x | **vector facility** (16 B/block, z13 baseline, **big-endian**) — qemu-validated; native perf pending |
 | arm64 / loong64 / riscv64 | scalar (`unicode/utf8`) — NEON/LSX/RVV planned |
 
@@ -75,12 +75,6 @@ This package edges the competitor by ~3.5% and beats stdlib ~19× on this AVX2
 runner. Both implement the same Lemire reference; the margin comes from this
 package's tighter go-asmgen-emitted loop and rune-boundary tail split. On a local
 AVX2 VM `RuneCount` measured ~4.6× stdlib; the native-runner CI fills the headline.
-
-**riscv64 (RVV 1.0):** there is no RVV `Valid`/`RuneCount` kernel yet, so on the real
-**SpacemiT X60** host (GCC Compile Farm, Go 1.26.4, June 2026) utf8 runs the scalar
-`unicode/utf8` path and sits **at stdlib parity** — reported honestly; the
-byte-shuffle classification table is not yet vectorized on riscv64 (NEON/LSX/RVV are
-planned).
 
 `charlievieth/simdutf` is a cgo wrapper around the C++ simdutf library — excluded
 from this pure-Go comparison.

@@ -30,15 +30,9 @@ facility)**; the rest fall back to the `encoding/hex` scalar loop. ppc64le uses
 `LXVB16X`/`STXVB16X` (natural memory byte order on little-endian, sidestepping
 the `LXVD2X` doubleword swap), minding the VSX↔VMX `Vn == VS(32+n)` aliasing.
 **s390x is big-endian:** `VL` puts the first memory byte in the high-order lane.
-The ppc64le and s390x kernels are validated for correctness (the
+The ppc64le and s390x kernels are **qemu-validated for correctness** (the
 `InvalidByteError` offset and `ErrLength` semantics are byte- and error-identical
-there too). **ppc64le is now measured on real POWER10 silicon** (GCC Compile Farm,
-VSX, Go 1.26.4, June 2026) — encode **~7.6× stdlib** — while **s390x stays
-qemu-validated for correctness with native perf pending** (no GitHub-hosted IBM Z
-runner). **riscv64 (RVV 1.0)** has no `VPERM`-style table-lookup kernel yet, so on
-the real **SpacemiT X60** host (GCC Compile Farm, Go 1.26.4, June 2026) hex runs the
-scalar `encoding/hex` path and sits **at stdlib parity** — reported honestly; the
-byte-shuffle lookup is not yet vectorized on riscv64.
+there too); native perf is pending.
 
 ## Algorithm
 

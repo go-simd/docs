@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/go-simd/brand/main/social/go-simd.png" alt="go-simd/docs" width="720"></p>
+
 # go-simd/docs
 
 Versioned documentation for [go-simd](https://github.com/go-simd), built with

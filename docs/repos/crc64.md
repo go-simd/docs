@@ -76,14 +76,8 @@ scalar path, so small inputs are never slower than the standard library.
 advantage (≈2× in a virtualized measurement environment, higher on native
 silicon).
 
-**ppc64le:** the `VPMSUMD` kernel is now **measured on real POWER10 silicon** (GCC
-Compile Farm, VSX, Go 1.26.4, June 2026) — **~5.7× scalar** on a 1 MiB buffer.
-**riscv64:** **scalar by design** — Go does not yet expose the Zbc carry-less
-multiply, so there is no CLMUL folding kernel; confirmed on the real **SpacemiT X60**
-host (GCC Compile Farm, RVV 1.0, Go 1.26.4, June 2026) running the portable slicing
-table at **stdlib parity**, reported honestly (no riscv64 crc64 win until Go exposes
-Zbc). **s390x:** the `VGFMAG` kernel stays **QEMU-validated for correctness; native
-perf pending** a GitHub-hosted IBM Z runner.
+**ppc64le / s390x:** the `VPMSUMD` and `VGFMAG` kernels are **QEMU-validated for
+correctness; native perf pending** access to real POWER / IBM Z systems.
 
 ## Coverage
 

@@ -86,13 +86,7 @@ empirically under QEMU** before the kernel was assembled, then verified against
   non-QEMU amd64 host was available to benchmark; QEMU TCG makes SIMD
   disproportionately expensive, so its numbers are not representative. Native
   amd64 throughput is **pending real hardware**.
-- **ppc64le**: real SIMD kernel, now **validated on real POWER10 silicon** (GCC
-  Compile Farm, VSX, Go 1.26.4, June 2026), byte-identical to `encoding/ascii85`.
-- **riscv64 (RVV 1.0)**: real SIMD kernel (`VMULHUVV` mulhi + `VRGATHERVV`), now
-  **measured on real SpacemiT X60 silicon** (GCC Compile Farm, Go 1.26.4, June 2026)
-  — encode **~4.1× scalar**, byte-identical to `encoding/ascii85`; the mulhi-driven
-  arithmetic dominates, so it wins even on this in-order core.
-- **s390x / loong64**: real SIMD kernels, **QEMU-validated
+- **ppc64le / s390x / riscv64 / loong64**: real SIMD kernels, **QEMU-validated
   (byte-identical to `encoding/ascii85`); native perf pending** real silicon.
 
 `Decode` is the standard library's (whitespace skipping, the `z` shortcut, flush

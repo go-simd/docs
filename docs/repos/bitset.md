@@ -83,10 +83,8 @@ word with one vector instruction.
 
 The `Count`/`IntersectionCount` kernels are the clearest win (hardware popcount
 is far denser than a scalar `OnesCount64`); the logical ops are bandwidth-bound
-and converge toward scalar as the set leaves cache. **ppc64le** is now **measured
-on real POWER10 silicon** (GCC Compile Farm, VSX, Go 1.26.4, June 2026) — `And`
-**~1.5× scalar** — while the **s390x** kernel stays **qemu-validated for
-correctness with native perf pending** a GitHub-hosted IBM Z runner.
+and converge toward scalar as the set leaves cache. **ppc64le / s390x** kernels
+are **qemu-validated for correctness; native perf pending** real POWER/Z hardware.
 
 ## Where it fits
 

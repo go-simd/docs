@@ -91,47 +91,20 @@ not emulation:
   `ubuntu-latest` (AMD EPYC, AVX2) are the authoritative amd64 sources.
 - **Native arm64** (the Apple-silicon dev box) for the NEON kernels and the
   `!amd64` generic fallback.
-- **QEMU** for loong64 (LSX) and **s390x (vector facility)** — correctness only;
-  QEMU's TCG does not model out-of-order execution, so absolute MB/s under
-  emulation is *not* representative and is never quoted as a headline. The
-  cross-built binaries run under `qemu-user` in a **debian:trixie** container with
-  `QEMU_CPU=qemu` for s390x, exercising the LSX and z/Architecture vector
-  instructions the kernels emit. (riscv64 and ppc64le also run the qemu
-  correctness pass, but are now additionally measured on real silicon — see
-  below.)
-- **ppc64le is now natively measured on real silicon.** Beyond the qemu
-  correctness run, the VSX kernels are benchmarked on a **POWER10 host on the
-  [GCC Compile Farm](https://portal.cfarm.net/)** (VSX, Go 1.26.4, June 2026),
-  confirming they are fast as well as correct: matchlen **6.3× scalar**,
-  streamvbyte decode **11.9×**, hex encode **7.6×**, utf8 validate **7×**, crc64
-  **5.7×**. These ppc64le headline numbers are real native measurements, not
-  emulated.
-- **riscv64 (RVV 1.0) is now natively measured on real silicon too.** The RVV
-  kernels are benchmarked on a **SpacemiT X60 host on the
-  [GCC Compile Farm](https://portal.cfarm.net/)** (RVV 1.0, Go 1.26.4, June 2026) —
-  the only widely-available RVV silicon, and a low-power **in-order** core. That
-  microarchitecture matters, and the result is reported as an honest split:
-  **arithmetic-bound kernels win big** — int8dot **9.1×**, matchlen **5.8×**,
-  jsonvalidate **5.2×**, streamvbyte decode **4.5×**, ascii85 **4.1×**, blake3 mix4
-  **2.9×**, adler32 **2.4×** (beating `mhr3` on this core), ascii **2.2×** — while
-  the **byte-shuffle kernels** (base64, base32, hex, utf8) land **at scalar parity**,
-  because an in-order pipeline cannot hide the gather/permute latency the way an
-  out-of-order core would. **popcount** is at parity here too (barakmich's SWAR loop
-  is ~5.5× faster on this core), and **crc64** is scalar by design on riscv64 (Go
-  does not yet expose Zbc). An out-of-order RVV core would likely lift the shuffle
-  kernels; we report only what this silicon measures, not what a hypothetical core
-  would do.
-- **s390x is qemu-validated for correctness, native perf pending.** It runs the
-  official test vectors and the byte-identical differential fuzz suites (and on
-  **big-endian s390x** the output is proven bit-exact), but there is **no
-  GitHub-hosted IBM Z runner**, so native throughput numbers are not yet measured
-  — and are deliberately *not* invented from the emulated runs.
-- **A seventh architecture, ppc64 (big-endian), is build- and test-validated on
-  real POWER9 silicon** (GCC Compile Farm). It has no VSX build tag, so it runs
-  the **portable generic fallback path** — proven bit-exact on a big-endian target
-  *distinct from* s390x's own vector kernel, adding cross-endian correctness
-  coverage. SIMD acceleration itself stays on the six SIMD targets: **six SIMD
-  targets, validated on seven architectures.**
+- **QEMU** for riscv64 (RVV), loong64 (LSX), **ppc64le (VSX)** and **s390x
+  (vector facility)** — correctness only; QEMU's TCG does not model
+  out-of-order execution, so absolute MB/s under emulation is *not*
+  representative and is never quoted as a headline. The cross-built binaries run
+  under `qemu-user` in a **debian:trixie** container with `QEMU_CPU=power9` for
+  ppc64le and `QEMU_CPU=qemu` for s390x, exercising the VSX and z/Architecture
+  vector instructions the kernels emit.
+- **ppc64le / s390x are qemu-validated for correctness, native perf pending.**
+  Both run the official test vectors and the byte-identical differential fuzz
+  suites (and on **big-endian s390x** the output is proven bit-exact), but there
+  is **no GitHub-hosted POWER or IBM Z runner**, so native throughput numbers are
+  not yet measured — and are deliberately *not* invented from the emulated runs.
+  The headline MB/s figures on the repo pages are the native amd64/arm64 results
+  only.
 - **Fuzzing** runs against the stdlib reference on arbitrary input, comparing
   the returned **value and the full error** (e.g. `strconv`'s `*NumError`,
   `hex`'s `InvalidByteError` offset). Direct kernel fuzz targets exercise the
@@ -160,15 +133,9 @@ qemu-correctness validation where no native runner exists), and a coverage gate
 that refuses to ship an unexercised branch — is what lets go-simd publish
 **honest** numbers: it beats `emmansun` and `tmthrgd` where it says it does, it
 openly reports the ~7% gap to `mhr3` and the fact that a byte histogram has no
-SIMD win at all, and — now that **ppc64le is measured on a real POWER10 host** and
-**riscv64 on a real SpacemiT X60 (RVV 1.0) host** — it surfaces those native VSX and
-RVV speedups (and, just as honestly, reports the riscv64 byte-shuffle kernels at
-scalar parity on that in-order core) while still labelling **s390x** as
-correctness-validated with native perf pending (no IBM Z runner) rather than
-quoting emulated throughput as if it were a headline. Correctness now spans a
-**seventh architecture, ppc64 big-endian** (real POWER9, generic fallback path),
-even though SIMD acceleration stays on six targets. A standout of the six-arch
-port: **base32 gets real SIMD on ppc64le
+SIMD win at all, and it labels the ppc64le/s390x kernels as correctness-validated
+with native perf pending rather than quoting emulated throughput as if it were a
+headline. A standout of the six-arch port: **base32 gets real SIMD on ppc64le
 (`VSRH`, register-variable vector shift) and s390x (`VMLHH`, integer vector
 multiply-high) precisely where Go's arm64 assembler lacks those two
 primitives** — so POWER and IBM Z run the full spread-extract kernel that NEON
