@@ -1150,8 +1150,10 @@ word with one vector instruction.</p>
 </table>
 <p>The <code>Count</code>/<code>IntersectionCount</code> kernels are the clearest win (hardware popcount
 is far denser than a scalar <code>OnesCount64</code>); the logical ops are bandwidth-bound
-and converge toward scalar as the set leaves cache. <strong>ppc64le / s390x</strong> kernels
-are <strong>qemu-validated for correctness; native perf pending</strong> real POWER/Z hardware.</p>
+and converge toward scalar as the set leaves cache. <strong>ppc64le</strong> is now <strong>measured
+on real POWER10 silicon</strong> (GCC Compile Farm, VSX, Go 1.26.4, June 2026) — <code>And</code>
+<strong>~1.5× scalar</strong> — while the <strong>s390x</strong> kernel stays <strong>qemu-validated for
+correctness with native perf pending</strong> a GitHub-hosted IBM Z runner.</p>
 <h2 id="where-it-fits">Where it fits<a class="headerlink" href="#where-it-fits" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/bits-and-blooms/bitset"><code>bits-and-blooms/bitset</code></a> is the
 de-facto Go bit set, but its bulk ops are <strong>scalar</strong> <code>math/bits</code> loops over its

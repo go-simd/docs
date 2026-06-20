@@ -973,17 +973,24 @@ stable Go, no <code>GOEXPERIMENT</code>. Each package is a drop-in: the same sig
 <strong>byte-identical output</strong> (and, where applicable, byte-identical <em>errors</em>) as
 the stdlib package it accelerates, with the short tail delegated back to the
 standard library so results match exactly.</p>
-<p><strong>Six architectures, one generator.</strong> A single <a href="https://github.com/go-asmgen/asmgen">go-asmgen</a> builder
-(<code>v0.5.0</code>) over a shared ABI0 layout emits the kernels for all six targets;
-<code>cmd/asm</code> encodes them. The ppc64le and s390x backends are <strong>qemu-validated for
-correctness</strong> (official vectors, byte-identical fuzz) with <strong>native throughput
-pending</strong> (no GitHub-hosted POWER/Z runner yet) — the headline numbers on these
-pages are the native amd64/arm64 measurements and are <em>not</em> extrapolated to
-ppc64le/s390x. Two results stand out: <strong>base32 gets real SIMD on ppc64le
-(<code>VSRH</code>) and s390x (<code>VMLHH</code>) where the arm64 NEON port could not</strong> (Go's arm64
-assembler lacks the register-variable shift and integer vector multiply the
-kernel needs), and <strong>every kernel is bit-exact on big-endian s390x</strong> — a genuine
-cross-endian validation.</p>
+<p><strong>Six SIMD targets, validated on seven.</strong> A single <a href="https://github.com/go-asmgen/asmgen">go-asmgen</a> builder
+(<code>v0.5.0</code>) over a shared ABI0 layout emits the kernels for all six SIMD targets;
+<code>cmd/asm</code> encodes them. <strong>ppc64le is now measured on real silicon</strong> — a POWER10
+host on the <a href="https://portal.cfarm.net/">GCC Compile Farm</a> (VSX, Go 1.26.4, June 2026) — confirming the
+VSX kernels are not merely correct but fast: matchlen <strong>6.3× scalar</strong>, streamvbyte
+decode <strong>11.9×</strong>, hex encode <strong>7.6×</strong>, utf8 validate <strong>7×</strong>, crc64 <strong>5.7×</strong>. The
+s390x backend stays <strong>qemu-validated for correctness</strong> (official vectors,
+byte-identical fuzz on the big-endian target) — <strong>native throughput pending</strong> (no
+GitHub-hosted IBM Z runner yet), so no s390x throughput numbers are claimed. And
+beyond the six SIMD targets, the whole suite is now <strong>build- and test-validated on
+a seventh architecture, ppc64 (big-endian)</strong>, on real POWER9 silicon: the portable
+fallback path proven bit-exact on a big-endian target <em>distinct from</em> s390x's own
+vector kernel. SIMD acceleration stays on six targets (ppc64 BE has no VSX build
+tag, so it runs the generic path); proven correctness now spans seven. Two results
+stand out: <strong>base32 gets real SIMD on ppc64le (<code>VSRH</code>) and s390x (<code>VMLHH</code>) where
+the arm64 NEON port could not</strong> (Go's arm64 assembler lacks the register-variable
+shift and integer vector multiply the kernel needs), and <strong>every kernel is
+bit-exact on big-endian s390x</strong> — a genuine cross-endian validation.</p>
 <h2 id="the-honesty-policy">The honesty policy<a class="headerlink" href="#the-honesty-policy" title="Permanent link">&para;</a></h2>
 <p>These numbers are benchmarked, not hand-waved. Every page reports the <strong>honest
 headline</strong> — the wins <strong>and</strong> the parities and the cases where SIMD genuinely
@@ -1126,9 +1133,11 @@ vector-SIMD</strong> — its word-serial Myers column has no lane parallelism (d
 <a href="repos/int8dot/"><code>int8dot</code></a> are vector primitives (int8dot's arm64 NEON kernel
 needs <strong>Go 1.27</strong>, scalar below); and <a href="repos/ascii/"><code>ascii</code></a> runs real SIMD
 case-folding on arm64 too, via a multiply-free sign-bit predicate (<strong>~4.9×
-stdlib</strong>). As elsewhere in the org, on <strong>ppc64le</strong> and <strong>s390x</strong> the kernels are
-<strong>QEMU-validated for correctness; native perf is pending</strong> real POWER / IBM Z
-hardware (no invented numbers).</p>
+stdlib</strong>). As elsewhere in the org, <strong>ppc64le is now natively measured</strong> on a real
+POWER10 host (GCC Compile Farm, June 2026), while <strong>s390x stays QEMU-validated for
+correctness with native perf pending</strong> real IBM Z hardware (no invented numbers);
+the suite additionally builds and passes its differential + fuzz tests on a
+<strong>seventh arch, ppc64 big-endian</strong>, on real POWER9.</p>
 <p>Read the <a href="methodology/">methodology</a> for the check-existing → go-asmgen →
 <code>llvm-mca</code> → real-hardware → 100%-coverage pipeline every repo follows.</p>
 <p>Source lives under <a href="https://github.com/go-simd">github.com/go-simd</a>. Assembly is

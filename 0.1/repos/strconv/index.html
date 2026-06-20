@@ -1040,9 +1040,11 @@ and s390x kernels are SIMD; arm64, loong64 and riscv64 use the scalar fold
 (NEON/LSX/RVV ports planned). The VSX and z/Architecture kernels mirror the amd64
 staged multiply-accumulate. On <strong>big-endian s390x</strong>, the digits are loaded with
 <code>VL</code> (element 0 = most significant digit) and the power-of-ten weights are laid
-out in big-endian lane order — the result is bit-identical to <code>strconv</code>. ppc64le
-and s390x are <strong>qemu-validated for correctness</strong> (value <strong>and</strong> full error string
-matched against <code>strconv</code> under <code>qemu-user</code>); native perf is pending.</p>
+out in big-endian lane order — the result is bit-identical to <code>strconv</code>. Both are
+validated for correctness (value <strong>and</strong> full error string matched against
+<code>strconv</code>). <strong>ppc64le is now validated on real POWER10 silicon</strong> (GCC Compile
+Farm, VSX, Go 1.26.4, June 2026); <strong>s390x stays qemu-validated for correctness
+with native perf pending</strong> a GitHub-hosted IBM Z runner.</p>
 <h2 id="correctness-first">Correctness first<a class="headerlink" href="#correctness-first" title="Permanent link">&para;</a></h2>
 <p>A correct-but-modest result beats a fast-but-wrong one. The SIMD fast path is
 taken <strong>only</strong> for the unambiguous case and only ever returns a <code>nil</code> error:

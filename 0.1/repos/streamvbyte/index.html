@@ -1138,7 +1138,13 @@ It complements <a href="../bitpack/"><code>bitpack</code></a>.</p>
 <td>~2.3×</td>
 </tr>
 <tr>
-<td><strong>ppc64le / s390x</strong></td>
+<td><strong>ppc64le</strong> (POWER10, native†)</td>
+<td>—</td>
+<td>—</td>
+<td><strong>~11.9×</strong></td>
+</tr>
+<tr>
+<td><strong>s390x</strong></td>
 <td>qemu-validated; native perf pending</td>
 <td>—</td>
 <td>—</td>
@@ -1155,6 +1161,8 @@ It complements <a href="../bitpack/"><code>bitpack</code></a>.</p>
 virtualization on the dev host), so it understates native silicon by a large
 margin; treat it as a correctness-grade lower bound. Decode is the algorithm's
 strong suit; encode is scalar and runs at a few GB/s.</p>
+<p>† The ppc64le decode figure is a <strong>native</strong> measurement on a real POWER10 host
+(GCC Compile Farm, VSX, Go 1.26.4, June 2026), not emulated.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p>Round-trip table tests plus <code>FuzzRoundTrip</code> (<code>Decode(Encode(x)) == x</code>) run with
 <strong>100% statement coverage</strong> on every architecture: amd64 and arm64 natively, and

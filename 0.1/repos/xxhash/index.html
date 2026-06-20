@@ -1205,9 +1205,10 @@ on s390x under QEMU.</p>
 uses a clean single-stripe kernel (one call per 64 bytes) that prioritises
 <strong>portability and bit-exactness across six arches</strong> over peak throughput.
 Closing that gap (block-at-a-time kernels) is the obvious next step.</p>
-<p>For <strong>ppc64le and s390x</strong> the SIMD path is <strong>QEMU-validated for correctness;
-native throughput pending</strong> real hardware — but these are arches the existing
-libraries provide no SIMD for at all. amd64 SIMD is correctness- and
+<p><strong>ppc64le</strong> is now <strong>validated on real POWER10 silicon</strong> (GCC Compile Farm, VSX,
+Go 1.26.4, June 2026). For <strong>s390x</strong> the SIMD path stays <strong>QEMU-validated for
+correctness; native throughput pending</strong> a GitHub-hosted IBM Z runner — but these
+are arches the existing libraries provide no SIMD for at all. amd64 SIMD is correctness- and
 coverage-validated on a real x86_64 OS; the (QEMU-backed) benchmark figures are
 not representative of native AVX2 and are omitted.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>

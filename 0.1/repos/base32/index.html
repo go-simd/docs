@@ -1025,8 +1025,11 @@ the standard library. <a href="https://github.com/go-simd/base32">Repository →
 and s390x run the <em>full</em> spread-extract kernel — the same algorithm amd64 uses —
 because POWER (VSX) and IBM Z (vector facility) provide the per-lane variable
 shift / integer vector multiply that arm64 NEON lacks</strong> (see below). The ppc64le
-and s390x kernels are <strong>qemu-validated for correctness</strong> (official vectors,
-byte-identical fuzz); native perf is pending (no POWER/Z runner).</p>
+and s390x kernels are validated for correctness (official vectors, byte-identical
+fuzz). <strong>ppc64le is now measured on real POWER10 silicon</strong> (GCC Compile Farm, VSX,
+Go 1.26.4, June 2026) — decode <strong>~5.5× scalar</strong> — while <strong>s390x stays
+qemu-validated for correctness with native perf pending</strong> (no GitHub-hosted IBM Z
+runner).</p>
 <h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
 <p>Per 5-byte group → 8 chars (base32 packs 5-bit groups: 5 bytes = 40 bits = 8
 chars):</p>

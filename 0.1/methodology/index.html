@@ -1165,13 +1165,24 @@ not emulation:</p>
   under <code>qemu-user</code> in a <strong>debian:trixie</strong> container with <code>QEMU_CPU=power9</code> for
   ppc64le and <code>QEMU_CPU=qemu</code> for s390x, exercising the VSX and z/Architecture
   vector instructions the kernels emit.</li>
-<li><strong>ppc64le / s390x are qemu-validated for correctness, native perf pending.</strong>
-  Both run the official test vectors and the byte-identical differential fuzz
-  suites (and on <strong>big-endian s390x</strong> the output is proven bit-exact), but there
-  is <strong>no GitHub-hosted POWER or IBM Z runner</strong>, so native throughput numbers are
-  not yet measured — and are deliberately <em>not</em> invented from the emulated runs.
-  The headline MB/s figures on the repo pages are the native amd64/arm64 results
-  only.</li>
+<li><strong>ppc64le is now natively measured on real silicon.</strong> Beyond the qemu
+  correctness run, the VSX kernels are benchmarked on a <strong>POWER10 host on the
+  <a href="https://portal.cfarm.net/">GCC Compile Farm</a></strong> (VSX, Go 1.26.4, June 2026),
+  confirming they are fast as well as correct: matchlen <strong>6.3× scalar</strong>,
+  streamvbyte decode <strong>11.9×</strong>, hex encode <strong>7.6×</strong>, utf8 validate <strong>7×</strong>, crc64
+  <strong>5.7×</strong>. These ppc64le headline numbers are real native measurements, not
+  emulated.</li>
+<li><strong>s390x is qemu-validated for correctness, native perf pending.</strong> It runs the
+  official test vectors and the byte-identical differential fuzz suites (and on
+  <strong>big-endian s390x</strong> the output is proven bit-exact), but there is <strong>no
+  GitHub-hosted IBM Z runner</strong>, so native throughput numbers are not yet measured
+  — and are deliberately <em>not</em> invented from the emulated runs.</li>
+<li><strong>A seventh architecture, ppc64 (big-endian), is build- and test-validated on
+  real POWER9 silicon</strong> (GCC Compile Farm). It has no VSX build tag, so it runs
+  the <strong>portable generic fallback path</strong> — proven bit-exact on a big-endian target
+  <em>distinct from</em> s390x's own vector kernel, adding cross-endian correctness
+  coverage. SIMD acceleration itself stays on the six SIMD targets: <strong>six SIMD
+  targets, validated on seven architectures.</strong></li>
 <li><strong>Fuzzing</strong> runs against the stdlib reference on arbitrary input, comparing
   the returned <strong>value and the full error</strong> (e.g. <code>strconv</code>'s <code>*NumError</code>,
   <code>hex</code>'s <code>InvalidByteError</code> offset). Direct kernel fuzz targets exercise the
@@ -1198,9 +1209,13 @@ qemu-correctness validation where no native runner exists), and a coverage gate
 that refuses to ship an unexercised branch — is what lets go-simd publish
 <strong>honest</strong> numbers: it beats <code>emmansun</code> and <code>tmthrgd</code> where it says it does, it
 openly reports the ~7% gap to <code>mhr3</code> and the fact that a byte histogram has no
-SIMD win at all, and it labels the ppc64le/s390x kernels as correctness-validated
-with native perf pending rather than quoting emulated throughput as if it were a
-headline. A standout of the six-arch port: <strong>base32 gets real SIMD on ppc64le
+SIMD win at all, and — now that <strong>ppc64le is measured on a real POWER10 host</strong> —
+it surfaces those native VSX speedups while still labelling <strong>s390x</strong> as
+correctness-validated with native perf pending (no IBM Z runner) rather than
+quoting emulated throughput as if it were a headline. Correctness now spans a
+<strong>seventh architecture, ppc64 big-endian</strong> (real POWER9, generic fallback path),
+even though SIMD acceleration stays on six targets. A standout of the six-arch
+port: <strong>base32 gets real SIMD on ppc64le
 (<code>VSRH</code>, register-variable vector shift) and s390x (<code>VMLHH</code>, integer vector
 multiply-high) precisely where Go's arm64 assembler lacks those two
 primitives</strong> — so POWER and IBM Z run the full spread-extract kernel that NEON
