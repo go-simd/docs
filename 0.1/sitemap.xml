@@ -2,94 +2,94 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://go-simd.github.io/docs/0.1/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/contributing/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/methodology/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/adler32/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/ascii/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/ascii85/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/base32/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/base64/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/bitpack/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/bitset/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/crc64/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/floats/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/hex/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/histogram/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/int8dot/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/jsonvalidate/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/levenshtein/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/matchlen/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/popcount/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/strconv/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/streamvbyte/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/utf8/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
     <url>
          <loc>https://go-simd.github.io/docs/0.1/repos/xxhash/</loc>
-         <lastmod>2026-06-20</lastmod>
+         <lastmod>2026-06-26</lastmod>
     </url>
 </urlset>
