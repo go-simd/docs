@@ -659,6 +659,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -946,6 +961,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1042,13 +1072,24 @@ need no runtime feature dispatch — the SIMD path is simply the arch's only pat
 mismatching byte is the <em>first</em> <code>VFENEBS</code> element. lz4-style callers that need a
 remaining architecture use a portable 8-byte-word scalar fallback. The result is
 bit-identical everywhere — including big-endian s390x — checked vs a byte-by-byte
-reference and fuzzed; ppc64le and s390x are <strong>qemu-validated for correctness</strong>,
-native perf pending.</p>
+reference and fuzzed. <strong>ppc64le, riscv64 and loong64 are now natively measured on
+real silicon</strong> (see below); <strong>s390x stays qemu-validated for correctness only.</strong></p>
 <h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
 <p>16-byte SIMD strides vs a naive byte loop, ~4 KiB shared prefix (Apple Silicon,
 arm64 NEON): <strong>~34.7 GB/s vs ~3.3 GB/s — ~10×.</strong></p>
 <p>The match-counter alone (native amd64, GitHub runner): SSE2 ~17.6 GB/s, <strong>AVX2
 ~36.6 GB/s (~2.08×)</strong> — AVX2 is picked at runtime when available.</p>
+<h3 id="measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26">Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)<a class="headerlink" href="#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>ppc64le — real POWER9</strong> (VSX): <code>MatchLen</code> runs at <strong>~6.3× the scalar
+  baseline</strong> (5320 vs 841 MB/s), superseding the earlier llvm-mca cycle-model
+  estimate.</li>
+<li><strong>riscv64 — real SpacemiT X60</strong> (RVV 1.0): <strong>~5.8× the scalar baseline</strong>
+  (1236 vs 214 MB/s). The X60 is a low-power <em>in-order</em> core, so absolute MB/s are
+  modest — the ratio is the signal; an out-of-order RVV core would do better.</li>
+<li><strong>loong64 — real Loongson 3A5000</strong> (LSX): <strong>~11.4× the scalar baseline</strong> — a
+  strong, measured native win.</li>
+</ul>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p>100% of the Go code, gated on every architecture (native amd64 + arm64, riscv64 +
 loong64 + ppc64le + s390x under QEMU). Both amd64 dispatch branches (AVX2 and the SSE fallback) are

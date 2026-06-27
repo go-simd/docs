@@ -866,6 +866,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Performance — honest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1014,6 +1029,21 @@
       Performance — honest
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Performance — honest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1194,10 +1224,36 @@ x86-64 under qemu TCG — absolute throughput is depressed by emulation, but the
 <td style="text-align: right;">836 MB/s</td>
 <td style="text-align: right;"><strong>~3.3×</strong></td>
 </tr>
+<tr>
+<td style="text-align: right;">768</td>
+<td style="text-align: right;">255 MB/s</td>
+<td style="text-align: right;">965 MB/s</td>
+<td style="text-align: right;"><strong>~3.8×</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">4096</td>
+<td style="text-align: right;">257 MB/s</td>
+<td style="text-align: right;">1034 MB/s</td>
+<td style="text-align: right;"><strong>~4.0×</strong></td>
+</tr>
 </tbody>
 </table>
-<p><strong>ppc64le / s390x:</strong> the kernels are <strong>QEMU-validated for correctness; native
-perf pending</strong> real POWER / IBM Z hardware.</p>
+<p><strong>arm64 NEON</strong> (gotip / Go 1.27, native Apple Silicon): <strong>~2.4×</strong> the scalar
+reference at large sizes (~1.8× at dim 64).</p>
+<h3 id="measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26">Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)<a class="headerlink" href="#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>riscv64 — real SpacemiT X60</strong> (RVV 1.0): RVV INT8 MAC (<code>VWMULVV</code> +
+  <code>VWREDSUMVS</code>) runs <code>Dot</code> at dim 4096 at <strong>~1557 vs ~172 MB/s scalar — ~9.1×</strong>,
+  the <strong>biggest RVV win in the whole go-simd suite</strong> — the ideal RVV shape (a
+  long, arithmetic-bound widening multiply-accumulate reduction).</li>
+<li><strong>loong64 — real Loongson 3A5000</strong> (LSX): the LSX MAC kernels run at <strong>~8.9×
+  the scalar reference overall</strong>, with <strong><code>DotUint8</code> the standout at ~13.8×</strong>
+  (<code>DotU8S8</code> is scalar on loong64 — no mixed-sign byte multiply).</li>
+<li><strong>ppc64le — real POWER9</strong> (VSX): VSX INT8 MAC runs <code>Dot</code> at dim 4096 at
+  ~3055 vs ~744 MB/s scalar — <strong>~4.1×</strong> native.</li>
+<li><strong>s390x</strong> stays <strong>qemu-validated for correctness only</strong>, native throughput
+  pending real IBM Z hardware.</li>
+</ul>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p><code>Dot</code>/<code>DotUint8</code>/<code>DotU8S8</code> are checked against a straight-line scalar loop by
 table tests, extreme-value tests, and <code>FuzzDot</code>, with <strong>100% statement coverage</strong>

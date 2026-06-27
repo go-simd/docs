@@ -1158,20 +1158,25 @@ not emulation:</p>
   <code>ubuntu-latest</code> (AMD EPYC, AVX2) are the authoritative amd64 sources.</li>
 <li><strong>Native arm64</strong> (the Apple-silicon dev box) for the NEON kernels and the
   <code>!amd64</code> generic fallback.</li>
-<li><strong>QEMU</strong> for riscv64 (RVV), loong64 (LSX), <strong>ppc64le (VSX)</strong> and <strong>s390x
-  (vector facility)</strong> — correctness only; QEMU's TCG does not model
-  out-of-order execution, so absolute MB/s under emulation is <em>not</em>
-  representative and is never quoted as a headline. The cross-built binaries run
-  under <code>qemu-user</code> in a <strong>debian:trixie</strong> container with <code>QEMU_CPU=power9</code> for
-  ppc64le and <code>QEMU_CPU=qemu</code> for s390x, exercising the VSX and z/Architecture
-  vector instructions the kernels emit.</li>
-<li><strong>ppc64le / s390x are qemu-validated for correctness, native perf pending.</strong>
-  Both run the official test vectors and the byte-identical differential fuzz
-  suites (and on <strong>big-endian s390x</strong> the output is proven bit-exact), but there
-  is <strong>no GitHub-hosted POWER or IBM Z runner</strong>, so native throughput numbers are
-  not yet measured — and are deliberately <em>not</em> invented from the emulated runs.
-  The headline MB/s figures on the repo pages are the native amd64/arm64 results
-  only.</li>
+<li><strong>Real silicon on the <a href="https://portal.cfarm.net/">GCC Compile Farm</a></strong> for the
+  non-x86/arm SIMD targets. As of <strong>2026-06</strong>, <strong>ppc64le (POWER9, plus POWER8E
+  for the ISA-baseline fallback), riscv64 (SpacemiT X60, RVV 1.0) and loong64
+  (Loongson 3A5000, LSX)</strong> are run and <strong>benchmarked natively</strong> — superseding the
+  earlier qemu-only / llvm-mca estimates on those arches. The portable scalar
+  fallback is additionally build+test-validated on a seventh architecture,
+  <strong>ppc64 (big-endian)</strong>, on real POWER9.</li>
+<li><strong>QEMU</strong> is still the correctness lane for the targets without native silicon,
+  and the cross-check everywhere: riscv64 (RVV), loong64 (LSX), <strong>ppc64le (VSX)</strong>
+  and <strong>s390x (vector facility)</strong> run under <code>qemu-user</code> in a <strong>debian:trixie</strong>
+  container (<code>QEMU_CPU=power9</code> / <code>qemu</code>). QEMU's TCG does not model out-of-order
+  execution, so emulated MB/s is <em>not</em> representative and is never quoted as a
+  headline.</li>
+<li><strong>s390x stays qemu-validated for correctness only, native perf pending.</strong> It
+  runs the official vectors and the byte-identical differential fuzz (and on
+  <strong>big-endian s390x</strong> the output is proven bit-exact), but there is <strong>no
+  GitHub-hosted or Compile-Farm IBM Z runner</strong>, so native s390x throughput is not
+  measured — and deliberately <em>not</em> invented from emulation. <strong>Six SIMD targets,
+  validated on seven architectures.</strong></li>
 <li><strong>Fuzzing</strong> runs against the stdlib reference on arbitrary input, comparing
   the returned <strong>value and the full error</strong> (e.g. <code>strconv</code>'s <code>*NumError</code>,
   <code>hex</code>'s <code>InvalidByteError</code> offset). Direct kernel fuzz targets exercise the
