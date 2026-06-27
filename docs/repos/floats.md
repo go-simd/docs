@@ -61,7 +61,7 @@ and a scalar tail.
 | arm64   | NEON | `VFMLA` | 4 accumulators, ×4 unroll for ILP; baseline |
 | riscv64 | RVV  | `VFMUL`+`VFREDOSUMVS` | length-agnostic `VSETVLI` stripmining; gated on `cpu.RISCV64.HasV` |
 | s390x   | vector facility (**big-endian**) | `VFMADB` | float64 vectorised; float32 uses scalar (no `.SB` ops in assembler); z13 baseline |
-| ppc64le | VSX  | `XVMADDADP`/`XVMADDASP` | XV* ops `WORD`-encoded (not in released assembler); POWER8 baseline |
+| ppc64le | VSX (**float32 only**) | `XVMADDASP` | XV* ops `WORD`-encoded; POWER9-gated. **float64 has no VSX kernel** — on real POWER9 the gc-autovectorized scalar loop beats VSX, so float64 routes to that loop |
 | loong64 | LSX  | `vfmadd.d`/`vfmadd.s` | LSX FP ops `WORD`-encoded; LA464 baseline |
 
 ## Floating-point determinism
@@ -92,9 +92,15 @@ vectors (≈57 GB/s float64, ≈59 GB/s float32 at n=512), and loses only on tin
 inputs (n ≤ 8) where unroll/setup overhead dominates.
 
 amd64's AVX2+FMA kernel is correctness-validated on real x86 (an AVX2/FMA VM);
-native throughput is pending (the x86 runner here is TCG-emulated). ppc64le,
-s390x, riscv64 and loong64 are **QEMU-validated for correctness; native perf
-pending** real hardware.
+native throughput is pending (the x86 runner here is TCG-emulated).
+
+**ppc64le — measured on real POWER9** (GCC Compile Farm cfarm433, Go 1.26.4,
+2026-06-27): the **float32 VSX kernel runs ~1.55–1.61× over the gc-autovectorized
+naive loop** for n ≥ 64 (POWER9-gated), so it is kept. For **float64**, however,
+on real POWER9 the gc-autovectorized scalar loop *beats* the VSX kernel (VSX was
+~0.82× at n ≥ 512), so **float64 honestly routes to that loop and ships no VSX
+kernel** — measured, not assumed. s390x, riscv64 and loong64 stay
+**QEMU-validated for correctness**, native perf pending real hardware.
 
 ## Coverage
 

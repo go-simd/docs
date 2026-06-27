@@ -34,8 +34,8 @@ need no runtime feature dispatch — the SIMD path is simply the arch's only pat
 mismatching byte is the *first* `VFENEBS` element. lz4-style callers that need a
 remaining architecture use a portable 8-byte-word scalar fallback. The result is
 bit-identical everywhere — including big-endian s390x — checked vs a byte-by-byte
-reference and fuzzed; ppc64le and s390x are **qemu-validated for correctness**,
-native perf pending.
+reference and fuzzed. **ppc64le, riscv64 and loong64 are now natively measured on
+real silicon** (see below); **s390x stays qemu-validated for correctness only.**
 
 ## Performance
 
@@ -44,6 +44,17 @@ arm64 NEON): **~34.7 GB/s vs ~3.3 GB/s — ~10×.**
 
 The match-counter alone (native amd64, GitHub runner): SSE2 ~17.6 GB/s, **AVX2
 ~36.6 GB/s (~2.08×)** — AVX2 is picked at runtime when available.
+
+### Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+
+- **ppc64le — real POWER9** (VSX): `MatchLen` runs at **~6.3× the scalar
+  baseline** (5320 vs 841 MB/s), superseding the earlier llvm-mca cycle-model
+  estimate.
+- **riscv64 — real SpacemiT X60** (RVV 1.0): **~5.8× the scalar baseline**
+  (1236 vs 214 MB/s). The X60 is a low-power *in-order* core, so absolute MB/s are
+  modest — the ratio is the signal; an out-of-order RVV core would do better.
+- **loong64 — real Loongson 3A5000** (LSX): **~11.4× the scalar baseline** — a
+  strong, measured native win.
 
 ## Coverage
 

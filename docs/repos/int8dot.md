@@ -93,9 +93,25 @@ x86-64 under qemu TCG — absolute throughput is depressed by emulation, but the
 | dim | scalar | AVX2 | speedup |
 |----:|-------:|-----:|--------:|
 | 256 | 254 MB/s | 836 MB/s | **~3.3×** |
+| 768 | 255 MB/s | 965 MB/s | **~3.8×** |
+| 4096 | 257 MB/s | 1034 MB/s | **~4.0×** |
 
-**ppc64le / s390x:** the kernels are **QEMU-validated for correctness; native
-perf pending** real POWER / IBM Z hardware.
+**arm64 NEON** (gotip / Go 1.27, native Apple Silicon): **~2.4×** the scalar
+reference at large sizes (~1.8× at dim 64).
+
+### Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+
+- **riscv64 — real SpacemiT X60** (RVV 1.0): RVV INT8 MAC (`VWMULVV` +
+  `VWREDSUMVS`) runs `Dot` at dim 4096 at **~1557 vs ~172 MB/s scalar — ~9.1×**,
+  the **biggest RVV win in the whole go-simd suite** — the ideal RVV shape (a
+  long, arithmetic-bound widening multiply-accumulate reduction).
+- **loong64 — real Loongson 3A5000** (LSX): the LSX MAC kernels run at **~8.9×
+  the scalar reference overall**, with **`DotUint8` the standout at ~13.8×**
+  (`DotU8S8` is scalar on loong64 — no mixed-sign byte multiply).
+- **ppc64le — real POWER9** (VSX): VSX INT8 MAC runs `Dot` at dim 4096 at
+  ~3055 vs ~744 MB/s scalar — **~4.1×** native.
+- **s390x** stays **qemu-validated for correctness only**, native throughput
+  pending real IBM Z hardware.
 
 ## Coverage
 

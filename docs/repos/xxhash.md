@@ -92,16 +92,29 @@ Native arm64 (Apple silicon), `Sum64`:
 | 64 KiB | ~15.2 GB/s | ~22.9 GB/s |
 
 **On arm64 zeebo is faster** (~22 vs ~15 GB/s): its NEON kernel folds a whole
-1024-byte block per call with software-pipelined stripes, whereas this package
-uses a clean single-stripe kernel (one call per 64 bytes) that prioritises
-**portability and bit-exactness across six arches** over peak throughput.
-Closing that gap (block-at-a-time kernels) is the obvious next step.
+1024-byte block per call with software-pipelined stripes. The **amd64** kernel
+has since been deepened to the same block-at-a-time structure (16 unrolled
+stripes, accumulator register-resident across the run) and now reaches **~0.94×
+zeebo at 64 KiB** (~50 GB/s) — bringing that structure to arm64 NEON is the
+obvious next step. The library's value is **breadth: a bit-exact XXH3 on all six
+SIMD arches**, where zeebo/cespare cover only amd64 + arm64.
 
-For **ppc64le and s390x** the SIMD path is **QEMU-validated for correctness;
-native throughput pending** real hardware — but these are arches the existing
-libraries provide no SIMD for at all. amd64 SIMD is correctness- and
-coverage-validated on a real x86_64 OS; the (QEMU-backed) benchmark figures are
-not representative of native AVX2 and are omitted.
+**Where zeebo has no kernel, go-simd wins outright** (the same register-resident
+multi-stripe kernel was brought to all four remaining arches):
+
+- **riscv64 — real SpacemiT X60** (RVV 1.0, cfarm95, MEASURED): **~2.5–3.5×
+  zeebo** on every long input (256 B+) — zeebo runs the scalar path on RISC-V
+  (~130 MB/s flat), while the RVV kernel reaches ~472 MB/s at 64 KiB (**3.55×**).
+  Short inputs (≤ 64 B) trail (~0.53×) as that path is the shared scalar merge.
+- **ppc64le — real POWER9 + POWER8E** (cfarm433/cfarm112, MEASURED): byte-exact
+  on both ISAs (no SIGILL on POWER8E); throughput **~0.91× zeebo at 64 KiB** —
+  near parity, narrowing from the prior ~0.49× single-stripe gap.
+- **loong64 / s390x** rely on the qemu CI lanes for correctness (cfarm401 is
+  air-gapped; there is no z/Architecture cfarm node), with the riscv64 measured
+  column as the directly-measured proxy for the identical cross-arch lever.
+
+amd64 SIMD is correctness- and coverage-validated on a real x86_64 OS; its
+QEMU-backed throughput is not representative of native AVX2 and is omitted.
 
 ## Coverage
 

@@ -83,10 +83,13 @@ are committed).
 |---|---|---|
 | amd64 (AVX2 + SSE) | native x86_64 VM, table + 60k random + `-fuzz` (both paths) | native |
 | arm64 | native, table + 60k random + `-fuzz` | native |
-| riscv64 | qemu `rv64,v=true,vlen=128`, table + 60k random | qemu-validated |
+| riscv64 | **real SpacemiT X60** (RVV 1.0, GCC Compile Farm), table + 60k random + native bench | **native (measured)** |
 | loong64 | qemu `la464`, table + 60k random | qemu-validated |
-| ppc64le | qemu `power9`, table + 60k random | qemu-validated; native perf pending |
+| ppc64le | **real POWER9** (GCC Compile Farm, VSX), table + 60k random + native bench | **native (measured)** |
+| ppc64 (BE) | **real POWER9** (big-endian, scalar fallback), table + 60k random | native build+test |
 | s390x | qemu (big-endian), table + 60k random | qemu-validated; native perf pending |
+
+**Six SIMD targets, validated on seven architectures.**
 
 ## Performance — honest
 
@@ -98,6 +101,13 @@ vs `encoding/json.Valid` (arm64, Apple silicon; representative, not a contest):
 | realistic mixed records | ~465 MB/s | ~490 MB/s | ~on par |
 | number-heavy array | ~140 MB/s | ~585 MB/s | slower |
 | compact-whitespace (4-space indent) | ~215 MB/s | ~490 MB/s | slower |
+
+On real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26) the string fast path
+wins big where stdlib is slowest: **string-heavy JSON runs ~8.5× the stdlib on
+real POWER9** (~406 vs ~48 MB/s) and **~5.2× on a real SpacemiT X60** (RVV 1.0,
+~191 vs ~36.5 MB/s); number-/structure-heavy input stays on the scalar path with
+no speedup, the same honest split. s390x throughput is still pending native
+hardware.
 
 The SIMD scans win where they apply — **long string bodies**, which dominate most
 real-world JSON (text, logs, API payloads). Where the document is mostly numbers,

@@ -15,17 +15,21 @@ stable Go, no `GOEXPERIMENT`. Each package is a drop-in: the same signatures and
 the stdlib package it accelerates, with the short tail delegated back to the
 standard library so results match exactly.
 
-**Six architectures, one generator.** A single [go-asmgen][asmgen] builder
-(`v0.5.0`) over a shared ABI0 layout emits the kernels for all six targets;
-`cmd/asm` encodes them. The ppc64le and s390x backends are **qemu-validated for
-correctness** (official vectors, byte-identical fuzz) with **native throughput
-pending** (no GitHub-hosted POWER/Z runner yet) — the headline numbers on these
-pages are the native amd64/arm64 measurements and are *not* extrapolated to
-ppc64le/s390x. Two results stand out: **base32 gets real SIMD on ppc64le
-(`VSRH`) and s390x (`VMLHH`) where the arm64 NEON port could not** (Go's arm64
-assembler lacks the register-variable shift and integer vector multiply the
-kernel needs), and **every kernel is bit-exact on big-endian s390x** — a genuine
-cross-endian validation.
+**Six SIMD targets, validated on seven architectures.** A single
+[go-asmgen][asmgen] builder (`v0.5.0`) over a shared ABI0 layout emits the
+kernels for all six targets; `cmd/asm` encodes them. As of **2026-06**,
+**ppc64le (real POWER9), riscv64 (real SpacemiT X60, RVV 1.0) and loong64 (real
+Loongson 3A5000) are natively measured** on the
+[GCC Compile Farm](https://portal.cfarm.net/) — not just qemu-validated — and the
+portable scalar fallback is additionally build+test-validated on a seventh arch,
+**ppc64 (big-endian)**, on real POWER9. **s390x stays qemu-validated for
+correctness only** (no GitHub-hosted IBM Z runner exists), so no native s390x
+throughput is quoted. Headline numbers come from native measurement and are never
+extrapolated. Two results stand out: **base32 gets real SIMD on ppc64le
+(`VSRH`) and s390x (`VMLHH`) where the arm64 NEON port could not on stable Go**
+(Go's arm64 assembler gained the register-variable shift and integer vector
+multiply only in Go 1.27), and **every kernel is bit-exact on big-endian s390x** —
+a genuine cross-endian validation.
 
 [asmgen]: https://github.com/go-asmgen/asmgen
 
@@ -46,7 +50,7 @@ is the honesty.
 | [`base32`](repos/base32.md) | `encoding/base32` | encode **~7.9× stdlib** (AVX2); **real SIMD on ppc64le `VSRH` + s390x `VMLHH` where arm64 can't**; no prior pure-Go SIMD base32 |
 | [`hex`](repos/hex.md) | `encoding/hex` | **beats `tmthrgd/go-hex` both ways** — encode 20.4×, decode 6.24× stdlib |
 | [`utf8`](repos/utf8.md) | `unicode/utf8` | `Valid` **~19× stdlib**, edges `stuartcarnie/go-simd` ~3.5% |
-| [`ascii85`](repos/ascii85.md) | `encoding/ascii85` | **first SIMD ascii85**, SIMD **encode and decode**; arm64 NEON kernel on **Go 1.27** (scalar on stable Go ≤ 1.26), still **~1.9× stdlib** |
+| [`ascii85`](repos/ascii85.md) | `encoding/ascii85` | **first SIMD ascii85**, SIMD **encode and decode on all 6 arches**; arm64 NEON kernel on **Go 1.27** (~3.0×; fused-scalar ~1.9× on stable Go ≤ 1.26); native ppc64le POWER9 ~2.9×, riscv64 X60 ~4.0×, loong64 ~4.3× |
 | [`ascii`](repos/ascii.md) | ASCII case (`bytes`/`strings`) | branchless vector case-fold, **byte-identical to stdlib**; real SIMD on all 6 arches incl. arm64; **~4.9× stdlib** (`ToUpper`) |
 | [`adler32`](repos/adler32.md) | `hash/adler32` | ~12–14× stdlib, but **~7% behind `mhr3/adler32-simd` — honest** |
 | [`crc64`](repos/crc64.md) | `hash/crc64` | **first pure-Go SIMD crc64** (CLMUL folding); **arm64 ~4.2× stdlib** |
@@ -57,15 +61,15 @@ is the honesty.
 
 | Package | Accelerates | Honest headline |
 | --- | --- | --- |
-| [`matchlen`](repos/matchlen.md) | LZ match-finder | **~10× scalar** (NEON); real SIMD on all 6 arches |
-| [`bitpack`](repos/bitpack.md) | FastPFOR / simdcomp | **~21–32× scalar** — byte-exact vs Lemire's simdcomp |
-| [`popcount`](repos/popcount.md) | Hamming weight over `[]byte` | **size-dependent**: ~9–12× in-cache, memory-bound out-of-cache |
+| [`matchlen`](repos/matchlen.md) | LZ match-finder | **~10× scalar** (NEON); real SIMD on all 6 arches; native ppc64le POWER9 ~6.3×, riscv64 X60 ~5.8×, loong64 ~11.4× |
+| [`bitpack`](repos/bitpack.md) | FastPFOR / simdcomp | **~21–32× scalar** — byte-exact vs Lemire's simdcomp; native ppc64le POWER9 Pack ~7.0× / Unpack ~11.3× |
+| [`popcount`](repos/popcount.md) | Hamming weight over `[]byte` | **size-dependent**: ~9–12× in-cache, memory-bound out-of-cache; native loong64 ~6.1×, ppc64le POWER9 ~2.9× |
 | [`histogram`](repos/histogram.md) | byte-value histogram | **multi-table scalar — SIMD doesn't help** (no scatter) |
-| [`streamvbyte`](repos/streamvbyte.md) | Stream VByte `uint32` codec | **first Go port on all 6 arches**; **full codec — SIMD encode and decode**, **decode arm64 ~10× scalar** |
-| [`xxhash`](repos/xxhash.md) | XXH3-64 | **first Go XXH3 on all 6 arches**, bit-exact; **honest: zeebo faster on arm64** — value is breadth |
-| [`floats`](repos/floats.md) | float32/64 reductions (vector search) | **only pure-Go full vector-search API on all 6 arches**; **arm64 ~2× scalar** |
+| [`streamvbyte`](repos/streamvbyte.md) | Stream VByte `uint32` codec | **first Go port on all 6 arches**; **full codec — SIMD encode and decode**, **decode arm64 ~10×**; native ppc64le POWER9 ~11.6×, riscv64 X60 ~4.5×, loong64 ~11.8× |
+| [`xxhash`](repos/xxhash.md) | XXH3-64 | **first Go XXH3 on all 6 arches**, bit-exact; honest: zeebo faster on arm64 — but **riscv64 RVV ~2.5–3.5× zeebo** and ppc64le ~0.91× on real silicon (zeebo has no kernel there) |
+| [`floats`](repos/floats.md) | float32/64 reductions (vector search) | **only pure-Go full vector-search API on all 6 arches**; **arm64 ~2× scalar**; native ppc64le POWER9 f32 ~1.55–1.61× (f64 routes to gc-autovectorized scalar — honest) |
 | [`bitset`](repos/bitset.md) | bulk `[]uint64` set ops | SIMD `And`/`Or`/`AndNot`/`Xor` + fused `Count`; amd64 `Count` **~3–3.9×**; **logical ops bandwidth-bound (honest)** |
-| [`int8dot`](repos/int8dot.md) | int8 quantized dot (ML embeddings) | bit-exact INT8 MAC; **amd64 AVX2 ~4×**; arm64 NEON kernel on **Go 1.27** (scalar below) |
+| [`int8dot`](repos/int8dot.md) | int8 quantized dot (ML embeddings) | bit-exact INT8 MAC; **amd64 AVX2 ~4×**; arm64 NEON on **Go 1.27** (~2.4×, scalar below); native **riscv64 X60 ~9.1×** (biggest RVV win), loong64 ~8.9×, ppc64le POWER9 ~4.1× |
 | [`levenshtein`](repos/levenshtein.md) | edit distance | Myers bit-parallel, **62–142× vs `agnivade`**; **honest: pure-Go bit-parallel, not vector-SIMD** |
 
 The five newest repos — [`ascii`](repos/ascii.md),
@@ -79,9 +83,10 @@ vector-SIMD** — its word-serial Myers column has no lane parallelism (document
 [`int8dot`](repos/int8dot.md) are vector primitives (int8dot's arm64 NEON kernel
 needs **Go 1.27**, scalar below); and [`ascii`](repos/ascii.md) runs real SIMD
 case-folding on arm64 too, via a multiply-free sign-bit predicate (**~4.9×
-stdlib**). As elsewhere in the org, on **ppc64le** and **s390x** the kernels are
-**QEMU-validated for correctness; native perf is pending** real POWER / IBM Z
-hardware (no invented numbers).
+stdlib**). As elsewhere in the org, **ppc64le, riscv64 and loong64 are now
+natively measured on real silicon** (GCC Compile Farm — POWER9, SpacemiT X60
+RVV 1.0, Loongson 3A5000); **s390x stays QEMU-validated for correctness only**,
+native perf pending real IBM Z hardware (no invented numbers).
 
 Read the [methodology](methodology.md) for the check-existing → go-asmgen →
 `llvm-mca` → real-hardware → 100%-coverage pipeline every repo follows.
