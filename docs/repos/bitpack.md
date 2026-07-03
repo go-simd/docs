@@ -27,8 +27,9 @@ is little-endian so words load/store directly; **s390x is big-endian** — the
 so no fix-up is needed, and the big-endian port produces the same bytes as
 scalar/simdcomp. Every path is byte-exact — verified by table tests, a
 scalar-equality test, and `FuzzPack`/`FuzzUnpack`. **ppc64le is now measured on
-real POWER9** (see below); **s390x stays qemu-validated for correctness only**,
-native perf pending.
+real POWER9** (see below); **s390x is now measured on real IBM z15 (VXE2)**
+(2026-07-03, `-count=6`): `Unpack` ~34× and `Pack` ~23× the scalar word packer —
+the largest s390x win in the go-simd set.
 
 ## Performance
 
@@ -49,8 +50,10 @@ per-width kernels.
 **ppc64le — measured on real POWER9** (VSX, GCC Compile Farm, Go 1.26.4,
 2026-06-26): `Pack` ~7,200 vs ~1,020 MB/s scalar (**~7.0×**), `Unpack` ~8,630 vs
 ~760 MB/s (**~11.3×**). This **overturns the earlier llvm-mca cycle-model
-estimate of ~1.1×** — on real silicon the VSX path is a decisive win. s390x is
-still an llvm-mca estimate (~4.7× on z14), native perf pending real IBM Z silicon.
+estimate of ~1.1×** — on real silicon the VSX path is a decisive win. **s390x is
+now measured on real IBM z15 (VXE2)** (2026-07-03, `-count=6`): `Unpack` ~34×,
+`Pack` ~23× the scalar word packer — far above the earlier ~4.7× z14 cycle-model
+estimate.
 
 > Competitor note: `ronanh/intcomp` is the prior pure-Go SIMD-ish integer codec
 > for this space; a head-to-head benchmark against it is a follow-up.

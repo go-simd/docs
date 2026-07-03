@@ -25,7 +25,7 @@ sum = h.Sum32()
 | **riscv64** | **RVV** (dispatch via `HasV`) | length-agnostic `VWMULU` + `VWREDSUMU`; scalar fallback without V |
 | **arm64** | **NEON** on **Go 1.27+**, scalar on stable | needs integer `VUMULL`, upstreamed in Go 1.27 |
 | **ppc64le** | **VSX / AltiVec** | `VMULEUB`/`VMULOUB` widening byte multiplies for the weighted sum; qemu-validated (`power9`), native perf pending |
-| **s390x** | **vector facility** (**big-endian**; dispatch via `HasVX`) | `VSUMB` byte sum + `VMLEB`/`VMLOB` weighted sum + `VSUMQF` reduce; scalar fallback without VX; qemu-validated, native perf pending |
+| **s390x** | **vector facility** (**big-endian**; dispatch via `HasVX`) | `VSUMB` byte sum + `VMLEB`/`VMLOB` weighted sum + `VSUMQF` reduce; scalar fallback without VX; **measured on real IBM z15 (VXE2), 2026-07-03: ~5.4× vs scalar** (`-count=6`) |
 | loong64 / others | scalar | LSX kernel not yet shipped |
 
 ## Algorithm
@@ -81,9 +81,12 @@ Honest notes:
 - Go 1.26's `simd/archsimd` is amd64-only; this package differentiates by being
   multi-arch (amd64 + riscv64 + arm64-on-1.27 + ppc64le + s390x) and Go 1.20+
   compatible.
-- **ppc64le / s390x**: qemu-validated SIMD kernels (the VSX even/odd widening
-  multiply and the big-endian vector-facility sum); native throughput is pending
-  (no POWER/Z runner), so no ppc64le/s390x MB/s is quoted.
+- **s390x**: **measured on real IBM z15 (VXE2), native execution, 2026-07-03,
+  `-count=6`**: the big-endian vector-facility kernel (`VSUMB`/`VSUMQF` +
+  `VMLEB`/`VMLOB`) runs at **~5.4× the scalar `hash/adler32` baseline** on a
+  1 MiB buffer.
+- **ppc64le**: qemu-validated SIMD kernel (the VSX even/odd widening multiply);
+  native throughput is pending (no POWER runner), so no ppc64le MB/s is quoted.
 
 ## Coverage
 

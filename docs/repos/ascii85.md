@@ -103,9 +103,10 @@ empirically under QEMU** before the kernel was assembled, then verified against
 - **loong64** — **measured on a real Loongson 3A5000 (LSX)** (GCC Compile Farm
   cfarm401, Go 1.26.4, 2026-06-26): LSX encode **~4.3× scalar** native;
   correctness PASSES byte-, error- and offset-identical on real silicon.
-- **s390x**: real SIMD kernels, **QEMU-validated for correctness only** (byte-,
-  error- and offset-identical, incl. big-endian); **native perf pending** real
-  IBM Z silicon (no GitHub-hosted runner).
+- **s390x** — **measured on real IBM z15 (VXE2)** (native execution, 2026-07-03,
+  `-count=6`): the vector-facility kernels run **encode ~6.4× scalar** and
+  **decode ~3.7× scalar** native; correctness PASSES byte-, error- and
+  offset-identical (incl. big-endian) on real IBM Z silicon.
 
 ### Seventh architecture: ppc64 (big-endian)
 

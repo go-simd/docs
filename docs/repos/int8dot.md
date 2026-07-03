@@ -110,8 +110,11 @@ reference at large sizes (~1.8× at dim 64).
   (`DotU8S8` is scalar on loong64 — no mixed-sign byte multiply).
 - **ppc64le — real POWER9** (VSX): VSX INT8 MAC runs `Dot` at dim 4096 at
   ~3055 vs ~744 MB/s scalar — **~4.1×** native.
-- **s390x** stays **qemu-validated for correctness only**, native throughput
-  pending real IBM Z hardware.
+- **s390x** is now **measured on real IBM z15 (VXE2)** (2026-07-03, `-count=6`):
+  the vector-facility INT8 MAC kernels (`VMEB`/`VMOB`) run `Dot` at **~9.1×** and
+  `DotUint8` at **~10×** the scalar reference. `DotU8S8` is **scalar** on s390x
+  (no mixed unsigned×signed byte multiply), so it tracks the scalar baseline
+  (~1.0×, no vector win).
 
 ## Coverage
 

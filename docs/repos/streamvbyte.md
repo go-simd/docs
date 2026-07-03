@@ -93,15 +93,17 @@ architectures. It complements [`bitpack`](bitpack.md).
 | **ppc64le** (POWER9, VSX, native) | ~3695 MB/s | ~311 MB/s | **~11.6×** |
 | **riscv64** (SpacemiT X60, RVV 1.0, native) | ~829 MB/s | ~184 MB/s | **~4.5×** |
 | **loong64** (Loongson 3A5000, LSX, native) | ~11.8× scalar (real silicon) | — | **~11.8×** |
-| **s390x** | qemu-validated; native perf pending | — | — |
+| **s390x** (IBM z15, VXE2, native, 2026-07-03) | ~20× scalar (real silicon) | — | **~20×** |
 
 \* The amd64 figure was measured inside an emulated x86-64 VM (no hardware
 virtualization on the dev host), so it understates native silicon by a large
 margin; treat it as a correctness-grade lower bound. **ppc64le, riscv64 and
 loong64 are measured on real silicon** (GCC Compile Farm, Go 1.26.4, 2026-06-26),
 each running **full SIMD encode *and* decode**; the X60 is a low-power in-order
-RVV core so its absolute MB/s are conservative. s390x stays qemu-validated for
-correctness only.
+RVV core so its absolute MB/s are conservative. **s390x is now measured on real
+IBM z15 (VXE2)** (2026-07-03, `-count=6`): SIMD **decode ~20× the scalar
+baseline** (the largest decode win in this table), **encode ~1.4×** (only the
+byte compaction vectorises).
 
 ## Coverage
 

@@ -34,8 +34,8 @@ need no runtime feature dispatch — the SIMD path is simply the arch's only pat
 mismatching byte is the *first* `VFENEBS` element. lz4-style callers that need a
 remaining architecture use a portable 8-byte-word scalar fallback. The result is
 bit-identical everywhere — including big-endian s390x — checked vs a byte-by-byte
-reference and fuzzed. **ppc64le, riscv64 and loong64 are now natively measured on
-real silicon** (see below); **s390x stays qemu-validated for correctness only.**
+reference and fuzzed. **ppc64le, riscv64, loong64 and s390x are now natively measured on
+real silicon** (see below).
 
 ## Performance
 
@@ -49,6 +49,10 @@ The match-counter alone (native amd64, GitHub runner): SSE2 ~17.6 GB/s, **AVX2
 
 - **ppc64le — real POWER9** (VSX): `MatchLen` runs at **~6.3× the scalar
   baseline** (5320 vs 841 MB/s), superseding the earlier llvm-mca cycle-model
+  estimate.
+- **s390x — real IBM z15** (VXE2, native, 2026-07-03, `-count=6`): the
+  vector-facility `MatchLen` (`VL`+`VFENEBS`, index via `VLGVB`) runs at
+  **~9.2× the scalar baseline**, superseding the earlier ~2.5× z14 cycle-model
   estimate.
 - **riscv64 — real SpacemiT X60** (RVV 1.0): **~5.8× the scalar baseline**
   (1236 vs 214 MB/s). The X60 is a low-power *in-order* core, so absolute MB/s are

@@ -67,9 +67,10 @@ keeps `VINSERTI128` — a `-4` load there would read before `src`.)
 - **ppc64le**: VSX SIMD encode **and** decode, **natively measured on real POWER9**
   (GCC Compile Farm, Go 1.26.4, 2026-06-26): encode ~2.1× stdlib (1613 vs 782
   MB/s), decode ~2.0× (2090 vs 1057 MB/s; decode also beats emmansun).
-- **s390x**: qemu-validated SIMD encode+decode kernels (table + fuzz,
-  byte-identical to stdlib, including on big-endian s390x); native throughput
-  pending (no IBM Z runner), so no s390x MB/s is quoted.
+- **s390x**: vector-facility SIMD encode+decode kernels, **natively measured on
+  real IBM z15 (VXE2)** (2026-07-03, `-count=6`): **~3.7–4.2× stdlib** on
+  buffers ≥1 KiB; the scalar fallback wins at **≤16-byte** small inputs (dispatch
+  + non-vectorised tail dominate there).
 - **decode** is now SIMD on amd64/arm64/ppc64le/s390x — **beats emmansun decode on
   amd64** (~1.3×); scalar on loong64/riscv64.
 - cgo wrappers of `aklomp/base64` are faster still but need a C toolchain —
