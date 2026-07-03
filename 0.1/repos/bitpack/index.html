@@ -986,8 +986,9 @@ is little-endian so words load/store directly; <strong>s390x is big-endian</stro
 so no fix-up is needed, and the big-endian port produces the same bytes as
 scalar/simdcomp. Every path is byte-exact — verified by table tests, a
 scalar-equality test, and <code>FuzzPack</code>/<code>FuzzUnpack</code>. <strong>ppc64le is now measured on
-real POWER9</strong> (see below); <strong>s390x stays qemu-validated for correctness only</strong>,
-native perf pending.</p>
+real POWER9</strong> (see below); <strong>s390x is now measured on real IBM z15 (VXE2)</strong>
+(2026-07-03, <code>-count=6</code>): <code>Unpack</code> ~34× and <code>Pack</code> ~23× the scalar word packer —
+the largest s390x win in the go-simd set.</p>
 <h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
 <p>Native amd64 (ubuntu-latest CI, AVX2, <code>-count=6</code>), throughput over the input
 <code>uint32</code> stream, <strong>vs the package's own scalar reference</strong>:</p>
@@ -1033,8 +1034,10 @@ per-width kernels.</p>
 <p><strong>ppc64le — measured on real POWER9</strong> (VSX, GCC Compile Farm, Go 1.26.4,
 2026-06-26): <code>Pack</code> ~7,200 vs ~1,020 MB/s scalar (<strong>~7.0×</strong>), <code>Unpack</code> ~8,630 vs
 ~760 MB/s (<strong>~11.3×</strong>). This <strong>overturns the earlier llvm-mca cycle-model
-estimate of ~1.1×</strong> — on real silicon the VSX path is a decisive win. s390x is
-still an llvm-mca estimate (~4.7× on z14), native perf pending real IBM Z silicon.</p>
+estimate of ~1.1×</strong> — on real silicon the VSX path is a decisive win. <strong>s390x is
+now measured on real IBM z15 (VXE2)</strong> (2026-07-03, <code>-count=6</code>): <code>Unpack</code> ~34×,
+<code>Pack</code> ~23× the scalar word packer — far above the earlier ~4.7× z14 cycle-model
+estimate.</p>
 <blockquote>
 <p>Competitor note: <code>ronanh/intcomp</code> is the prior pure-Go SIMD-ish integer codec
 for this space; a head-to-head benchmark against it is a follow-up.</p>

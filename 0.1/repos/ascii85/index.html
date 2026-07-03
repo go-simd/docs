@@ -1148,9 +1148,10 @@ empirically under QEMU</strong> before the kernel was assembled, then verified a
 <li><strong>loong64</strong> — <strong>measured on a real Loongson 3A5000 (LSX)</strong> (GCC Compile Farm
   cfarm401, Go 1.26.4, 2026-06-26): LSX encode <strong>~4.3× scalar</strong> native;
   correctness PASSES byte-, error- and offset-identical on real silicon.</li>
-<li><strong>s390x</strong>: real SIMD kernels, <strong>QEMU-validated for correctness only</strong> (byte-,
-  error- and offset-identical, incl. big-endian); <strong>native perf pending</strong> real
-  IBM Z silicon (no GitHub-hosted runner).</li>
+<li><strong>s390x</strong> — <strong>measured on real IBM z15 (VXE2)</strong> (native execution, 2026-07-03,
+  <code>-count=6</code>): the vector-facility kernels run <strong>encode ~6.4× scalar</strong> and
+  <strong>decode ~3.7× scalar</strong> native; correctness PASSES byte-, error- and
+  offset-identical (incl. big-endian) on real IBM Z silicon.</li>
 </ul>
 <h3 id="seventh-architecture-ppc64-big-endian">Seventh architecture: ppc64 (big-endian)<a class="headerlink" href="#seventh-architecture-ppc64-big-endian" title="Permanent link">&para;</a></h3>
 <p>Beyond the six SIMD targets, the fused-scalar fallback is build- and

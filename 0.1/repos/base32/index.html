@@ -1033,8 +1033,8 @@ back to <code>encoding/base32</code>. <strong>ppc64le is now natively measured o
 (GCC Compile Farm, VSX, Go 1.26.4, 2026-06-26): SIMD decode <strong>~5.5× the stdlib
 scalar decoder (621 vs 113 MB/s)</strong> — a real VSX kernel (<code>VSRH</code>) on hardware where
 arm64 stable can't run one. The arm64 NEON kernel is validated on native arm64
-under <code>gotip</code> (~2.1× the stdlib encoder); <strong>s390x stays qemu-validated for
-correctness only</strong>, native throughput pending (no GitHub-hosted IBM Z runner).</p>
+under <code>gotip</code> (~2.1× the stdlib encoder); <strong>s390x is now natively measured on real IBM z15 (VXE2)</strong> (2026-07-03,
+<code>-count=6</code>): SIMD decode <strong>~8.4×</strong> and encode <strong>~3.4×</strong> the stdlib scalar baseline.</p>
 <h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
 <p>Per 5-byte group → 8 chars (base32 packs 5-bit groups: 5 bytes = 40 bits = 8
 chars):</p>

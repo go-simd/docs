@@ -1171,12 +1171,12 @@ not emulation:</p>
   container (<code>QEMU_CPU=power9</code> / <code>qemu</code>). QEMU's TCG does not model out-of-order
   execution, so emulated MB/s is <em>not</em> representative and is never quoted as a
   headline.</li>
-<li><strong>s390x stays qemu-validated for correctness only, native perf pending.</strong> It
-  runs the official vectors and the byte-identical differential fuzz (and on
-  <strong>big-endian s390x</strong> the output is proven bit-exact), but there is <strong>no
-  GitHub-hosted or Compile-Farm IBM Z runner</strong>, so native s390x throughput is not
-  measured — and deliberately <em>not</em> invented from emulation. <strong>Six SIMD targets,
-  validated on seven architectures.</strong></li>
+<li><strong>s390x is now natively measured on real IBM z15</strong> (VXE2, native execution,
+  2026-07-03, <code>-count=6</code>). It runs the official vectors and the byte-identical
+  differential fuzz (and on <strong>big-endian s390x</strong> the output is proven bit-exact),
+  and the vector-facility kernels are now measured on real IBM Z silicon — no
+  longer extrapolated from emulation. <strong>Six SIMD targets, validated on seven
+  architectures.</strong></li>
 <li><strong>Fuzzing</strong> runs against the stdlib reference on arbitrary input, comparing
   the returned <strong>value and the full error</strong> (e.g. <code>strconv</code>'s <code>*NumError</code>,
   <code>hex</code>'s <code>InvalidByteError</code> offset). Direct kernel fuzz targets exercise the
@@ -1203,9 +1203,9 @@ qemu-correctness validation where no native runner exists), and a coverage gate
 that refuses to ship an unexercised branch — is what lets go-simd publish
 <strong>honest</strong> numbers: it beats <code>emmansun</code> and <code>tmthrgd</code> where it says it does, it
 openly reports the ~7% gap to <code>mhr3</code> and the fact that a byte histogram has no
-SIMD win at all, and it labels the ppc64le/s390x kernels as correctness-validated
-with native perf pending rather than quoting emulated throughput as if it were a
-headline. A standout of the six-arch port: <strong>base32 gets real SIMD on ppc64le
+SIMD win at all, and it quotes ppc64le/s390x throughput only from real hardware —
+s390x on real IBM z15, ppc64le on real POWER9 where a runner is available —
+rather than quoting emulated throughput as if it were a headline. A standout of the six-arch port: <strong>base32 gets real SIMD on ppc64le
 (<code>VSRH</code>, register-variable vector shift) and s390x (<code>VMLHH</code>, integer vector
 multiply-high) precisely where Go's arm64 assembler lacks those two
 primitives</strong> — so POWER and IBM Z run the full spread-extract kernel that NEON

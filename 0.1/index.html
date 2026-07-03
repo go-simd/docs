@@ -980,9 +980,10 @@ kernels for all six targets; <code>cmd/asm</code> encodes them. As of <strong>20
 Loongson 3A5000) are natively measured</strong> on the
 <a href="https://portal.cfarm.net/">GCC Compile Farm</a> — not just qemu-validated — and the
 portable scalar fallback is additionally build+test-validated on a seventh arch,
-<strong>ppc64 (big-endian)</strong>, on real POWER9. <strong>s390x stays qemu-validated for
-correctness only</strong> (no GitHub-hosted IBM Z runner exists), so no native s390x
-throughput is quoted. Headline numbers come from native measurement and are never
+<strong>ppc64 (big-endian)</strong>, on real POWER9. <strong>s390x is now natively measured on real
+IBM z15</strong> (VXE2, 2026-07-03, <code>-count=6</code>) — the vector-facility kernels post clear
+wins (bitpack ~34×, streamvbyte decode ~20×, hex encode ~18×, matchlen ~9.2×,
+crc64 ~9.1×). Headline numbers come from native measurement and are never
 extrapolated. Two results stand out: <strong>base32 gets real SIMD on ppc64le
 (<code>VSRH</code>) and s390x (<code>VMLHH</code>) where the arm64 NEON port could not on stable Go</strong>
 (Go's arm64 assembler gained the register-variable shift and integer vector
@@ -1132,8 +1133,8 @@ needs <strong>Go 1.27</strong>, scalar below); and <a href="repos/ascii/"><code>
 case-folding on arm64 too, via a multiply-free sign-bit predicate (<strong>~4.9×
 stdlib</strong>). As elsewhere in the org, <strong>ppc64le, riscv64 and loong64 are now
 natively measured on real silicon</strong> (GCC Compile Farm — POWER9, SpacemiT X60
-RVV 1.0, Loongson 3A5000); <strong>s390x stays QEMU-validated for correctness only</strong>,
-native perf pending real IBM Z hardware (no invented numbers).</p>
+RVV 1.0, Loongson 3A5000); <strong>s390x is now natively measured on real IBM z15</strong>
+(VXE2, 2026-07-03) — see the per-repo pages for the vector-facility speedups.</p>
 <p>Read the <a href="methodology/">methodology</a> for the check-existing → go-asmgen →
 <code>llvm-mca</code> → real-hardware → 100%-coverage pipeline every repo follows.</p>
 <p>Source lives under <a href="https://github.com/go-simd">github.com/go-simd</a>. Assembly is

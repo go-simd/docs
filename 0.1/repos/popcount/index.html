@@ -1064,8 +1064,10 @@ facility, big-endian). riscv64 stays scalar (see below). <strong>loong64 and ppc
 are now measured on real silicon</strong> (GCC Compile Farm, 2026-06-26): the loong64
 LSX <code>VPCNTV</code> kernel runs <strong>~6.1× the scalar baseline</strong> on a Loongson 3A5000, and
 the ppc64le VSX <code>VPOPCNTD</code> kernel <strong>~2.9×</strong> on real POWER9 — both supersede the
-earlier llvm-mca cycle-model estimates. <strong>s390x stays qemu-validated for
-correctness only</strong>, native perf pending real IBM Z silicon.</p>
+earlier llvm-mca cycle-model estimates. <strong>s390x is now measured on real IBM z15
+(VXE2)</strong> (2026-07-03, <code>-count=6</code>): the <code>VPOPCT</code> + <code>VSUMB</code>/<code>VSUMQF</code> kernel runs
+<strong>~6.5× the scalar baseline</strong> and <strong>beats the barakmich SWAR reference</strong> — a
+clear vector win (unlike ppc64le, which barely edges strong scalar HW popcount).</p>
 <h2 id="the-honest-result-its-size-dependent">The honest result: it's size-dependent<a class="headerlink" href="#the-honest-result-its-size-dependent" title="Permanent link">&para;</a></h2>
 <p>A scalar <code>OnesCount64</code> loop already lowers to one <code>POPCNTQ</code>/<code>CNT</code> per word —
 roughly <strong>eight bytes per cycle</strong>. So for <strong>large, out-of-cache buffers the

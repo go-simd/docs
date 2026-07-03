@@ -1159,10 +1159,10 @@ architectures. It complements <a href="../bitpack/"><code>bitpack</code></a>.</p
 <td><strong>~11.8×</strong></td>
 </tr>
 <tr>
-<td><strong>s390x</strong></td>
-<td>qemu-validated; native perf pending</td>
+<td><strong>s390x</strong> (IBM z15, VXE2, native, 2026-07-03)</td>
+<td>~20× scalar (real silicon)</td>
 <td>—</td>
-<td>—</td>
+<td><strong>~20×</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1171,8 +1171,10 @@ virtualization on the dev host), so it understates native silicon by a large
 margin; treat it as a correctness-grade lower bound. <strong>ppc64le, riscv64 and
 loong64 are measured on real silicon</strong> (GCC Compile Farm, Go 1.26.4, 2026-06-26),
 each running <strong>full SIMD encode <em>and</em> decode</strong>; the X60 is a low-power in-order
-RVV core so its absolute MB/s are conservative. s390x stays qemu-validated for
-correctness only.</p>
+RVV core so its absolute MB/s are conservative. <strong>s390x is now measured on real
+IBM z15 (VXE2)</strong> (2026-07-03, <code>-count=6</code>): SIMD <strong>decode ~20× the scalar
+baseline</strong> (the largest decode win in this table), <strong>encode ~1.4×</strong> (only the
+byte compaction vectorises).</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
 <p>Round-trip table tests plus <code>FuzzRoundTrip</code> (<code>Decode(Encode(x)) == x</code>) run with
 <strong>100% statement coverage</strong> on every architecture: amd64 and arm64 natively, and
