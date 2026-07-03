@@ -83,8 +83,11 @@ word with one vector instruction.
 
 The `Count`/`IntersectionCount` kernels are the clearest win (hardware popcount
 is far denser than a scalar `OnesCount64`); the logical ops are bandwidth-bound
-and converge toward scalar as the set leaves cache. **ppc64le / s390x** kernels
-are **qemu-validated for correctness; native perf pending** real POWER/Z hardware.
+and converge toward scalar as the set leaves cache. **ppc64le** kernels
+are **qemu-validated for correctness; native perf pending** real POWER hardware.
+**s390x is now measured on real IBM z15 (VXE2)** (2026-07-03, `-count=6`): the
+vector `VPOPCT` + `VSUMB`/`VSUMQF` `Count` kernel runs **~2.8× scalar**, and
+`And` **~1.6×** (bandwidth-bound logical ops keep a modest margin).
 
 ## Where it fits
 

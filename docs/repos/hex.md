@@ -32,7 +32,9 @@ the `LXVD2X` doubleword swap), minding the VSX↔VMX `Vn == VS(32+n)` aliasing.
 **s390x is big-endian:** `VL` puts the first memory byte in the high-order lane.
 The ppc64le and s390x kernels are **qemu-validated for correctness** (the
 `InvalidByteError` offset and `ErrLength` semantics are byte- and error-identical
-there too); native perf is pending.
+there too). **s390x is measured on real IBM z15 (VXE2), 2026-07-03, `-count=6`:
+encode ~18×, decode ~3.1× the `encoding/hex` scalar path.** ppc64le native perf
+is pending a real POWER system.
 
 ## Algorithm
 

@@ -33,8 +33,10 @@ facility, big-endian). riscv64 stays scalar (see below). **loong64 and ppc64le
 are now measured on real silicon** (GCC Compile Farm, 2026-06-26): the loong64
 LSX `VPCNTV` kernel runs **~6.1× the scalar baseline** on a Loongson 3A5000, and
 the ppc64le VSX `VPOPCNTD` kernel **~2.9×** on real POWER9 — both supersede the
-earlier llvm-mca cycle-model estimates. **s390x stays qemu-validated for
-correctness only**, native perf pending real IBM Z silicon.
+earlier llvm-mca cycle-model estimates. **s390x is now measured on real IBM z15
+(VXE2)** (2026-07-03, `-count=6`): the `VPOPCT` + `VSUMB`/`VSUMQF` kernel runs
+**~6.5× the scalar baseline** and **beats the barakmich SWAR reference** — a
+clear vector win (unlike ppc64le, which barely edges strong scalar HW popcount).
 
 ## The honest result: it's size-dependent
 

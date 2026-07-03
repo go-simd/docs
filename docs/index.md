@@ -22,9 +22,10 @@ kernels for all six targets; `cmd/asm` encodes them. As of **2026-06**,
 Loongson 3A5000) are natively measured** on the
 [GCC Compile Farm](https://portal.cfarm.net/) — not just qemu-validated — and the
 portable scalar fallback is additionally build+test-validated on a seventh arch,
-**ppc64 (big-endian)**, on real POWER9. **s390x stays qemu-validated for
-correctness only** (no GitHub-hosted IBM Z runner exists), so no native s390x
-throughput is quoted. Headline numbers come from native measurement and are never
+**ppc64 (big-endian)**, on real POWER9. **s390x is now natively measured on real
+IBM z15** (VXE2, 2026-07-03, `-count=6`) — the vector-facility kernels post clear
+wins (bitpack ~34×, streamvbyte decode ~20×, hex encode ~18×, matchlen ~9.2×,
+crc64 ~9.1×). Headline numbers come from native measurement and are never
 extrapolated. Two results stand out: **base32 gets real SIMD on ppc64le
 (`VSRH`) and s390x (`VMLHH`) where the arm64 NEON port could not on stable Go**
 (Go's arm64 assembler gained the register-variable shift and integer vector
@@ -85,8 +86,8 @@ needs **Go 1.27**, scalar below); and [`ascii`](repos/ascii.md) runs real SIMD
 case-folding on arm64 too, via a multiply-free sign-bit predicate (**~4.9×
 stdlib**). As elsewhere in the org, **ppc64le, riscv64 and loong64 are now
 natively measured on real silicon** (GCC Compile Farm — POWER9, SpacemiT X60
-RVV 1.0, Loongson 3A5000); **s390x stays QEMU-validated for correctness only**,
-native perf pending real IBM Z hardware (no invented numbers).
+RVV 1.0, Loongson 3A5000); **s390x is now natively measured on real IBM z15**
+(VXE2, 2026-07-03) — see the per-repo pages for the vector-facility speedups.
 
 Read the [methodology](methodology.md) for the check-existing → go-asmgen →
 `llvm-mca` → real-hardware → 100%-coverage pipeline every repo follows.

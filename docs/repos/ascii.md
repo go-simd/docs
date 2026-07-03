@@ -94,8 +94,9 @@ SIMD vs the standard library over a 4 KiB ASCII buffer (`-count=3`, medians):
 
 The amd64 figures come from a QEMU/TCG VM, so the absolute throughput is
 artificially low (no native silicon was available); only the SIMD-vs-stdlib ratio
-is meaningful there. **ppc64le / s390x:** the kernels are **QEMU-validated for
-correctness; native perf pending** real POWER / IBM Z hardware.
+is meaningful there. **ppc64le:** the kernel is **QEMU-validated for correctness; native perf
+pending** real POWER hardware. **s390x: measured on real IBM z15 (VXE2),
+2026-07-03, `-count=6`** — `ToUpper`/`ToLower` ~10× stdlib, `EqualFold` ~1.6×.
 
 ## Coverage
 
