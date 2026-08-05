@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/base64/">
+        <link rel="canonical" href="https://go-simd.github.io/docs/0.1/repos/crc32/">
       
       
-        <link rel="prev" href="../../methodology/">
+        <link rel="prev" href="../crc64/">
       
       
-        <link rel="next" href="../base32/">
+        <link rel="next" href="../strconv/">
       
       
       <link rel="icon" href="../../assets/logo.svg">
@@ -24,7 +24,7 @@
     
     
       
-        <title>base64 - go-simd docs</title>
+        <title>crc32 - go-simd docs</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#base64" class="md-skip">
+        <a href="#crc32" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              base64
+              crc32
             
           </span>
         </div>
@@ -338,30 +338,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    base64
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../base64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -370,62 +350,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#api" class="md-nav__link">
-    <span class="md-ellipsis">
-      API
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#algorithm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Algorithm
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#coverage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Coverage
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -582,10 +506,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../crc32/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    crc32
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -594,6 +538,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-arm64-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why arm64 only
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -952,6 +952,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#why-arm64-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why arm64 only
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api" class="md-nav__link">
     <span class="md-ellipsis">
       API
@@ -964,15 +973,6 @@
   <a href="#algorithm" class="md-nav__link">
     <span class="md-ellipsis">
       Algorithm
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Performance
     </span>
   </a>
   
@@ -1002,134 +1002,107 @@
                   
 
 
-<h1 id="base64">base64<a class="headerlink" href="#base64" title="Permanent link">&para;</a></h1>
-<p><a href="https://github.com/go-simd/base64/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/base64/actions/workflows/ci.yml/badge.svg" /></a>
+<h1 id="crc32">crc32<a class="headerlink" href="#crc32" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/go-simd/crc32/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/go-simd/crc32/actions/workflows/ci.yml/badge.svg" /></a>
 <img alt="coverage" src="https://img.shields.io/badge/coverage-100%25-brightgreen" /></p>
-<p>A drop-in fast path for standard base64 (<code>StdEncoding</code>, padded), byte- <strong>and
-error-identical</strong> to <code>encoding/base64</code>. Both encode and decode run a SIMD kernel
-generated by <a href="https://github.com/go-asmgen/asmgen">go-asmgen</a>; the short tail +
-padding (and, on decode, any block with an invalid byte) reuse the standard
-library, so output and every <code>CorruptInputError</code> offset match exactly.
-<a href="https://github.com/go-simd/base64">Repository →</a></p>
+<p>A pure-Go, SIMD-accelerated <strong>drop-in replacement for <code>hash/crc32</code></strong>
+(<code>CGO_ENABLED=0</code>, stable Go, no <code>GOEXPERIMENT</code>). It produces <strong>bit-identical</strong>
+CRC-32 checksums — for the <code>IEEE</code>, <code>Castagnoli</code> and <code>Koopman</code> polynomials and
+for any custom polynomial. <a href="https://github.com/go-simd/crc32">Repository →</a></p>
+<h2 id="why-arm64-only">Why arm64 only<a class="headerlink" href="#why-arm64-only" title="Permanent link">&para;</a></h2>
+<p>Unlike the rest of the org, this package does <strong>not</strong> target all six 64-bit
+arches. The standard library's <code>hash/crc32</code> IEEE fast path is already an
+excellent PCLMULQDQ fold on amd64 and hardware-assisted on ppc64le and s390x —
+there is nothing to beat there. The one 64-bit target whose stdlib IEEE path
+is a latency-bound serial <code>CRC32X</code> is <strong>arm64</strong>; this package folds it with an
+eight-lane <code>PMULL</code>/<code>PMULL2</code> kernel and defers to the standard library
+everywhere else (including every non-IEEE polynomial, on every arch). The
+result is always exactly <code>hash/crc32</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Arch</th>
+<th>IEEE bulk path</th>
+<th>Gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arm64</td>
+<td><code>PMULL</code> / <code>PMULL2</code> fold-by-eight (this pkg)</td>
+<td><code>cpu.ARM64.HasPMULL</code>, always on darwin</td>
+</tr>
+<tr>
+<td>amd64</td>
+<td>stdlib <code>PCLMULQDQ</code> / AVX-512 fold</td>
+<td>standard library</td>
+</tr>
+<tr>
+<td>ppc64le</td>
+<td>stdlib <code>VPMSUMD</code></td>
+<td>standard library</td>
+</tr>
+<tr>
+<td>s390x</td>
+<td>stdlib vector-galois</td>
+<td>standard library</td>
+</tr>
+<tr>
+<td>riscv64</td>
+<td>stdlib scalar table</td>
+<td>standard library</td>
+</tr>
+<tr>
+<td>loong64</td>
+<td>stdlib scalar table</td>
+<td>standard library</td>
+</tr>
+</tbody>
+</table>
 <h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">base64</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w">   </span><span class="c1">// same bytes as encoding/base64.StdEncoding</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">b</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">base64</span><span class="p">.</span><span class="nx">DecodeString</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w">   </span><span class="c1">// same bytes + same error/offset as stdlib</span>
+<p>The API matches <code>hash/crc32</code> exactly — change only the import path:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/crc32&quot;</span><span class="w"> </span><span class="c1">// was &quot;hash/crc32&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">crc32</span><span class="p">.</span><span class="nx">ChecksumIEEE</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">tab</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">crc32</span><span class="p">.</span><span class="nx">MakeTable</span><span class="p">(</span><span class="nx">crc32</span><span class="p">.</span><span class="nx">IEEE</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nx">sum</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">crc32</span><span class="p">.</span><span class="nx">Checksum</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">tab</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nx">crc</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">crc32</span><span class="p">.</span><span class="nx">Update</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">tab</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nx">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">crc32</span><span class="p">.</span><span class="nx">NewIEEE</span><span class="p">()</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nx">h</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nx">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">h</span><span class="p">.</span><span class="nx">Sum32</span><span class="p">()</span>
 </code></pre></div>
-<table>
-<thead>
-<tr>
-<th>op</th>
-<th>amd64</th>
-<th>arm64</th>
-<th>ppc64le</th>
-<th>s390x</th>
-<th>loong64 / riscv64</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>encode</td>
-<td><strong>AVX2 + SSE2</strong> (Lemire)</td>
-<td><strong>NEON</strong> (<code>VLD3</code>/<code>VST4</code> deinterleaving I/O)</td>
-<td><strong>VSX</strong> (shift-based)</td>
-<td><strong>vector facility</strong> (shift-based)</td>
-<td>scalar (stdlib)</td>
-</tr>
-<tr>
-<td>decode</td>
-<td><strong>AVX2 + SSE</strong> (Muła)</td>
-<td><strong>NEON</strong> (shift-based)</td>
-<td><strong>VSX</strong> (shift-based)</td>
-<td><strong>vector facility</strong> (shift-based)</td>
-<td>scalar (stdlib)</td>
-</tr>
-</tbody>
-</table>
+<p><code>Checksum</code>, <code>ChecksumIEEE</code>, <code>Update</code>, <code>New</code>, <code>NewIEEE</code>, <code>MakeTable</code>,
+<code>IEEETable</code>, the <code>IEEE</code>/<code>Castagnoli</code>/<code>Koopman</code> constants, <code>Size</code>, the <code>Table</code>
+type (aliased to the stdlib type, so tables are interchangeable), and the
+<code>hash.Hash32</code> returned by <code>New</code> (including
+<code>BinaryMarshaler</code>/<code>BinaryUnmarshaler</code>/<code>AppendBinary</code>) are all present.</p>
 <h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
-<p>The encoder is Lemire's vectorised base64: a shuffle spreads the input across
-24-bit lanes, two multiplies pull out the 6-bit indices, and a <code>PSHUFB</code> / <code>TBL</code>
-offset-LUT maps each to its ASCII byte (constants via go-asmgen's
-<code>emit.File.Data</code>). The amd64 path uses the multiply trick; <strong>arm64, ppc64le and
-s390x use a shift-based variant</strong> (<code>VSRW</code>/<code>VESRLF</code> index extraction), since those
-ISAs lack the integer vector multiply amd64 relies on. All six 64-bit targets are
-covered: AVX2/SSE2 on amd64, NEON on arm64, <strong>VSX on ppc64le</strong>, <strong>the vector
-facility on s390x (big-endian)</strong>, and a scalar fallback on loong64/riscv64. On
-<strong>s390x</strong> the <code>VPERM</code> control vectors use big-endian lane numbering (lane 0 =
-lowest address) and were verified to produce byte-identical output. <strong>arm64 uses
-the aklomp/emmansun deinterleaving-I/O design</strong> (<code>VLD3.P</code> / <code>VST4.P</code>), which needs
-no integer vector multiply and so builds on released Go. <strong>Decode is now SIMD too</strong>
-(amd64 Muła AVX2/SSE; NEON/VSX/vector-facility on arm64/ppc64le/s390x), with the
-<code>CorruptInputError</code> offset of any invalid block matching <code>encoding/base64</code> exactly.</p>
-<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
-<p>Encode throughput, 1 MiB buffer, <strong>native amd64</strong> (GitHub Actions, AMD EPYC
-7763, <code>GOAMD64=v1</code>, <code>-count=6</code>, median MB/s — CI-measured because the dev box is
-arm64):</p>
-<table>
-<thead>
-<tr>
-<th>implementation</th>
-<th>kind</th>
-<th style="text-align: right;">MB/s</th>
-<th style="text-align: right;">vs stdlib</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>encoding/base64</code> (stdlib)</td>
-<td>scalar</td>
-<td style="text-align: right;">~1180</td>
-<td style="text-align: right;">1.0×</td>
-</tr>
-<tr>
-<td><code>cristalhq/base64</code></td>
-<td>pure-Go scalar</td>
-<td style="text-align: right;">~2650</td>
-<td style="text-align: right;">2.2×</td>
-</tr>
-<tr>
-<td><code>emmansun/base64</code></td>
-<td>pure-Go SIMD (AVX2)</td>
-<td style="text-align: right;">~19300</td>
-<td style="text-align: right;">~16×</td>
-</tr>
-<tr>
-<td><strong>this package</strong></td>
-<td>pure-Go SIMD (AVX2)</td>
-<td style="text-align: right;"><strong>~20500</strong></td>
-<td style="text-align: right;"><strong>~17×</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>This package leads <code>emmansun/base64</code> by ~5–6%</strong> (confirmed across CI reruns) —
-notable, since emmansun is the mature reference. The edge came from a
-<strong>cycle-model-guided</strong> optimization: <code>llvm-mca</code> showed the kernel was
-shuffle-port (<code>Zn3FP1</code>) bound; disassembling emmansun revealed a <code>-4</code>-offset
-32-byte load that spreads with a single <code>VPSHUFB</code> (no cross-lane
-<code>VINSERTI128</code>). Combining that load with this package's 2× unroll was <em>predicted</em>
-at 2.15 cyc/block (vs emmansun's 2.20) and the benchmark <em>confirmed</em> it. (Block 0
-keeps <code>VINSERTI128</code> — a <code>-4</code> load there would read before <code>src</code>.)</p>
-<ul>
-<li><strong>arm64</strong>: NEON <code>VLD3</code>/<code>VST4</code> deinterleaving-I/O encode kernel on released Go —
-  <strong>~8× stdlib, ties <code>emmansun/base64</code></strong> (~22 GB/s); decode is a NEON shift-based
-  kernel.</li>
-<li><strong>ppc64le</strong>: VSX SIMD encode <strong>and</strong> decode, <strong>natively measured on real POWER9</strong>
-  (GCC Compile Farm, Go 1.26.4, 2026-06-26): encode ~2.1× stdlib (1613 vs 782
-  MB/s), decode ~2.0× (2090 vs 1057 MB/s; decode also beats emmansun).</li>
-<li><strong>s390x</strong>: vector-facility SIMD encode+decode kernels, <strong>natively measured on
-  real IBM z15 (VXE2)</strong> (2026-07-03, <code>-count=6</code>): <strong>~3.7–4.2× stdlib</strong> on
-  buffers ≥1 KiB; the scalar fallback wins at <strong>≤16-byte</strong> small inputs (dispatch</li>
-<li>non-vectorised tail dominate there).</li>
-<li><strong>decode</strong> is now SIMD on amd64/arm64/ppc64le/s390x — <strong>beats emmansun decode on
-  amd64</strong> (~1.3×); scalar on loong64/riscv64.</li>
-<li>cgo wrappers of <code>aklomp/base64</code> are faster still but need a C toolchain —
-  excluded from this pure-Go comparison.</li>
-</ul>
+<p>For the IEEE polynomial and inputs at or above <code>minBulk</code> (512 B), the data is
+folded 16 bytes at a time into eight independent 128-bit reflected
+accumulators using carryless multiplication — eight dependency chains hide the
+<code>PMULL</code> latency, which is what lifts it past arm64's serial hardware
+<code>CRC32X</code>. The lanes are then collapsed to one and reduced to the 32-bit CRC.
+The fold constants are derived from the IEEE polynomial itself
+(<code>reflect(x^(d+63) mod P)</code> and <code>reflect(x^(d-1) mod P)</code>) — no copied magic
+numbers. The short tail (&lt; 16 bytes) and every non-IEEE polynomial reuse the
+standard library, so the result is guaranteed identical to <code>hash/crc32</code>.</p>
 <h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
-<p>100% of the Go code on every arch job (native amd64 + native arm64, plus QEMU
-jobs for ppc64le, s390x and riscv64). The generated <code>.s</code> kernels are validated by
-differential tests against <code>encoding/base64</code> plus <code>FuzzEncode</code> — on a real AVX2
-box for amd64/arm64, and under <code>qemu-user</code> for the VSX and big-endian
-vector-facility kernels. BSD-3-Clause.</p>
+<p><code>FuzzChecksum</code> compares against <code>hash/crc32</code> for both IEEE and Castagnoli on
+arbitrary inputs, plus exhaustive length sweeps across every block boundary
+for IEEE, Castagnoli and Koopman. CI runs on native amd64/arm64 (with <code>-race</code>)
+and under QEMU for riscv64, loong64, ppc64le (power9) and s390x (big-endian),
+with a <strong>100% statement-coverage</strong> gate on every architecture.</p>
+<div class="admonition note">
+<p class="admonition-title">No cross-arch benchmark table here</p>
+<p>Unlike the other repos in this org, <code>crc32</code> ships no benchmark suite as of
+this writing — since only arm64 gets a real kernel and every other arch
+already runs a hardware-assisted stdlib path, there is no honest
+cross-arch speedup number to report yet. See the
+<a href="https://github.com/go-simd/crc32">repository</a> for the current state.</p>
+</div>
+<p>BSD-3-Clause.</p>
 
 
 
