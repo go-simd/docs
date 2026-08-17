@@ -1086,7 +1086,7 @@ FMA SIMD on <strong>all six</strong> of Go's 64-bit targets, assembly generated 
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/floats&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">"github.com/go-simd/floats"</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">sim</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">floats</span><span class="p">.</span><span class="nx">CosineSimilarity</span><span class="p">(</span><span class="nx">query</span><span class="p">,</span><span class="w"> </span><span class="nx">doc</span><span class="p">)</span><span class="w">  </span><span class="c1">// []float64 relevance score</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">d</span><span class="w">   </span><span class="o">:=</span><span class="w"> </span><span class="nx">floats</span><span class="p">.</span><span class="nx">Float32Distance</span><span class="p">(</span><span class="nx">embA</span><span class="p">,</span><span class="w"> </span><span class="nx">embB</span><span class="p">)</span><span class="w">   </span><span class="c1">// []float32 L2 distance</span>

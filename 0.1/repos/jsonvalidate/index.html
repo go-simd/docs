@@ -1047,7 +1047,7 @@ hottest sub-scans of JSON validation with SIMD on <strong>all six 64-bit Go targ
 No cgo, no <code>GOEXPERIMENT</code>, plain <code>go build</code>. As far as we know, it is the <strong>only
 SIMD JSON validator that covers all six</strong> of Go's vector architectures.
 <a href="https://github.com/go-simd/jsonvalidate">Repository →</a></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/go-simd/jsonvalidate&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">"github.com/go-simd/jsonvalidate"</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">jsonvalidate</span><span class="p">.</span><span class="nx">Valid</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="c1">// == encoding/json.Valid(data), always</span>
 </code></pre></div>
