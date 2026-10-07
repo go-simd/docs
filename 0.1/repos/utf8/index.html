@@ -1315,8 +1315,12 @@ library, so results match exactly. <a href="https://github.com/go-simd/utf8">Rep
 <td><strong>vector facility</strong> (16 B/block, z13 baseline, <strong>big-endian</strong>) — qemu-validated; native perf pending</td>
 </tr>
 <tr>
-<td>arm64 / loong64 / riscv64</td>
-<td>scalar (<code>unicode/utf8</code>) — NEON/LSX/RVV planned</td>
+<td>arm64</td>
+<td><strong>NEON</strong> — on an Apple M4 Max, <code>Valid</code> on mixed text 3.0–10.4× and <code>RuneCount</code> 3.6–8.9× the stdlib (see BENCHMARKS.md)</td>
+</tr>
+<tr>
+<td>loong64 / riscv64</td>
+<td>scalar (<code>unicode/utf8</code>) — LSX/RVV planned</td>
 </tr>
 </tbody>
 </table>

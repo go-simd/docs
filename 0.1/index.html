@@ -1258,7 +1258,7 @@ is the honesty.</p>
 <tr>
 <td><a href="repos/base32/"><code>base32</code></a></td>
 <td><code>encoding/base32</code></td>
-<td>encode <strong>~7.9× stdlib</strong> (AVX2); <strong>real SIMD on ppc64le <code>VSRH</code> + s390x <code>VMLHH</code> where arm64 can't</strong>; no prior pure-Go SIMD base32</td>
+<td>encode <strong>~7.9× stdlib</strong> (AVX2); <strong>real SIMD on ppc64le <code>VSRH</code> + s390x <code>VMLHH</code>, and arm64 NEON encode + decode (decode ~25× at 1 MiB)</strong>; no prior pure-Go SIMD base32</td>
 </tr>
 <tr>
 <td><a href="repos/hex/"><code>hex</code></a></td>

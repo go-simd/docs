@@ -1254,7 +1254,7 @@ error reporting reuse the standard library.
 <td><strong>AVX2 + SSE2</strong></td>
 <td><strong>VSX</strong></td>
 <td><strong>vector facility</strong></td>
-<td><strong>NEON</strong> on <strong>Go 1.27+</strong>, scalar on stable</td>
+<td><strong>NEON</strong></td>
 <td>scalar (stdlib)</td>
 </tr>
 <tr>
@@ -1262,21 +1262,21 @@ error reporting reuse the standard library.
 <td><strong>AVX2 + SSE2</strong></td>
 <td><strong>VSX</strong></td>
 <td><strong>vector facility</strong></td>
-<td>scalar (stdlib)</td>
+<td><strong>NEON</strong></td>
 <td>scalar (stdlib)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>ppc64le, s390x and (on Go 1.27+) arm64 run the <em>full</em> spread-extract kernel —
+<p><strong>ppc64le, s390x and arm64 run the <em>full</em> spread-extract kernel —
 the same algorithm amd64 uses — because POWER (VSX), IBM Z (vector facility) and
 NEON each provide the per-lane variable shift / integer vector multiply the
-kernel needs.</strong> On arm64 those ops (<code>VUMULL</code>, <code>VUSHL</code>, <code>VTBL</code>) were only added to
-the Go assembler in <strong>Go 1.27</strong>, so on <strong>stable Go ≤ 1.26</strong> arm64 encode falls
-back to <code>encoding/base32</code>. <strong>ppc64le is now natively measured on real POWER9</strong>
+kernel needs.</strong> On arm64 those ops (<code>VUMULL</code>, <code>VUSHL</code>, <code>VTBL</code>) only reached the
+Go assembler in <strong>Go 1.27</strong>; the module's floor is now 1.27.1, so every arm64
+build gets the NEON kernels. Decode on arm64 (NEON, 2026-10-07) reaches
+<strong>~10.2 GB/s at 1 MiB, ~25× the stdlib</strong> on an Apple M4 Max. <strong>ppc64le is now natively measured on real POWER9</strong>
 (GCC Compile Farm, VSX, Go 1.26.4, 2026-06-26): SIMD decode <strong>~5.5× the stdlib
-scalar decoder (621 vs 113 MB/s)</strong> — a real VSX kernel (<code>VSRH</code>) on hardware where
-arm64 stable can't run one. The arm64 NEON kernel is validated on native arm64
-under <code>gotip</code> (~2.1× the stdlib encoder); <strong>s390x is now natively measured on real IBM z15 (VXE2)</strong> (2026-07-03,
+scalar decoder (621 vs 113 MB/s)</strong> — a real VSX kernel (<code>VSRH</code>). The arm64 NEON kernels run on native arm64
+(encode ~2.1× the stdlib encoder, decode up to ~25×); <strong>s390x is now natively measured on real IBM z15 (VXE2)</strong> (2026-07-03,
 <code>-count=6</code>): SIMD decode <strong>~8.4×</strong> and encode <strong>~3.4×</strong> the stdlib scalar baseline.</p>
 <h2 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">&para;</a></h2>
 <p>Per 5-byte group → 8 chars (base32 packs 5-bit groups: 5 bytes = 40 bits = 8
@@ -1345,15 +1345,15 @@ serial extract chain — inherent to the format.</p>
   map → <code>VST</code>. The <code>VPERM</code> control vectors use big-endian lane order (lane 0 =
   lowest address), which matches amd64's big-endian 16-bit windows — so the
   output is byte-identical with no endianness fix-up.</li>
-<li><strong><code>VSRH</code> + <code>VMLHH</code> are exactly the two primitives arm64 lacked on stable Go.</strong>
+<li><strong><code>VSRH</code> + <code>VMLHH</code> are exactly the two primitives arm64 lacked before Go 1.27.</strong>
   The per-char 5-bit fields need per-lane variable shifts and an integer vector
   multiply; the Go arm64 assembler exposed neither until <strong>Go 1.27</strong> (<code>VUMULL</code>,
-  register-form <code>VUSHL</code>). POWER and IBM Z always provided them, so <strong>ppc64le and
-  s390x run real SIMD where arm64 stable cannot</strong>; on <strong>Go 1.27+</strong> arm64 gets a
-  full NEON encode kernel too (<strong>~2.1× stdlib</strong> on native arm64). <strong>loong64 /
+  register-form <code>VUSHL</code>). POWER and IBM Z always provided them; with the Go
+  floor at 1.27.1, arm64 now runs full NEON encode (<strong>~2.1× stdlib</strong>) and decode
+  (<strong>up to ~25×</strong>) kernels too. <strong>loong64 /
   riscv64</strong> still fall back to <code>encoding/base32</code>.</li>
-<li><strong>decode</strong> is now SIMD on <strong>amd64, ppc64le and s390x</strong> (scalar on arm64 /
-  loong64 / riscv64), with RFC 4648 error semantics — including
+<li><strong>decode</strong> is SIMD on <strong>amd64, ppc64le, s390x and arm64</strong> (scalar on loong64 /
+  riscv64), with RFC 4648 error semantics — including
   <code>CorruptInputError</code> offsets — kept identical to stdlib. ppc64le decode is the
   <strong>~5.5×</strong> result measured on real POWER9 above.</li>
 </ul>
