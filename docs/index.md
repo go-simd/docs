@@ -53,7 +53,7 @@ is the honesty.
 | Package | Accelerates | Honest headline |
 | --- | --- | --- |
 | [`base64`](repos/base64.md) | `encoding/base64` | encode ~17× stdlib; **beats `emmansun/base64` ~5–6%** |
-| [`base32`](repos/base32.md) | `encoding/base32` | encode **~7.9× stdlib** (AVX2); **real SIMD on ppc64le `VSRH` + s390x `VMLHH` where arm64 can't**; no prior pure-Go SIMD base32 |
+| [`base32`](repos/base32.md) | `encoding/base32` | encode **~7.9× stdlib** (AVX2); **real SIMD on ppc64le `VSRH` + s390x `VMLHH`, and arm64 NEON encode + decode (decode ~25× at 1 MiB)**; no prior pure-Go SIMD base32 |
 | [`hex`](repos/hex.md) | `encoding/hex` | **beats `tmthrgd/go-hex` both ways** — encode 20.4×, decode 6.24× stdlib |
 | [`utf8`](repos/utf8.md) | `unicode/utf8` | `Valid` **~19× stdlib**, edges `stuartcarnie/go-simd` ~3.5% |
 | [`ascii85`](repos/ascii85.md) | `encoding/ascii85` | **first SIMD ascii85**, SIMD **encode and decode on all 6 arches**; arm64 NEON kernel on **Go 1.27** (~3.0×; fused-scalar ~1.9× on stable Go ≤ 1.26); native ppc64le POWER9 ~2.9×, riscv64 X60 ~4.0×, loong64 ~4.3× |
