@@ -1,4 +1,9 @@
-# int8dot
+---
+title: "int8dot"
+weight: 240
+---
+
+# int8dot {#int8dot}
 
 [![CI](https://github.com/go-simd/int8dot/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/int8dot/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -8,7 +13,7 @@ multiply-accumulate at the heart of **quantized machine-learning inference**,
 where embeddings and weights are stored as 8-bit integers to cut memory bandwidth
 and exploit per-byte vector throughput. The signed `int8`, unsigned `uint8`, and
 mixed `uint8×int8` contractions, each summed exactly into a 32-bit accumulator. It
-is the integer counterpart to [`floats`](floats.md).
+is the integer counterpart to [`floats`]({{< relref "floats.md" >}}).
 [Repository →](https://github.com/go-simd/int8dot)
 
 Pure Go: `CGO_ENABLED=0`, stable Go, no `GOEXPERIMENT`. The hot MAC loops are real
@@ -23,7 +28,7 @@ du := int8dot.DotUint8(a, b)   // []uint8 · []uint8  -> uint32
 ds := int8dot.DotU8S8(a, b)    // []uint8 · []int8   -> int32  (quantized GEMM layout)
 ```
 
-## API
+## API {#api}
 
 | function | operands | result |
 |---|---|---|
@@ -37,7 +42,7 @@ ReLU-style activations quantize to `uint8`, and the **`uint8 × int8`** layout
 (`DotU8S8`) is what hardware INT8 GEMM paths (x86 VNNI, ARM dot-product) are built
 around — so it gets its own entry point.
 
-### Saturation safety
+### Saturation safety {#saturation-safety}
 
 Each byte×byte product fits in 16 bits and the sum accumulates in a 32-bit
 integer, so there is no clamping: the result is **exact**. With worst-case
@@ -46,7 +51,7 @@ magnitudes `int32` does not overflow until ~131k elements — embedding vectors
 kernel is required to be **bit-for-bit identical** to the scalar reference on
 every architecture (differential tests + `FuzzDot`).
 
-## Per-arch kernels
+## Per-arch kernels {#per-arch-kernels}
 
 | arch | int8 / uint8 kernel | u8×s8 kernel | notes |
 |---|---|---|---|
@@ -62,7 +67,7 @@ floating-point sibling — there is no lane-order or ULP subtlety; each kernel
 widens byte products to 16 bits, accumulates into several 32-bit lanes (for ILP),
 and horizontally sums at the end, with a scalar tail for the remainder.
 
-### Honest architecture notes
+### Honest architecture notes {#honest-architecture-notes}
 
 - **arm64 — NEON SIMD on Go 1.27+, scalar on stable Go ≤ 1.26.** All three dot
   products have a NEON widening multiply-accumulate kernel, but the
@@ -84,7 +89,7 @@ and horizontally sums at the end, with a scalar tail for the remainder.
   mixed unsigned×signed byte multiply primitive; `Dot` and `DotUint8` are full
   SIMD on all three.
 
-## Performance — honest
+## Performance — honest {#performance-honest}
 
 Measured ratio of the AVX2 kernel against the scalar reference (`go test -bench`,
 x86-64 under qemu TCG — absolute throughput is depressed by emulation, but the
@@ -99,7 +104,7 @@ x86-64 under qemu TCG — absolute throughput is depressed by emulation, but the
 **arm64 NEON** (gotip / Go 1.27, native Apple Silicon): **~2.4×** the scalar
 reference at large sizes (~1.8× at dim 64).
 
-### Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+### Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26) {#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26}
 
 - **riscv64 — real SpacemiT X60** (RVV 1.0): RVV INT8 MAC (`VWMULVV` +
   `VWREDSUMVS`) runs `Dot` at dim 4096 at **~1557 vs ~172 MB/s scalar — ~9.1×**,
@@ -116,7 +121,7 @@ reference at large sizes (~1.8× at dim 64).
   (no mixed unsigned×signed byte multiply), so it tracks the scalar baseline
   (~1.0×, no vector win).
 
-## Coverage
+## Coverage {#coverage}
 
 `Dot`/`DotUint8`/`DotU8S8` are checked against a straight-line scalar loop by
 table tests, extreme-value tests, and `FuzzDot`, with **100% statement coverage**

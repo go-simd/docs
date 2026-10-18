@@ -1,4 +1,9 @@
-# bitpack
+---
+title: "bitpack"
+weight: 170
+---
+
+# bitpack {#bitpack}
 
 [![CI](https://github.com/go-simd/bitpack/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/bitpack/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -8,7 +13,7 @@ stable Go, no `GOEXPERIMENT`): pack blocks of **128 `uint32`** values, each usin
 exactly `bits` bits (1..32), into a tight little-endian bitstream — and the
 inverse. [Repository →](https://github.com/go-simd/bitpack)
 
-## API
+## API {#api}
 
 ```go
 n := bitpack.Pack(dst, src, bits)   // src len a multiple of 128; n = 16*bits per block
@@ -31,7 +36,7 @@ real POWER9** (see below); **s390x is now measured on real IBM z15 (VXE2)**
 (2026-07-03, `-count=6`): `Unpack` ~34× and `Pack` ~23× the scalar word packer —
 the largest s390x win in the go-simd set.
 
-## Performance
+## Performance {#performance}
 
 Native amd64 (ubuntu-latest CI, AVX2, `-count=6`), throughput over the input
 `uint32` stream, **vs the package's own scalar reference**:
@@ -58,7 +63,7 @@ estimate.
 > Competitor note: `ronanh/intcomp` is the prior pure-Go SIMD-ish integer codec
 > for this space; a head-to-head benchmark against it is a follow-up.
 
-## Coverage
+## Coverage {#coverage}
 
 100% of the Go code, gated on the native amd64 and arm64 jobs and the **ppc64le /
 s390x QEMU jobs** (the build fails below 100% on every one). Both amd64 kernel

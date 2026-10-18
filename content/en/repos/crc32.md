@@ -1,4 +1,9 @@
-# crc32
+---
+title: "crc32"
+weight: 120
+---
+
+# crc32 {#crc32}
 
 [![CI](https://github.com/go-simd/crc32/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/crc32/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -8,7 +13,7 @@ A pure-Go, SIMD-accelerated **drop-in replacement for `hash/crc32`**
 CRC-32 checksums — for the `IEEE`, `Castagnoli` and `Koopman` polynomials and
 for any custom polynomial. [Repository →](https://github.com/go-simd/crc32)
 
-## Why arm64 only
+## Why arm64 only {#why-arm64-only}
 
 Unlike the rest of the org, this package does **not** target all six 64-bit
 arches. The standard library's `hash/crc32` IEEE fast path is already an
@@ -28,7 +33,7 @@ result is always exactly `hash/crc32`.
 | riscv64 | stdlib scalar table                           | standard library                        |
 | loong64 | stdlib scalar table                           | standard library                        |
 
-## API
+## API {#api}
 
 The API matches `hash/crc32` exactly — change only the import path:
 
@@ -52,7 +57,7 @@ type (aliased to the stdlib type, so tables are interchangeable), and the
 `hash.Hash32` returned by `New` (including
 `BinaryMarshaler`/`BinaryUnmarshaler`/`AppendBinary`) are all present.
 
-## Algorithm
+## Algorithm {#algorithm}
 
 For the IEEE polynomial and inputs at or above `minBulk` (512 B), the data is
 folded 16 bytes at a time into eight independent 128-bit reflected
@@ -64,7 +69,7 @@ The fold constants are derived from the IEEE polynomial itself
 numbers. The short tail (< 16 bytes) and every non-IEEE polynomial reuse the
 standard library, so the result is guaranteed identical to `hash/crc32`.
 
-## Coverage
+## Coverage {#coverage}
 
 `FuzzChecksum` compares against `hash/crc32` for both IEEE and Castagnoli on
 arbitrary inputs, plus exhaustive length sweeps across every block boundary
@@ -72,11 +77,14 @@ for IEEE, Castagnoli and Koopman. CI runs on native amd64/arm64 (with `-race`)
 and under QEMU for riscv64, loong64, ppc64le (power9) and s390x (big-endian),
 with a **100% statement-coverage** gate on every architecture.
 
-!!! note "No cross-arch benchmark table here"
-    Unlike the other repos in this org, `crc32` ships no benchmark suite as of
-    this writing — since only arm64 gets a real kernel and every other arch
-    already runs a hardware-assisted stdlib path, there is no honest
-    cross-arch speedup number to report yet. See the
-    [repository](https://github.com/go-simd/crc32) for the current state.
+{{< callout type="info" >}}
+**No cross-arch benchmark table here**
+
+Unlike the other repos in this org, `crc32` ships no benchmark suite as of
+this writing — since only arm64 gets a real kernel and every other arch
+already runs a hardware-assisted stdlib path, there is no honest
+cross-arch speedup number to report yet. See the
+[repository](https://github.com/go-simd/crc32) for the current state.
+{{< /callout >}}
 
 BSD-3-Clause.

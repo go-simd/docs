@@ -1,4 +1,9 @@
-# popcount
+---
+title: "popcount"
+weight: 180
+---
+
+# popcount {#popcount}
 
 [![CI](https://github.com/go-simd/popcount/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/popcount/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -8,7 +13,7 @@ Fast **population count** (total set bits, a.k.a. Hamming weight) over a `[]byte
 in pure Go (`CGO_ENABLED=0`, stable Go, no `GOEXPERIMENT`).
 [Repository →](https://github.com/go-simd/popcount)
 
-## API
+## API {#api}
 
 ```go
 n := popcount.Count(data) // total number of 1 bits across all bytes of data
@@ -38,7 +43,7 @@ earlier llvm-mca cycle-model estimates. **s390x is now measured on real IBM z15
 **~6.5× the scalar baseline** and **beats the barakmich SWAR reference** — a
 clear vector win (unlike ppc64le, which barely edges strong scalar HW popcount).
 
-## The honest result: it's size-dependent
+## The honest result: it's size-dependent {#the-honest-result-its-size-dependent}
 
 A scalar `OnesCount64` loop already lowers to one `POPCNTQ`/`CNT` per word —
 roughly **eight bytes per cycle**. So for **large, out-of-cache buffers the
@@ -54,7 +59,7 @@ The decisive amd64 detail: when the CPU has hardware `POPCNT`, a
 four independent destination registers keep four in flight. AVX2 nibble-lookup
 only wins where `POPCNT` is *absent*, so it ships as the POPCNT-less fallback.
 
-## Performance
+## Performance {#performance}
 
 Throughput in **GB/s** (best-of-6), across the cache hierarchy. Indicative
 figures from an emulated Haswell (QEMU/TCG — treat the **relative** ordering as
@@ -75,14 +80,14 @@ memory-bandwidth-bound** — exactly the expected size-dependent shape. The AVX2
 kernel models at ~3.0 cyc RThroughput (Haswell) / ~2.0 (Zen3) per Harley-Seal
 reduction, still beaten by hardware `POPCNTQ` on POPCNT-capable cores.
 
-### riscv64
+### riscv64 {#riscv64}
 
 There is **no SIMD kernel on riscv64**. The base RVV extension has no per-element
 byte popcount, and Go's assembler exposes only `vcpop.m` (a *mask* popcount), not
 Zvbb's `vcpop.v`. riscv64 uses the portable `OnesCount64` word loop. If/when Go's
 assembler gains `vcpop.v`, a kernel can be added without an API change.
 
-## Coverage
+## Coverage {#coverage}
 
 100% of the Go code on every architecture (native amd64 + arm64; riscv64 +
 loong64 + ppc64le + s390x under QEMU). All three amd64 dispatch branches

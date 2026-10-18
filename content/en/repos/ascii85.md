@@ -1,4 +1,9 @@
-# ascii85
+---
+title: "ascii85"
+weight: 70
+---
+
+# ascii85 {#ascii85}
 
 [![CI](https://github.com/go-simd/ascii85/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/ascii85/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -13,7 +18,7 @@ whitespace, `z`, short/invalid groups, flush and `CorruptInputError` offsets,
 reuse the standard library, so the output, errors and offsets match exactly.
 [Repository →](https://github.com/go-simd/ascii85)
 
-## API
+## API {#api}
 
 The API mirrors the standard library 1:1, so it is a literal drop-in:
 
@@ -27,7 +32,7 @@ nd, ns, err := ascii85.Decode(dst, src, true) // identical (ndst, nsrc, err), in
 
 `Encode`, `Decode`, `MaxEncodedLen`, and a re-exported `CorruptInputError` type.
 
-## Algorithm
+## Algorithm {#algorithm}
 
 The hard part of base-85 is the repeated **division by 85**. The kernel avoids
 real division with a reciprocal multiply that is **exact over the entire 32-bit
@@ -45,7 +50,7 @@ groups that contain **no all-zero group**, so every kernel group expands to
 exactly 5 chars; an all-zero group (which the spec shortens to `z`) and the
 trailing fragment go to `encoding/ascii85`, keeping the output byte-identical.
 
-## Per-arch kernels
+## Per-arch kernels {#per-arch-kernels}
 
 | op | amd64 | ppc64le | s390x | riscv64 | loong64 | arm64 (go1.27+) |
 |---|---|---|---|---|---|---|
@@ -79,7 +84,7 @@ Every backend's operand orders and shuffle/lane semantics were **confirmed
 empirically under QEMU** before the kernel was assembled, then verified against
 `encoding/ascii85` (table + `FuzzEncode`/`FuzzDecode`, byte- and error-identical).
 
-## Performance — honest
+## Performance — honest {#performance-honest}
 
 - **arm64** (Apple Silicon, native, 1 MiB):
     - **Go 1.27+ NEON kernel** (measured on gotip): **~1414 MB/s vs ~474 MB/s**
@@ -108,7 +113,7 @@ empirically under QEMU** before the kernel was assembled, then verified against
   **decode ~3.7× scalar** native; correctness PASSES byte-, error- and
   offset-identical (incl. big-endian) on real IBM Z silicon.
 
-### Seventh architecture: ppc64 (big-endian)
+### Seventh architecture: ppc64 (big-endian) {#seventh-architecture-ppc64-big-endian}
 
 Beyond the six SIMD targets, the fused-scalar fallback is build- and
 test-validated on **ppc64 (big-endian)** on real POWER9 silicon — byte-, error-
@@ -116,7 +121,7 @@ and offset-identical to `encoding/ascii85` on a big-endian target distinct from
 s390x's vector kernel. Framing: **six SIMD targets, validated on seven
 architectures.**
 
-## Coverage
+## Coverage {#coverage}
 
 **100% of the Go code** on every arch job: native amd64 + native arm64 (stable
 Go = fused-scalar fallback), a separate **gotip / Go 1.27 arm64 job** covering the

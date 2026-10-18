@@ -1,4 +1,9 @@
-# highway (maintained fork)
+---
+title: "highway"
+weight: 270
+---
+
+# highway (maintained fork) {#highway-maintained-fork}
 
 [Repository →](https://github.com/go-simd/highway) ·
 upstream: [ajroetker/go-highway](https://github.com/ajroetker/go-highway) · Apache-2.0
@@ -16,7 +21,7 @@ import "github.com/go-simd/highway/hwy"
 go get github.com/go-simd/highway@latest
 ```
 
-## Why a fork
+## Why a fork {#why-a-fork}
 
 go-highway v0.0.12 requires its own `hwy/goat` tool module at `v0.0.0`, a
 version that was never published, and points it at a local directory with
@@ -28,7 +33,7 @@ proposed upstream ([issue #73](https://github.com/ajroetker/go-highway/issues/73
 [PR #74](https://github.com/ajroetker/go-highway/pull/74)) and is not released
 there yet.
 
-## What differs from upstream
+## What differs from upstream {#what-differs-from-upstream}
 
 | change | why |
 |---|---|
@@ -41,14 +46,14 @@ there yet.
 assembly keeps upstream's file-system paths in its comments, because those
 record where the files were generated and are not module paths.
 
-## Releases
+## Releases {#releases}
 
 | version | content |
 |---|---|
 | v0.0.13 | upstream `main` under the new path, goat published, old tags retracted |
 | v0.0.14 | x/text security update |
 
-## Read before you measure: `GOEXPERIMENT=simd`
+## Read before you measure: `GOEXPERIMENT=simd` {#read-before-you-measure-goexperimentsimd}
 
 On **arm64** highway calls hand-written NEON assembly, which needs no
 experiment. On **amd64** the AVX2 and AVX-512 kernels are built only with
@@ -72,7 +77,7 @@ Before attributing a timing to SIMD, check which `*_amd64.gen.go` or
 `*_other.gen.go` file your build compiles, and time the path the caller
 actually runs, conversions included.
 
-## Retirement
+## Retirement {#retirement}
 
 When upstream releases the goat fix, consumers move back to
 `github.com/ajroetker/go-highway` and this fork is archived.

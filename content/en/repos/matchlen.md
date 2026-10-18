@@ -1,4 +1,9 @@
-# matchlen
+---
+title: "matchlen"
+weight: 160
+---
+
+# matchlen {#matchlen}
 
 [![CI](https://github.com/go-simd/matchlen/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/matchlen/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -8,7 +13,7 @@ It is the core primitive of every LZ-family compressor's match-finder (LZ4, zstd
 LZFSE/LZVN, brotli, …) and the single most SIMD-amenable spot in LZ encoding.
 [Repository →](https://github.com/go-simd/matchlen)
 
-## API
+## API {#api}
 
 ```go
 n := matchlen.MatchLen(a, b) // a[:n] == b[:n], n maximal
@@ -37,7 +42,7 @@ bit-identical everywhere — including big-endian s390x — checked vs a byte-by
 reference and fuzzed. **ppc64le, riscv64, loong64 and s390x are now natively measured on
 real silicon** (see below).
 
-## Performance
+## Performance {#performance}
 
 16-byte SIMD strides vs a naive byte loop, ~4 KiB shared prefix (Apple Silicon,
 arm64 NEON): **~34.7 GB/s vs ~3.3 GB/s — ~10×.**
@@ -45,7 +50,7 @@ arm64 NEON): **~34.7 GB/s vs ~3.3 GB/s — ~10×.**
 The match-counter alone (native amd64, GitHub runner): SSE2 ~17.6 GB/s, **AVX2
 ~36.6 GB/s (~2.08×)** — AVX2 is picked at runtime when available.
 
-### Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26)
+### Measured on real silicon (GCC Compile Farm, Go 1.26.4, 2026-06-26) {#measured-on-real-silicon-gcc-compile-farm-go-1264-2026-06-26}
 
 - **ppc64le — real POWER9** (VSX): `MatchLen` runs at **~6.3× the scalar
   baseline** (5320 vs 841 MB/s), superseding the earlier llvm-mca cycle-model
@@ -60,7 +65,7 @@ The match-counter alone (native amd64, GitHub runner): SSE2 ~17.6 GB/s, **AVX2
 - **loong64 — real Loongson 3A5000** (LSX): **~11.4× the scalar baseline** — a
   strong, measured native win.
 
-## Coverage
+## Coverage {#coverage}
 
 100% of the Go code, gated on every architecture (native amd64 + arm64, riscv64 +
 loong64 + ppc64le + s390x under QEMU). Both amd64 dispatch branches (AVX2 and the SSE fallback) are
@@ -68,7 +73,7 @@ exercised on the native amd64 runner by toggling the feature flag. The `.s`
 kernels are validated by differential tests against a byte-by-byte reference plus
 a fuzz target.
 
-## Regenerating
+## Regenerating {#regenerating}
 
 ```sh
 go get github.com/go-asmgen/asmgen@v0.5.0 && go generate ./... && go mod tidy

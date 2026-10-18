@@ -1,4 +1,9 @@
-# base64
+---
+title: "base64"
+weight: 40
+---
+
+# base64 {#base64}
 
 [![CI](https://github.com/go-simd/base64/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/base64/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -10,7 +15,7 @@ padding (and, on decode, any block with an invalid byte) reuse the standard
 library, so output and every `CorruptInputError` offset match exactly.
 [Repository →](https://github.com/go-simd/base64)
 
-## API
+## API {#api}
 
 ```go
 s := base64.EncodeToString(data)   // same bytes as encoding/base64.StdEncoding
@@ -22,7 +27,7 @@ b, err := base64.DecodeString(s)   // same bytes + same error/offset as stdlib
 | encode | **AVX2 + SSE2** (Lemire) | **NEON** (`VLD3`/`VST4` deinterleaving I/O) | **VSX** (shift-based) | **vector facility** (shift-based) | scalar (stdlib) |
 | decode | **AVX2 + SSE** (Muła) | **NEON** (shift-based) | **VSX** (shift-based) | **vector facility** (shift-based) | scalar (stdlib) |
 
-## Algorithm
+## Algorithm {#algorithm}
 
 The encoder is Lemire's vectorised base64: a shuffle spreads the input across
 24-bit lanes, two multiplies pull out the 6-bit indices, and a `PSHUFB` / `TBL`
@@ -39,7 +44,7 @@ no integer vector multiply and so builds on released Go. **Decode is now SIMD to
 (amd64 Muła AVX2/SSE; NEON/VSX/vector-facility on arm64/ppc64le/s390x), with the
 `CorruptInputError` offset of any invalid block matching `encoding/base64` exactly.
 
-## Performance
+## Performance {#performance}
 
 Encode throughput, 1 MiB buffer, **native amd64** (GitHub Actions, AMD EPYC
 7763, `GOAMD64=v1`, `-count=6`, median MB/s — CI-measured because the dev box is
@@ -76,7 +81,7 @@ keeps `VINSERTI128` — a `-4` load there would read before `src`.)
 - cgo wrappers of `aklomp/base64` are faster still but need a C toolchain —
   excluded from this pure-Go comparison.
 
-## Coverage
+## Coverage {#coverage}
 
 100% of the Go code on every arch job (native amd64 + native arm64, plus QEMU
 jobs for ppc64le, s390x and riscv64). The generated `.s` kernels are validated by

@@ -1,4 +1,9 @@
-# histogram
+---
+title: "histogram"
+weight: 190
+---
+
+# histogram {#histogram}
 
 [![CI](https://github.com/go-simd/histogram/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/histogram/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -8,7 +13,7 @@ The fastest correct **byte-value histogram** in pure Go (`CGO_ENABLED=0`, stable
 Go, **no assembly**): count how many times each of the 256 possible byte values
 occurs in a `[]byte`. [Repository →](https://github.com/go-simd/histogram)
 
-## API
+## API {#api}
 
 ```go
 c := histogram.Count(data) // c[v] == number of bytes in data equal to v
@@ -21,7 +26,7 @@ histogram.CountInto(&acc, b)
 `Count` returns a fresh `[256]uint32` (no heap allocation). `CountInto` adds into
 a caller-supplied array, folding multiple buffers into one histogram.
 
-## Why there is no SIMD kernel (the honest answer)
+## Why there is no SIMD kernel (the honest answer) {#why-there-is-no-simd-kernel-the-honest-answer}
 
 A byte histogram is a **scatter-add**: `c[data[i]]++`. Each input byte indexes a
 *different, data-dependent* counter and read-modify-writes it. That is precisely
@@ -43,13 +48,13 @@ fast" trick from FSE. `Count` uses **eight partial tables with word-batched
 loads** — the fastest of every variant measured (single, 2/4/8 tables, with and
 without word-batching).
 
-## Performance
+## Performance {#performance}
 
 Throughput on a 1 MiB buffer, best-of-6. Two distributions: **uniform** random
 bytes, and **skew90** (90% one value — the low-entropy case that wrecks a naive
 single-table loop).
 
-### arm64 (indicative — Apple M-series dev box)
+### arm64 (indicative — Apple M-series dev box) {#arm64-indicative-apple-m-series-dev-box}
 
 | approach | uniform GB/s | skew90 GB/s |
 |---|---:|---:|
@@ -66,7 +71,7 @@ real winner. On uniform data it edges out the single-table baseline; on skewed
 data it is **~5× faster**, because the single-table loop serialises on the
 repeated counter while the eight tables keep the pipeline full.
 
-## Correctness & coverage
+## Correctness & coverage {#correctness-coverage}
 
 `Count` is validated against a single-table reference oracle by a table test
 (empty, single byte, all-same, every-byte-once, block-boundary sizes),
@@ -77,7 +82,7 @@ The suite covers **100% of the Go statements** (CI fails below that on both arch
 jobs). This package is pure Go — there are no generated `.s` kernels — so the
 coverage figure reflects the whole implementation.
 
-## Existing work
+## Existing work {#existing-work}
 
 There was no pure-Go library exposing a fast `Count(data) [256]uint32` API.
 `vteromero/byte-hist` is a CLI tool, not a reusable package, and
