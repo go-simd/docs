@@ -60,11 +60,17 @@ ones do.
 
 Measured on GitHub `ubuntu-latest` (Go 1.27.2, n=10), the JPEG 2000 integer RCT
 on one 4K frame took **402.8 ms through highway against 61.3 ms as a plain
-loop**, with 12.45 million allocations. go-images/jpeg2000 therefore picks the
-plain loop on those builds
-([#32](https://github.com/go-images/jpeg2000/pull/32)). Check which
-`*_amd64.gen.go` or `*_other.gen.go` file your build compiles before
-attributing a timing to SIMD.
+loop**, with 12.45 million allocations.
+
+arm64 is not automatically better off. The NEON kernel itself took 6.3 ms on
+that frame. But the caller first copied its planes into highway `Image`s and
+then copied them back, and the whole path took 29.9 ms against 14.1 ms for the
+loop. go-images/jpeg2000 therefore uses the plain loop for the RCT on every
+architecture ([#32](https://github.com/go-images/jpeg2000/pull/32)).
+
+Before attributing a timing to SIMD, check which `*_amd64.gen.go` or
+`*_other.gen.go` file your build compiles, and time the path the caller
+actually runs, conversions included.
 
 ## Retirement
 
