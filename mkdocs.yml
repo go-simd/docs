@@ -60,6 +60,8 @@ nav:
       - bitset: repos/bitset.md
       - int8dot: repos/int8dot.md
       - levenshtein: repos/levenshtein.md
+  - Maintained fork:
+      - highway: repos/highway.md
   - Contributing: contributing.md
 
 markdown_extensions:
