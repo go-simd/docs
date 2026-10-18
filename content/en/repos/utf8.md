@@ -1,4 +1,9 @@
-# utf8
+---
+title: "utf8"
+weight: 90
+---
+
+# utf8 {#utf8}
 
 [![CI](https://github.com/go-simd/utf8/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/utf8/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -9,7 +14,7 @@ A drop-in fast path for UTF-8 validation and rune counting, **byte-identical to
 short tail and the rune straddling the last SIMD block reuse the standard
 library, so results match exactly. [Repository →](https://github.com/go-simd/utf8)
 
-## API
+## API {#api}
 
 ```go
 ok := utf8.Valid(p)              // same bool as unicode/utf8.Valid
@@ -34,9 +39,9 @@ and the rune-count popcount becomes `VPOPCNTD` (ppc64le) / `VPOPCT`+`VSUMB`
 `VL` already places the lowest memory address in lane 0, so the kernel is
 byte-identical to stdlib with no endianness fix-up.
 
-## Algorithm
+## Algorithm {#algorithm}
 
-### `Valid`
+### `Valid` {#valid}
 
 Lemire & Keiser's
 [*Validating UTF-8 In Less Than One Instruction Per Byte*](https://arxiv.org/abs/2010.03090):
@@ -49,7 +54,7 @@ accumulator. Blocks are valid iff the accumulator is all-zero (`PTEST`). Ported
 to a rune boundary so a sequence straddling the last block is re-validated by
 `unicode/utf8`.
 
-### `RuneCount`
+### `RuneCount` {#runecount}
 
 The number of runes in **valid** UTF-8 equals the number of non-continuation
 bytes — every rune has exactly one leading byte with `(b & 0xC0) != 0x80`. The
@@ -61,7 +66,7 @@ prefix is invalid the whole input falls back to the scalar decoder**, making the
 result byte-identical to `unicode/utf8.RuneCount` on all input.
 `RuneCountInString` defers to the stdlib to avoid an allocating `[]byte` copy.
 
-## Performance
+## Performance {#performance}
 
 `Valid` throughput, ~1 MiB mixed-UTF-8 buffer, native amd64 (AMD EPYC 7763, AVX2,
 `GOAMD64=v1`, median of 6):
@@ -80,7 +85,7 @@ AVX2 VM `RuneCount` measured ~4.6× stdlib; the native-runner CI fills the headl
 `charlievieth/simdutf` is a cgo wrapper around the C++ simdutf library — excluded
 from this pure-Go comparison.
 
-## Coverage
+## Coverage {#coverage}
 
 100% of the Go code (native amd64 drives the AVX2/SSE/POPCNT branches; native
 arm64 covers the generic fallback; ppc64le and s390x run under QEMU where VSX /

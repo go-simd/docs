@@ -1,4 +1,9 @@
-# levenshtein
+---
+title: "levenshtein"
+weight: 250
+---
+
+# levenshtein {#levenshtein}
 
 [![CI](https://github.com/go-simd/levenshtein/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/levenshtein/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -14,7 +19,7 @@ levenshtein.Distance([]byte("kitten"), []byte("sitting")) // 3
 levenshtein.DistanceString("kitten", "sitting")           // 3
 ```
 
-## API
+## API {#api}
 
 ```go
 func Distance(a, b []byte) int
@@ -25,7 +30,7 @@ Both compare element by element (byte by byte / UTF-8 code unit by code unit) an
 are symmetric. To compare Unicode text by *rune* rather than by byte, decode to
 `[]rune` first.
 
-## Honest scope: pure-Go bit-parallel, not vector-SIMD
+## Honest scope: pure-Go bit-parallel, not vector-SIMD {#honest-scope-pure-go-bit-parallel-not-vector-simd}
 
 This repo is in the go-simd suite as a **primitive**, but unlike the other
 packages it ships **no `.s` SIMD kernel** — and the page says so plainly. The
@@ -44,7 +49,7 @@ independently of machine byte order.
 (SIMD across pairs, not across blocks) is the clean fit for vector hardware and
 is the most promising path to true SIMD acceleration here.
 
-## Algorithm
+## Algorithm {#algorithm}
 
 Instead of the textbook `O(m·n)` DP recurrence, this package uses **Myers'
 bit-vector algorithm** (G. Myers, *A fast bit-vector algorithm for approximate
@@ -71,7 +76,7 @@ This is `O(⌈m/w⌉·n)` with word size `w = 64`:
 The shorter input is always packed into the bit-vectors (the "pattern") and the
 longer one streamed, minimising the number of blocks.
 
-## Performance
+## Performance {#performance}
 
 Apple M-series (`go test -bench`), random 26-letter strings with ~10% edits, vs
 the scalar two-row DP and [`agnivade/levenshtein`](https://github.com/agnivade/levenshtein)
@@ -90,7 +95,7 @@ couple of register operations of each other; the algorithmic win shows up once t
 strings exceed a word. Numbers are machine-dependent; reproduce with
 `go test -bench=. -benchmem`.
 
-## Correctness
+## Correctness {#correctness}
 
 `Distance` is checked against an intentionally trivial scalar DP oracle:
 

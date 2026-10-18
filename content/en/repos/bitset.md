@@ -1,4 +1,9 @@
-# bitset
+---
+title: "bitset"
+weight: 230
+---
+
+# bitset {#bitset}
 
 [![CI](https://github.com/go-simd/bitset/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/bitset/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -26,7 +31,7 @@ Word `w` bit `b` is set bit `w*64+b`. The four logical ops write the first
 `b`); the counts read the first `min(len(a), len(b))` words. Nothing is
 allocated, and the read-only ops are safe for concurrent use.
 
-## Algorithm
+## Algorithm {#algorithm}
 
 Two clean families — vector logical ops and vector popcount — both available on
 every 64-bit SIMD target, so no integer multiply (and therefore no special-casing
@@ -36,7 +41,7 @@ the popcount kernel, so the combined words are never written back to memory. Eac
 kernel handles whole vector blocks; a scalar `math/bits` tail finishes the
 remainder, so every result is bit-identical to the reference.
 
-## Per-arch kernels
+## Per-arch kernels {#per-arch-kernels}
 
 | arch | logical ops (`And`/`Or`/`AndNot`/`Xor`) | counts |
 |---|---|---|
@@ -56,7 +61,7 @@ profile offers no portable per-element word popcount, and the bandwidth-bound
 logical ops gain nothing over scalar there). The hot loops are assembly generated
 by [go-asmgen](https://github.com/go-asmgen/asmgen).
 
-## The honest result: it's size-dependent
+## The honest result: it's size-dependent {#the-honest-result-its-size-dependent}
 
 A scalar `math/bits` word loop already moves about one 64-bit word per cycle, so
 for large, out-of-cache sets the bulk logical ops are
@@ -89,7 +94,7 @@ are **qemu-validated for correctness; native perf pending** real POWER hardware.
 vector `VPOPCT` + `VSUMB`/`VSUMQF` `Count` kernel runs **~2.8× scalar**, and
 `And` **~1.6×** (bandwidth-bound logical ops keep a modest margin).
 
-## Where it fits
+## Where it fits {#where-it-fits}
 
 [`bits-and-blooms/bitset`](https://github.com/bits-and-blooms/bitset) is the
 de-facto Go bit set, but its bulk ops are **scalar** `math/bits` loops over its
@@ -100,7 +105,7 @@ different, **compressed** structure — not directly comparable. This package is
 intentionally minimal: it accelerates the bulk word kernels over a caller-owned
 `[]uint64` and composes with either.
 
-## Coverage
+## Coverage {#coverage}
 
 Every architecture is validated against an independent scalar oracle by a table
 test, an exhaustive size sweep across the SIMD-block/tail boundary, and the

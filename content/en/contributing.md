@@ -1,8 +1,13 @@
-# Contributing
+---
+title: "Contributing"
+weight: 280
+---
+
+# Contributing {#contributing}
 
 go-simd follows the same conventions as the author's other Go organizations.
 
-## Hard rules
+## Hard rules {#hard-rules}
 
 - **Pure Go, `CGO_ENABLED=0`, stable Go, no `GOEXPERIMENT`.** cgo wrappers of C
   SIMD libraries are faster still but out of scope — this is the pure-Go tier.
@@ -22,9 +27,9 @@ go-simd follows the same conventions as the author's other Go organizations.
   never trusted for AVX2.
 - **English only** for all repository content (issues, PRs, commits, comments).
 
-## Adding or changing a kernel
+## Adding or changing a kernel {#adding-or-changing-a-kernel}
 
-1. **Survey the prior art** (see [methodology](methodology.md)) so the
+1. **Survey the prior art** (see [methodology]({{< relref "methodology.md" >}})) so the
    comparison is against the real state of the art.
 2. **Write the generator**, not the `.s`. Drive go-asmgen to emit the kernel for
    each target arch; commit the generated `.s`.
@@ -43,7 +48,7 @@ go-simd follows the same conventions as the author's other Go organizations.
    go tool cover -func=cover.out   # must read 100.0%
    ```
 
-## Regenerating the assembly
+## Regenerating the assembly {#regenerating-the-assembly}
 
 Each repo documents its exact regenerate command; the shape is:
 
@@ -54,7 +59,7 @@ go mod edit -droprequire github.com/go-asmgen/asmgen
 go mod tidy
 ```
 
-## Documentation
+## Documentation {#documentation}
 
 This site is built with MkDocs Material and versioned with
 [mike](https://github.com/jimporter/mike); see the

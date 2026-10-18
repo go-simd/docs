@@ -1,11 +1,16 @@
-# Methodology — the validation toolkit
+---
+title: "Methodology"
+weight: 20
+---
+
+# Methodology — the validation toolkit {#methodology-the-validation-toolkit}
 
 A SIMD kernel is not "done" because it compiles and is fast on one machine. In
 go-simd it is done when it is **proven correct** against the reference it
 replaces and **measured honestly** on representative hardware. Every repo in the
 organization follows the same five-stage pipeline.
 
-## 1. Check existing work first
+## 1. Check existing work first {#1-check-existing-work-first}
 
 Before a single instruction is written, the field is surveyed so the comparison
 is against the **real state of the art**, not a strawman. Concretely, the prior
@@ -28,7 +33,7 @@ This is why the headlines are credible: each is a measured result against a
 named competitor, and cgo wrappers (faster, but needing a C toolchain) are
 explicitly excluded from the pure-Go tier rather than quietly ignored.
 
-## 2. Generate the assembly with go-asmgen (6 architectures)
+## 2. Generate the assembly with go-asmgen (6 architectures) {#2-generate-the-assembly-with-go-asmgen-6-architectures}
 
 No kernel is hand-encoded. The `.s` is emitted by
 [go-asmgen](https://github.com/go-asmgen/asmgen) `v0.5.0` — one builder over a
@@ -63,7 +68,7 @@ tables are emitted via go-asmgen's `emit.File.Data`. Architectures without a
 kernel use a portable scalar fallback so the package builds and is correct
 everywhere.
 
-## 3. Model the cycles with `llvm-mca`
+## 3. Model the cycles with `llvm-mca` {#3-model-the-cycles-with-llvm-mca}
 
 Before benchmarking, the inner loop is given a **port-level cycle model** with
 `llvm-mca` ([go-asmgen `toolkit/mca`](https://github.com/go-asmgen/asmgen/tree/main/asmgen/toolkit/mca)).
@@ -79,7 +84,7 @@ This is what turned guesses into wins:
   it at parity with `mhr3`; the real out-of-order frontend still leaves mhr3 ~7%
   ahead. The model is a guide, not a verdict — see stage 4.
 
-## 4. Validate on real hardware (Rosetta is never trusted for AVX2)
+## 4. Validate on real hardware (Rosetta is never trusted for AVX2) {#4-validate-on-real-hardware-rosetta-is-never-trusted-for-avx2}
 
 Correctness is proven by **differential tests + fuzzing** against the
 stdlib/oracle reference, and the headline benchmarks come from **native CI**,
@@ -115,22 +120,25 @@ not emulation:
   `hex`'s `InvalidByteError` offset). Direct kernel fuzz targets exercise the
   SSE and AVX2 paths separately (millions of executions, zero mismatches).
 
-## 5. 100% statement coverage, enforced as a CI gate
+## 5. 100% statement coverage, enforced as a CI gate {#5-100-statement-coverage-enforced-as-a-ci-gate}
 
 Every repo gates **100% Go statement coverage** in CI, on every arch job — the
 build fails below 100%. Force tests drive **every dispatch branch** (AVX2 / SSE /
 POPCNT / scalar fallback) directly on the native runner, regardless of what the
 runtime CPU would otherwise select, so no branch is left unmeasured.
 
-!!! note "What coverage measures"
-    The figure is of the **Go code** only. The generated `.s` SIMD kernels are
-    not measured by `go test -cover`; they are validated by the differential
-    tests against the stdlib/oracle reference plus the fuzz targets. "100%
-    coverage" therefore means *every Go statement, including every fallback
-    branch* — and the assembly is covered by the correctness suite, not the
-    coverage counter.
+{{< callout type="info" >}}
+**What coverage measures**
 
-## Why this matters
+The figure is of the **Go code** only. The generated `.s` SIMD kernels are
+not measured by `go test -cover`; they are validated by the differential
+tests against the stdlib/oracle reference plus the fuzz targets. "100%
+coverage" therefore means *every Go statement, including every fallback
+branch* — and the assembly is covered by the correctness suite, not the
+coverage counter.
+{{< /callout >}}
+
+## Why this matters {#why-this-matters}
 
 The combination — one generator across **six ISAs**, a cycle model that predicts
 before it measures, real-hardware validation that refuses to trust emulation (and

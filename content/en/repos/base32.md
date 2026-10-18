@@ -1,4 +1,9 @@
-# base32
+---
+title: "base32"
+weight: 50
+---
+
+# base32 {#base32}
 
 [![CI](https://github.com/go-simd/base32/actions/workflows/ci.yml/badge.svg)](https://github.com/go-simd/base32/actions/workflows/ci.yml)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -10,7 +15,7 @@ A drop-in fast path for standard base32 (`StdEncoding`, RFC 4648, padded),
 error reporting reuse the standard library.
 [Repository →](https://github.com/go-simd/base32)
 
-## API
+## API {#api}
 
 ```go
 s := base32.EncodeToString(data)   // same bytes as encoding/base32.StdEncoding
@@ -34,7 +39,7 @@ scalar decoder (621 vs 113 MB/s)** — a real VSX kernel (`VSRH`). The arm64 NEO
 (encode ~2.1× the stdlib encoder, decode up to ~25×); **s390x is now natively measured on real IBM z15 (VXE2)** (2026-07-03,
 `-count=6`): SIMD decode **~8.4×** and encode **~3.4×** the stdlib scalar baseline.
 
-## Algorithm
+## Algorithm {#algorithm}
 
 Per 5-byte group → 8 chars (base32 packs 5-bit groups: 5 bytes = 40 bits = 8
 chars):
@@ -52,7 +57,7 @@ The **AVX2** path processes two groups at once (one per 128-bit lane via
 `VINSERTI128` at `src+0` / `src+5`), 2×-unrolled, with a `VPERMQ` gather and a
 16-byte store per group-pair.
 
-## Performance
+## Performance {#performance}
 
 There is **no pre-existing pure-Go SIMD base32** to compare against, so the
 comparison is this package vs the stdlib scalar encoder. 1 MiB buffer, native
@@ -93,7 +98,7 @@ serial extract chain — inherent to the format.
   `CorruptInputError` offsets — kept identical to stdlib. ppc64le decode is the
   **~5.5×** result measured on real POWER9 above.
 
-## Coverage
+## Coverage {#coverage}
 
 100% of the Go code (native amd64 + native arm64; the `!amd64` fallback measured
 on arm64; ppc64le and s390x under QEMU). The `.s` kernels are validated by
