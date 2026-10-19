@@ -41,6 +41,43 @@ otherwise; `Min`/`Max` panic on an empty slice; `Sum` of empty is 0. The float32
 dot/sum/squared-difference accumulate in float32; cosine and distance take the
 final square root in float64 for accuracy.
 
+## Elementwise updates (BLAS level 1) {#elementwise-updates}
+
+Since v0.4.0, the float64 in-place updates behind iterative solvers (CG, GMRES),
+Householder QR and LU elimination:
+
+| function | computes |
+|---|---|
+| `Axpy(alpha, x, y)`       | `y[i] = math.FMA(alpha, x[i], y[i])` (y += αx) |
+| `Xpby(x, beta, y)`        | `y[i] = math.FMA(beta, y[i], x[i])` (y = x + βy) |
+| `AxpyDot(alpha, x, y, w)` | Axpy, then returns Σ `y[i]*w[i]` over the updated y, in one pass |
+| `Scale(alpha, x)`         | `x[i] *= alpha` |
+
+```go
+// one conjugate-gradient step
+floats.Axpy(alpha, p, x)               // x += αp
+rr := floats.AxpyDot(-alpha, ap, r, r) // r -= αAp, rr = r·r
+floats.Xpby(r, rr/rrOld, p)            // p = r + βp
+```
+
+They operate on the first `len(x)` elements and panic if `y` (or `w`) is
+shorter; `y` may be the same slice as `x` or `w`. The updated slices are
+**bit-identical to `math.FMA` on every architecture**: one rounding per element,
+via `VFMADD` (amd64 AVX2+FMA), `VFMLA`/`FMADDD` (arm64 NEON) or the portable
+`math.FMA` loop (ppc64le, s390x, riscv64, loong64, where no kernel has been
+measured on silicon yet). `AxpyDot`'s returned sum is a lane-blocked reduction,
+like `Dot`.
+
+Speedup over the hand-written scalar loop (`y[i] += alpha*x[i]`, …), single
+core, median of 3:
+
+| op | n = 1e3 / 1e5 / 1e6, Apple M4 Max | AMD EPYC 7763 |
+|---|---|---|
+| `Axpy`    | 2.06× / 1.74× / 1.66× | 5.25× / 3.12× / 3.14× |
+| `Xpby`    | 2.01× / 1.58× / 1.65× | 5.25× / 3.10× / 3.14× |
+| `AxpyDot` | 5.30× / 4.85× / 2.91× | 5.85× / 3.03× / 3.14× |
+| `Scale`   | 3.57× / 2.23× / 2.22× | 7.67× / 5.25× / 5.80× |
+
 ## Why this library {#why-this-library}
 
 This is the **only** pure-Go float reduction library that ships the full
@@ -111,5 +148,7 @@ kernel** — measured, not assumed. s390x, riscv64 and loong64 stay
 
 All six arches validated in CI — amd64/arm64 natively, the other four under QEMU
 (`tonistiigi/binfmt`) — at **100% test coverage**, with differential tests and
-`FuzzDot`/`FuzzDistance` against the scalar reference on every architecture.
+`FuzzDot`/`FuzzDistance`/`FuzzAxpy` against the scalar reference on every
+architecture; the elementwise kernels also run against `PROT_NONE` guard pages
+on both sides of every slice.
 BSD-3-Clause.
