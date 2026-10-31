@@ -78,6 +78,45 @@ core, median of 3:
 | `AxpyDot` | 5.30× / 4.85× / 2.91× | 5.85× / 3.03× / 3.14× |
 | `Scale`   | 3.57× / 2.23× / 2.22× | 7.67× / 5.25× / 5.80× |
 
+## Products, combinations, clamping, infinity norm {#qp-kernels}
+
+Since v0.5.0, the vector kernels of splitting solvers (ADMM / OSQP-style
+quadratic programming):
+
+| function | computes |
+|---|---|
+| `Mul(dst, a, b)`                           | `dst[i] = a[i]*b[i]` |
+| `Axpby3(dst, alpha, a, beta, b, gamma, c)` | `dst[i] = math.FMA(gamma, c[i], math.FMA(beta, b[i], alpha*a[i]))` (αa + βb + γc, fused) |
+| `Clamp(dst, v, lo, hi)`                    | `dst[i] = min(max(v[i], lo[i]), hi[i])` with the exact rules below |
+| `MaxAbs(v)`                                | the largest `abs(v[i])` (∞-norm); 0 for an empty slice |
+
+```go
+floats.Axpby3(t, alpha, ax, 1-alpha, zPrev, 1, yOverRho)
+floats.Clamp(z, t, l, u)
+rNorm := floats.MaxAbs(r)
+```
+
+They work on the first `len(a)` (`len(v)`) elements, panic if another slice is
+shorter and let `dst` alias an input. **Bit-identical on every architecture**
+(NaN payloads of arithmetic results aside): `Mul` is one IEEE multiply;
+`Axpby3` is fused, so it differs from the unfused expression by a few ULP of
+`Σ|terms|`; `Clamp` and `MaxAbs` round nothing.
+
+`Clamp` is `r := v; if lo > r { r = lo }; if hi < r { r = hi }`: a NaN `v`
+passes through with its own bits (either sign), a NaN bound is ignored,
+`lo > hi` gives `hi`, signed zeros tie. `MaxAbs` returns `math.NaN()` if any
+element is NaN (either sign, quiet or signaling), `+Inf` if there is an
+infinity and no NaN, and `+0` for an all-zero slice.
+
+Kernels: AVX2+FMA on amd64 (`VMULPD`, `VFMADD231PD`, `VMAXPD`/`VMINPD`,
+`VANDPD` plus an unordered-compare NaN mask), NEON on arm64 (`VFMUL`, `VFMLA`,
+`VFCMGT`+`VBIT`, `VFABS`+`VFMAX`), the portable loops on ppc64le, s390x,
+riscv64 and loong64. Tested for every length 0..257 at four offsets with
+planted negative and signaling NaNs and signed zeros, at every position of
+0..67, with guard pages and fuzzing, at 100% coverage on amd64 and arm64. The
+benchmark against the Go loop and NumPy (`bench/numpycmp` in the repository) is
+pending: it refuses to run on a loaded machine, so no speedup is claimed yet.
+
 ## Why this library {#why-this-library}
 
 This is the **only** pure-Go float reduction library that ships the full
