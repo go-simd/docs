@@ -138,6 +138,35 @@ the tool refuses to run at a load of 8 or above):
 arrays and ties NumPy at 1e5 and 1e6 (memory bandwidth; another run read 0.94×
 and 1.00×, so ±3% is noise); at 1e3 it is 2.6× faster.
 
+## Unfused, NumPy-exact updates {#nofma}
+
+Since v0.7.0:
+
+| function | computes (NumPy expression) |
+|---|---|
+| `AxpyNoFMA(alpha, x, y)` | `y[i] = y[i] + alpha*x[i]` |
+| `XpbyNoFMA(x, beta, y)` | `y[i] = x[i] + beta*y[i]` |
+| `Axpby3NoFMA(dst, alpha, a, beta, b, gamma, c)` | `alpha*a[i] + beta*b[i] + gamma*c[i]`, left to right |
+| `AxpyDiffNoFMA(dst, a, f, b, c)` | `a[i] + f*(b[i] - c[i])`, the differential-evolution mutation |
+
+`Axpy`, `Xpby` and `Axpby3` are fused (one rounding), which NumPy never is:
+`y + alpha*x` is a multiply that rounds into a temporary and an add that rounds
+again. A solver validated by exact equality against SciPy needs that path, so
+these kernels round every product and every sum on its own, in the order NumPy
+evaluates the temporaries, and are bit-identical to the NumPy expression on
+every architecture (the payload of a NaN created by `Inf - Inf` or `0*Inf`
+aside). amd64 uses `VMULPD`/`VADDPD`/`VSUBPD`, arm64 `VFMUL`/`VFADD`/`VFSUB`;
+the portable code puts every product behind a `float64(...)` conversion, which
+keeps the Go compiler from fusing it. `dst` may be the slice of an input
+(`AxpyDiffNoFMA(b, b, f, x, b)` is `b += f*(x - b)`).
+
+Validated against NumPy 2.5.4 on 13 088 committed fixture cases (four kernels,
+ten value families including ±0, ±Inf, NaN of both signs and cancellation in
+`b - c`, every length 0..300 and block boundaries): 0 mismatches on arm64 and
+amd64. A planted fused variant and planted reordered variants are caught by the
+same fixture. Speedups over NumPy are not published yet: the benchmark
+(`bench/numpycmp`) refuses to run at a machine load of 8 or above.
+
 ## Reproducing `np.sum`: `SumPairwise` {#sum-pairwise}
 
 Since v0.6.0:
@@ -159,9 +188,12 @@ added one by one; a longer block is split at `n/2` rounded down to a multiple of
 `-0` sums to `+0`, as in NumPy.
 
 It is **bit-identical on every architecture**: the order is fixed in the code,
-not by the width of a vector register, and no step is a fused multiply-add. It
-is **scalar Go, not SIMD**: a vector version would have to keep the same
-association, and it was not worth one assembly kernel per architecture.
+not by the width of a vector register, and no step is a fused multiply-add.
+Since v0.7.0 the 8..128-element blocks run in SIMD on amd64 (AVX2: the eight
+accumulators `r[0..7]` are two 4-lane registers) and arm64 (NEON: four 2-lane
+registers); every lane receives exactly the additions NumPy's scalar code
+performs on its `r[j]`, so the bits do not change. Other architectures run the
+portable Go block, which is also the test reference for the SIMD blocks.
 
 Validated against NumPy 2.5.4 on 6 990 committed fixture cases (every length
 0..300 for nine value families, both sides of every block boundary
