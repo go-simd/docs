@@ -113,9 +113,30 @@ Kernels: AVX2+FMA on amd64 (`VMULPD`, `VFMADD231PD`, `VMAXPD`/`VMINPD`,
 `VFCMGT`+`VBIT`, `VFABS`+`VFMAX`), the portable loops on ppc64le, s390x,
 riscv64 and loong64. Tested for every length 0..257 at four offsets with
 planted negative and signaling NaNs and signed zeros, at every position of
-0..67, with guard pages and fuzzing, at 100% coverage on amd64 and arm64. The
-benchmark against the Go loop and NumPy (`bench/numpycmp` in the repository) is
-pending: it refuses to run on a loaded machine, so no speedup is claimed yet.
+0..67, with guard pages and fuzzing, at 100% coverage on amd64 and arm64.
+
+Against NumPy 2.5.4 (`bench/numpycmp` in the repository; M4 Max, one core,
+median ns/op of 9 interleaved rounds, measured 2026-11-01 at 1-minute load 2.7;
+the tool refuses to run at a load of 8 or above):
+
+| op | n | `floats` | Go loop | NumPy | vs Go loop | vs NumPy |
+|---|---:|---:|---:|---:|---:|---:|
+| `Mul`    | 1e3 | 104 | 324 | 269 | 3.12× | 2.59× |
+| `Mul`    | 1e5 | 19 793 | 32 252 | 20 100 | 1.63× | 1.02× |
+| `Mul`    | 1e6 | 198 848 | 294 678 | 195 000 | 1.48× | 0.98× |
+| `Axpby3` | 1e3 | 164 | 405 | 2 030 | 2.47× | 12.39× |
+| `Axpby3` | 1e5 | 26 418 | 41 437 | 82 600 | 1.57× | 3.13× |
+| `Axpby3` | 1e6 | 266 062 | 422 107 | 820 000 | 1.59× | 3.08× |
+| `Clamp`  | 1e3 | 193 | 2 651 | 1 190 | 13.76× | 6.18× |
+| `Clamp`  | 1e5 | 26 385 | 277 483 | 58 200 | 10.52× | 2.21× |
+| `Clamp`  | 1e6 | 265 349 | 2 783 761 | 576 000 | 10.49× | 2.17× |
+| `MaxAbs` | 1e3 | 70 | 882 | 535 | 12.54× | 7.61× |
+| `MaxAbs` | 1e5 | 7 139 | 89 699 | 20 500 | 12.56× | 2.87× |
+| `MaxAbs` | 1e6 | 72 323 | 894 855 | 203 000 | 12.37× | 2.81× |
+
+`Axpby3`, `Clamp` and `MaxAbs` beat NumPy by 2.2 to 12×. `Mul` streams three
+arrays and ties NumPy at 1e5 and 1e6 (memory bandwidth; another run read 0.94×
+and 1.00×, so ±3% is noise); at 1e3 it is 2.6× faster.
 
 ## Why this library {#why-this-library}
 
