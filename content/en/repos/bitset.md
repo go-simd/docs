@@ -24,6 +24,9 @@ n  := bitset.Count(a)                 // total set bits (popcount)
 ni := bitset.IntersectionCount(a, b)  // popcount(a & b),  no allocation
 nu := bitset.UnionCount(a, b)         // popcount(a | b)
 nd := bitset.DifferenceCount(a, b)    // popcount(a &^ b)
+
+bitset.FromBools(dst, bools)          // pack []bool into the words
+bitset.ToBools(bools, a)              // expand the words into []bool
 ```
 
 Word `w` bit `b` is set bit `w*64+b`. The four logical ops write the first
@@ -93,6 +96,30 @@ are **qemu-validated for correctness; native perf pending** real POWER hardware.
 **s390x is now measured on real IBM z15 (VXE2)** (2026-07-03, `-count=6`): the
 vector `VPOPCT` + `VSUMB`/`VSUMQF` `Count` kernel runs **~2.8× scalar**, and
 `And` **~1.6×** (bandwidth-bound logical ops keep a modest margin).
+
+## Bool conversions vs NumPy {#bool-conversions}
+
+`FromBools`/`ToBools` convert between a bit set and a `[]bool` (one byte per
+element), 64 elements per iteration with AVX2 on amd64 and NEON on arm64 (v0.1.1);
+the other architectures run portable loops and are not yet measured. Compared
+with NumPy 2.5.3 `np.packbits`/`np.unpackbits` (`bitorder="little"`), single
+core, interleaved rounds, medians, GB/s of bool bytes:
+
+| host | op | size | Go | NumPy | Go / NumPy |
+|---|---|---|---:|---:|---:|
+| Neoverse N1 | `FromBools` | 2^16 | 24.65 | 9.49 | 2.6× |
+| Neoverse N1 | `FromBools` | 2^20 | 10.72 | 9.05 | 1.2× |
+| Neoverse N1 | `ToBools` | 2^16 | 17.09 | 7.45 | 2.3× |
+| Neoverse N1 | `ToBools` | 2^20 | 16.66 | 8.53 | 2.0× |
+| Zen 3 | `FromBools` | 2^16 | 62.72 | 21.11 | 3.0× |
+| Zen 3 | `FromBools` | 2^20 | 56.09 | 29.47 | 1.9× |
+| Zen 3 | `ToBools` | 2^16 | 52.59 | 14.45 | 3.6× |
+| Zen 3 | `ToBools` | 2^20 | 49.42 | 18.05 | 2.7× |
+
+The 2^10 rows (Go 14–48 GB/s, NumPy about 1 GB/s) mostly measure NumPy's call
+overhead. Both hosts were shared machines with other users' jobs on mostly idle
+cores, so read the ratios rather than the absolute figures; the full table and the
+method are in the [repository README](https://github.com/go-simd/bitset#bitset).
 
 ## Where it fits {#where-it-fits}
 
