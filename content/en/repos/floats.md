@@ -78,6 +78,29 @@ core, median of 3:
 | `AxpyDot` | 5.30× / 4.85× / 2.91× | 5.85× / 3.03× / 3.14× |
 | `Scale`   | 3.57× / 2.23× / 2.22× | 7.67× / 5.25× / 5.80× |
 
+## Gather kernels (index list) {#gather}
+
+The free-set operations of bound-constrained solvers (L-BFGS-B subspace
+minimisation, active-set QP): vectors read through a list of active indices.
+
+| function | computes |
+|---|---|
+| `DotIdx(a, b, idx)`            | Σₖ `a[idx[k]]*b[idx[k]]` |
+| `DotGather(a, idx, d)`         | Σₖ `a[idx[k]]*d[k]` (`d` contiguous, `a` gathered) |
+| `AxpyGather(alpha, a, idx, d)` | `d[k] = math.FMA(alpha, a[idx[k]], d[k])` for every k |
+
+Portable Go for now (no assembly; a SIMD gather can replace it behind the same
+signatures). They panic if an index is out of range or `len(d) < len(idx)`;
+repeated and unordered indices are allowed.
+
+**Accuracy contract.** The two sums use four FMA accumulators over lane-blocked
+groups of four indices, combined as `(s0+s1)+(s2+s3)`: they are **not** summed
+left to right, so the last bit differs from the obvious loop. The stated bound,
+asserted against a 300-bit `math/big` oracle, is |result − exact| ≤
+n·ε·Σₖ|aᵢbᵢ| with ε = 2⁻⁵² (plus an absolute 2⁻¹⁰⁷⁴ term per element when
+products underflow to subnormals). `AxpyGather` rounds each element once and is
+bit-identical on every architecture.
+
 ## Products, combinations, clamping, infinity norm {#qp-kernels}
 
 Since v0.5.0, the vector kernels of splitting solvers (ADMM / OSQP-style
