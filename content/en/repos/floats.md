@@ -80,8 +80,9 @@ core, median of 3:
 
 ## Gather kernels (index list) {#gather}
 
-The free-set operations of bound-constrained solvers (L-BFGS-B subspace
-minimisation, active-set QP): vectors read through a list of active indices.
+Since v0.17.0, the free-set operations of bound-constrained solvers (L-BFGS-B
+subspace minimisation, active-set QP): vectors read through a list of active
+indices.
 
 | function | computes |
 |---|---|
