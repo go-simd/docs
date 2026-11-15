@@ -308,7 +308,7 @@ LASX; riscv64 RVV for `Abs`, `Neg` and `Square`. **The four rounding functions
 stay scalar on riscv64** (RVV 1.0 has no vector round-to-integral instruction)
 **and on amd64 without AVX2** (SSE2 has no `ROUNDPD`). One Zen 3 core, the AVX2
 kernel against the scalar Go loop, 1e5 float64: 2.7 to 3.6× (23 µs for every
-op: bound by the cache), and 6.2 to 10.7× at 1e3. Not yet timed against NumPy;
+op: bound by the cache), and 6.2× (`Abs`) to 10.7× (`Ceil`; `RoundEven` 10.6×) at 1e3. Not yet timed against NumPy;
 the other architectures were verified for correctness only (QEMU).
 
 ## Pairwise `Maximum`, `Minimum` {#pairwise}
