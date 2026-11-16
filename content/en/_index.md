@@ -63,7 +63,7 @@ is the honesty.
 | [`utf8`]({{< relref "repos/utf8.md" >}}) | `unicode/utf8` | `Valid` **~19× stdlib**, edges `stuartcarnie/go-simd` ~3.5% |
 | [`ascii85`]({{< relref "repos/ascii85.md" >}}) | `encoding/ascii85` | **first SIMD ascii85**, SIMD **encode and decode on all 6 arches**; arm64 NEON kernel on **Go 1.27** (~3.0×; fused-scalar ~1.9× on stable Go ≤ 1.26); native ppc64le POWER9 ~2.9×, riscv64 X60 ~4.0×, loong64 ~4.3× |
 | [`ascii`]({{< relref "repos/ascii.md" >}}) | ASCII case (`bytes`/`strings`) | branchless vector case-fold, **byte-identical to stdlib**; real SIMD on all 6 arches incl. arm64; **~4.9× stdlib** (`ToUpper`) |
-| [`adler32`]({{< relref "repos/adler32.md" >}}) | `hash/adler32` | ~12–14× stdlib, but **~7% behind `mhr3/adler32-simd` — honest** |
+| [`adler32`]({{< relref "repos/adler32.md" >}}) | `hash/adler32` | ~12–14× stdlib, but **~7% behind `mhr3/adler32-simd` — honest**; v0.2.0 adds the `fletcher4` subpackage (OpenZFS fletcher-4, 23 GB/s on M4, 45 GB/s on Zen 4 AVX-512) |
 | [`crc64`]({{< relref "repos/crc64.md" >}}) | `hash/crc64` | **first pure-Go SIMD crc64** (CLMUL folding); **arm64 ~4.2× stdlib** |
 | [`crc32`]({{< relref "repos/crc32.md" >}}) | `hash/crc32` | **arm64-only, deliberately**: stdlib IEEE path is already hardware-assisted elsewhere; `PMULL`/`PMULL2` fold-by-eight beats arm64's serial `CRC32X` |
 | [`strconv`]({{< relref "repos/strconv.md" >}}) | `strconv` (base-10 parse + `ParseFloat`) | **`ParseInt`/`Atoi` ~2.2–2.7×**; added SIMD `ParseFloat` (~1.1–1.36×); never regresses |
