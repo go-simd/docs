@@ -403,7 +403,7 @@ and a scalar tail.
 | arch | ISA | FMA op | notes |
 |---|---|---|---|
 | amd64   | AVX2 + FMA3 | `VFMADD231P{S,D}` | 8 independent accumulators (since v0.35.0); gated on `cpu.X86.HasAVX2 && HasFMA`; scalar fallback otherwise |
-| arm64   | NEON | `VFMLA` | 4 accumulators, ×4 unroll for ILP; baseline |
+| arm64   | NEON | `VFMLA` | 8 accumulators for the reductions (since v0.38.0), ×4 unroll for ILP elsewhere; baseline |
 | riscv64 | RVV  | `VFMUL`+`VFREDOSUMVS` | length-agnostic `VSETVLI` stripmining; gated on `cpu.RISCV64.HasV` |
 | s390x   | vector facility (**big-endian**) | `VFMADB`, `VFMASB` | 8 accumulators (since v0.35.0); float64 from 16 elements; float32 kernels use the z14 `.SB` ops emitted as encoded words, gated on the vector-enhancements facility (lane-blocked fallback); z13 baseline for float64 |
 | ppc64le | VSX | `XVMADDADP`, `XVMADDASP` | XV* ops `WORD`-encoded; 8 accumulators for float64 (from 16 elements) and float32 since v0.35.0; gated on POWER8+ |
@@ -411,8 +411,12 @@ and a scalar tail.
 
 Since v0.35.0 the reductions (`Dot`, `Sum`, `SumSqDiff`/`Distance` and the
 float32 forms) keep eight independent accumulators on amd64, ppc64le and s390x,
-so the FMA/add latency no longer bounds them; arm64 `Sum`/`SumSqDiff` are still
-single-accumulator (tracked in go-simd/floats#84). Single core, old to new: Zen 4
+so the FMA/add latency no longer bounds them; arm64 follows since v0.38.0
+(loong64 and riscv64 are tracked in go-simd/floats#84). On arm64 (Neoverse,
+base/new time ratio) n=1000 Sum 3.4×, Distance 1.7×, Float32Sum 3.1×; `Dot` is
+load-bound and unchanged. Since v0.38.0 ppc64le and s390x also run 4 to 15
+elements (below the vector threshold) through a four-accumulator scalar loop:
+POWER9 n=12 Sum 21.5 to 13.4 ns, z17 n=12 Dot 11.8 to 7.4 ns. Single core, old to new: Zen 4
 n=1000 Dot 3.2×, Sum 4.3×; POWER9 n=1000 Sum 934 to 281 ns, Float32Sum 596 to
 251 ns; z17 n=1000 Sum 624 to 106 ns, Float32Sum 2898 to 61 ns (float32 was the
 scalar reference there). The contract is an error bound against a 512-bit
