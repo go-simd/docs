@@ -286,6 +286,7 @@ AVX2+FMA. Where a contract is "a bound", it is asserted against a 200-bit or
 | `CDotC(a, b)` | v0.24.0 | `Σ conj(a_k)·b_k` (BLAS `zdotc`) as `(re, im)` for complex numbers held as consecutive pairs | within `(2n+2)·2⁻⁵³` (portable) or `(n/4+8)·2⁻⁵³` (vector paths) of the sum of the absolute values of the products |
 | `MirrorCombine(dst, z, w1, w2)` and `MirrorCombineSplit(dst, z, w1, w2)` | v0.27.0 | the pair pass of a real transform computed through a half-length complex one (Makhoul's DCT-II and DCT-III, the untangle of a real FFT): for `z` of `n` complex numbers and `k = 1 .. n-1`, `u = z[k] + conj(z[n-k])`, `v = -i (z[k] - conj(z[n-k]))`, `r[k] = w1[k] u + w2[k] v`; `MirrorCombine` stores `r[k]` as complex numbers, `MirrorCombineSplit` stores `dst[k] = Re r[k]` and `dst[2n-k] = -Im r[k]` (the DCT-II layout). Generic, not DCT-named: the caller chooses the weights. AVX2+FMA on amd64, the portable loop elsewhere (no NEON kernel yet) | within 4 eps of `\|w1\|\|u\| + \|w2\|\|v\|` per part against a 300-bit `math/big` oracle (the kernel fuses the products, so not bit for bit); `dst` must not overlap `z` or `w1` (checked, panics) |
 | `CMulZipRev(dst, x, y, w)` | v0.28.0 | the complex multiply with one operand read reversed, as the DCT-III inverse needs: `dst[j] = w[j]·(x[j] − i·y[m−1−j])` for `j = 0 .. m-1`, `y` read in reverse. AVX2+FMA on amd64, the portable loop elsewhere | the kernel fuses the products, so not bit for bit against the portable loop; `dst` must not overlap `x`, `y` or `w` (checked, panics) |
+| `CMulTo(dst, a, b)` | v0.31.0 | the pointwise complex product `dst[i] = a[i]·b[i]` over `len(dst)` numbers (`complex128`). AVX2+FMA on amd64, NEON on arm64, the portable loop elsewhere | each part within 2 eps (2⁻⁵²) of `\|a\|\|b\|`, plus 64 smallest subnormals, against a 300-bit `math/big` oracle (the vector paths fuse the products, so not bit for bit); `dst` may be `a` or `b`; panics if `len(a)` or `len(b)` < `len(dst)` |
 
 Measured on one core, against the portable loop (README at v0.26.0): `CMulGather`
 533 to 219 ns and `CMulScatter` 538 to 214 ns at 1,024 points (Apple M4 Max);
@@ -297,6 +298,24 @@ to 10.7 ns (Ryzen 9 7950X) and 47 to 18 ns (M4 Max) for 38 complex numbers.
 3.3.10's AVX-512 build at 81.6 ns (go-simd/floats#68). `CMulZipRev` in go-fft v0.43.0's DCT-III on a Zen 4: 32 points 72.1 to 69.7 ns, 64 points 111.2 to 97.9 ns, 128 points 192.9 to 159.7 ns (go-fft#175). `dst` of `SquaredMagnitude` and `ConjReverse` must not overlap the source, not
 even exactly; the `len` conditions panic when violated. The package README
 documents every instruction and test.
+
+`CMulTo` on one Zen 4 core (Ryzen 9 7950X), ns per call, best of 4 pinned runs, against the
+portable loop and NumPy's `np.multiply` (best of 7 timeit runs), plus the zero-overhead
+assembly kernel go-fft carried before:
+
+| n | CMulTo | go-fft kernel | portable loop | np.multiply |
+|---|---|---|---|---|
+| 16 | 6.3 | 5.4 | 10.7 | 283 |
+| 64 | 14.1 | 13.6 | 39.0 | 299 |
+| 256 | 45.7 | 46.8 | 157 | 347 |
+| 1024 | 287 | 285 | 621 | 772 |
+| 4096 | 1159 | 1154 | 2447 | 1922 |
+| 65536 | 21904 | 22232 | 39412 | 24381 |
+
+At n=16 and 64 `CMulTo` is about 0.9 ns behind the bare kernel (the call); from 256 up they
+are level. On an Apple M4 Max the NEON kernel takes 1.3 to 2.6 times less time than the
+portable loop at n ≥ 64 (measured under heavy load, so indicative); no Intel host was measured
+(go-simd/floats#72).
 
 ## Elementwise `Abs`, `Neg`, `Square`, `Floor`, `Ceil`, `Trunc`, `RoundEven` {#unary}
 
