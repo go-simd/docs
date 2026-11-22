@@ -402,12 +402,22 @@ and a scalar tail.
 
 | arch | ISA | FMA op | notes |
 |---|---|---|---|
-| amd64   | AVX2 + FMA3 | `VFMADD231P{S,D}` | gated on `cpu.X86.HasAVX2 && HasFMA`; scalar fallback otherwise |
+| amd64   | AVX2 + FMA3 | `VFMADD231P{S,D}` | 8 independent accumulators (since v0.35.0); gated on `cpu.X86.HasAVX2 && HasFMA`; scalar fallback otherwise |
 | arm64   | NEON | `VFMLA` | 4 accumulators, ×4 unroll for ILP; baseline |
 | riscv64 | RVV  | `VFMUL`+`VFREDOSUMVS` | length-agnostic `VSETVLI` stripmining; gated on `cpu.RISCV64.HasV` |
-| s390x   | vector facility (**big-endian**) | `VFMADB` | float64 vectorised; float32 uses scalar (no `.SB` ops in assembler); z13 baseline |
-| ppc64le | VSX (**float32 only**) | `XVMADDASP` | XV* ops `WORD`-encoded; POWER9-gated. **float64 has no VSX kernel** — on real POWER9 the gc-autovectorized scalar loop beats VSX, so float64 routes to that loop |
+| s390x   | vector facility (**big-endian**) | `VFMADB`, `VFMASB` | 8 accumulators (since v0.35.0); float64 from 16 elements; float32 kernels use the z14 `.SB` ops emitted as encoded words, gated on the vector-enhancements facility (lane-blocked fallback); z13 baseline for float64 |
+| ppc64le | VSX | `XVMADDADP`, `XVMADDASP` | XV* ops `WORD`-encoded; 8 accumulators for float64 (from 16 elements) and float32 since v0.35.0; gated on POWER8+ |
 | loong64 | LSX  | `vfmadd.d`/`vfmadd.s` | LSX FP ops `WORD`-encoded; LA464 baseline |
+
+Since v0.35.0 the reductions (`Dot`, `Sum`, `SumSqDiff`/`Distance` and the
+float32 forms) keep eight independent accumulators on amd64, ppc64le and s390x,
+so the FMA/add latency no longer bounds them; arm64 `Sum`/`SumSqDiff` are still
+single-accumulator (tracked in go-simd/floats#84). Single core, old to new: Zen 4
+n=1000 Dot 3.2×, Sum 4.3×; POWER9 n=1000 Sum 934 to 281 ns, Float32Sum 596 to
+251 ns; z17 n=1000 Sum 624 to 106 ns, Float32Sum 2898 to 61 ns (float32 was the
+scalar reference there). The contract is an error bound against a 512-bit
+`math/big` oracle, not bit equality. `Add32`/`Sub32`/`Mul32` use the SSE2 kernel
+from 65536 elements on amd64 (7–10 % faster once memory-bound on Zen 3).
 
 ## Floating-point determinism {#floating-point-determinism}
 
